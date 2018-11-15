@@ -1,6 +1,7 @@
 package gui;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -23,8 +24,7 @@ public class Main extends Application {
 
 	private void showMain() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("view/MainView.fxml"));
-		Main.mainLayout = loader.load();
+		Main.mainLayout = FXMLLoader.load(Main.class.getResource("view/MainView.fxml"));
 		Scene scene = new Scene(mainLayout);
 		this.primaryStage.setScene(scene);
 		this.primaryStage.show();
