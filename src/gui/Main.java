@@ -25,6 +25,7 @@ public class Main extends Application {
 	private void showMain() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		Main.mainLayout = FXMLLoader.load(Main.class.getResource("view/MainView.fxml"));
+		Main.mainLayout.setCenter(FXMLLoader.load(Main.class.getResource("view/ManageView.fxml")));
 		Scene scene = new Scene(mainLayout);
 		this.primaryStage.setScene(scene);
 		this.primaryStage.show();
