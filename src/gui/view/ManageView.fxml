@@ -47,7 +47,7 @@
                               <Font size="24.0" />
                            </font>
                         </Text>
-                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <HBox spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
                               <Label alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" text="Editar" textFill="#3366bb" underline="true">
                                  <font>
@@ -72,7 +72,7 @@
                               <Font size="24.0" />
                            </font>
                         </Text>
-                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <HBox spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
                               <Label alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" text="Editar" textFill="#3366bb" underline="true">
                                  <font>
