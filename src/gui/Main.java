@@ -50,12 +50,12 @@ public class Main extends Application {
 	}
 
 	private void showManage() throws IOException {
-		TabPane manage = FXMLLoader.load(Main.class.getResource("view/ManageView.fxml"));
-		GridPane studentsGrid = ((GridPane) ((AnchorPane) manage.getTabs().get(0).getContent()).getChildren().get(0));
+		TabPane manageView = FXMLLoader.load(Main.class.getResource("view/ManageView.fxml"));
+		GridPane studentsGrid = ((GridPane) ((AnchorPane) manageView.getTabs().get(0).getContent()).getChildren().get(0));
 
 		loadStudents(studentsGrid, Main.service.getStudents());
 
-		Main.mainLayout.setCenter(manage);
+		Main.mainLayout.setCenter(manageView);
 		// Scene scene = new Scene(mainLayout);
 		// Scene scene = new Scene(mainLayout);
 		// this.primaryStage.setScene(scene);
@@ -124,6 +124,11 @@ public class Main extends Application {
 		}
 	}
 
+	public static void showStudentView() throws IOException {
+		AnchorPane studentView = FXMLLoader.load(Main.class.getResource("view/StudentView.fxml"));
+		Main.mainLayout.setCenter(studentView);
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
