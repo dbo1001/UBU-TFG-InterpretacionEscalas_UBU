@@ -14,5 +14,9 @@ public interface Service {
 	
 	public List<Aula> getClassrooms();
 	
+	public boolean editStudent(long id);
+	
+	public boolean deleteStudent(long id);
+	
 
 }
