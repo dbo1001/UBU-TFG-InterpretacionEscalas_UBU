@@ -2,7 +2,6 @@ package gui;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -10,8 +9,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -35,8 +34,8 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("Menu principal");
+		Main.primaryStage = primaryStage;
+		Main.primaryStage.setTitle("Menu principal");
 
 		showMain();
 		showManage();
@@ -45,8 +44,16 @@ public class Main extends Application {
 	private void showMain() throws IOException {
 		Main.mainLayout = FXMLLoader.load(Main.class.getResource("view/MainView.fxml"));
 		Scene scene = new Scene(mainLayout);
-		this.primaryStage.setScene(scene);
-		this.primaryStage.show();
+		Main.primaryStage.setScene(scene);
+		Main.primaryStage.show();
+	}
+	
+	public static void handCursor() {
+		Main.primaryStage.getScene().setCursor(Cursor.HAND);
+	}
+	
+	public static  void defaultCursor() {
+		Main.primaryStage.getScene().setCursor(Cursor.DEFAULT);
 	}
 
 	private void showManage() throws IOException {
@@ -71,13 +78,13 @@ public class Main extends Application {
 		EventHandler<MouseEvent> mouseOver = new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent arg0) {
-				Main.primaryStage.getScene().setCursor(Cursor.HAND);
+				Main.handCursor();
 			}
 		};
 		EventHandler<MouseEvent> mouseLeft = new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent arg0) {
-				Main.primaryStage.getScene().setCursor(Cursor.DEFAULT);
+				Main.defaultCursor();
 			}
 		};
 
@@ -126,7 +133,9 @@ public class Main extends Application {
 
 	public static void showStudentView() throws IOException {
 		AnchorPane studentView = FXMLLoader.load(Main.class.getResource("view/StudentView.fxml"));
+		ButtonBar studentsBBView = FXMLLoader.load(Main.class.getResource("view/StudentBBView.fxml"));
 		Main.mainLayout.setCenter(studentView);
+		Main.mainLayout.setBottom(studentsBBView);
 	}
 	
 	public static void main(String[] args) {

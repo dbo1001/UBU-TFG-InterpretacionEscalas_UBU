@@ -27,7 +27,7 @@
                         <ColumnConstraints />
                      </columnConstraints>
                      <children>
-                        <Button mnemonicParsing="false" onAction="#addNewStudent" text="Agregar nuevo alumno">
+                        <Button mnemonicParsing="false" onAction="#addNewStudent" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="Agregar nuevo alumno">
                            <font>
                               <Font size="18.0" />
                            </font>

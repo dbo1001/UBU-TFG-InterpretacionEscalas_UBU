@@ -1,15 +1,18 @@
 package gui.view;
 
-import java.io.IOException;
-
 import gui.Main;
 import javafx.fxml.FXML;
 
-public class ManageViewController {
+public class StudentBBViewController {
+
+	@FXML
+	private void cancel() {
+		System.out.println("Cancelar");
+	}
 	
 	@FXML
-	private void addNewStudent() throws IOException {
-		Main.showStudentView();
+	private void acept(){
+		System.out.println("Aceptar");
 	}
 	
 	@FXML
@@ -21,5 +24,4 @@ public class ManageViewController {
 	private void defaultCursor() {
 		Main.defaultCursor();
 	}
-
 }
