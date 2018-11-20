@@ -1,17 +1,17 @@
 package gui.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import model.Alumno;
 
 public class EditStudentViewController {
 
-	@FXML private Label nombre;
-	@FXML private Label primerApellido;
-	@FXML private Label segundoApellido;
-	@FXML private Label NIF;
-	@FXML private Label direccion;
-	@FXML private Label fechaNacimiento;
+	@FXML private TextField nombre;
+	@FXML private TextField primerApellido;
+	@FXML private TextField segundoApellido;
+	@FXML private TextField NIF;
+	@FXML private TextField direccion;
+	@FXML private TextField fechaNacimiento;
 	private Alumno stu;
 	
 	public void setStudent(Alumno stu) {
@@ -26,7 +26,9 @@ public class EditStudentViewController {
 		this.segundoApellido.setText(stu.getApellido2());
 		this.NIF.setText(stu.getNif());
 		this.direccion.setText(stu.getDireccion());
-		this.fechaNacimiento.setText(stu.getFechaNacimiento().toString());
+		if(stu.getFechaNacimiento()!=null) {
+			this.fechaNacimiento.setText(stu.getFechaNacimiento().toString());
+		}
 	}
 	
 }

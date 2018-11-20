@@ -43,7 +43,8 @@ public class Main extends Application {
 	}
 
 	private void showMain() throws IOException {
-		Main.mainLayout = FXMLLoader.load(Main.class.getResource("view/MainView.fxml"));
+		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/MainView.fxml"));
+		Main.mainLayout = loader.load();
 		Scene scene = new Scene(mainLayout);
 		Main.primaryStage.setScene(scene);
 		Main.primaryStage.show();
@@ -58,7 +59,8 @@ public class Main extends Application {
 	}
 
 	private void showManage() throws IOException {
-		TabPane manageView = FXMLLoader.load(Main.class.getResource("view/ManageView.fxml"));
+		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/ManageView.fxml"));
+		TabPane manageView = loader.load();
 		GridPane studentsGrid = ((GridPane) ((AnchorPane) manageView.getTabs().get(0).getContent()).getChildren().get(0));
 
 		loadStudents(studentsGrid, Main.service.getStudents());
@@ -109,7 +111,7 @@ public class Main extends Application {
 						System.err.println("Error, archivo EditStudentView.fxml no encontrado en la carpeta view.");
 						e1.printStackTrace();
 					}
-					//Main.service.editStudent(stu.getId());
+					Main.service.editStudent(stu.getId());
 				};
 			});
 			edit.setOnMouseEntered(mouseOver);
@@ -144,8 +146,11 @@ public class Main extends Application {
 	}
 
 	public static void showStudentView() throws IOException {
-		AnchorPane studentView = FXMLLoader.load(Main.class.getResource("view/StudentView.fxml"));
-		ButtonBar studentsBBView = FXMLLoader.load(Main.class.getResource("view/StudentBBView.fxml"));
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/StudentView.fxml"));
+		AnchorPane studentView = loader.load();
+		loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("view/StudentBBView.fxml"));
+		ButtonBar studentsBBView = loader.load();
 		Main.mainLayout.setCenter(studentView);
 		Main.mainLayout.setBottom(studentsBBView);
 	}

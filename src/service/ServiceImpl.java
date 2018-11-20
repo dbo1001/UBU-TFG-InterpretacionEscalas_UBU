@@ -69,13 +69,13 @@ public class ServiceImpl implements Service{
 
 	@Override
 	public boolean editStudent(long id) {
-		System.err.println("Metodo no implementado. Alumno: " + id);
+		System.err.println("Transaccion no implementada. Alumno: " + id);
 		return false;
 	}
 
 	@Override
 	public boolean deleteStudent(long id) {
-		System.err.println("Metodo no implementado. Alumno: " + id);
+		System.err.println("Transaccion no implementada. Alumno: " + id);
 		return false;
 	}
 
