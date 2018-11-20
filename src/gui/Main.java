@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 import java.util.List;
 
+import gui.view.EditStudentViewController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -97,7 +98,18 @@ public class Main extends Application {
 			edit.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent e) {
-					Main.service.editStudent(stu.getId());
+					try {
+						FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/EditStudentView.fxml"));
+						AnchorPane editSudentView = loader.load();
+						EditStudentViewController editStudentController = loader.getController();
+						editStudentController.setStudent(stu);
+						Main.mainLayout.setCenter(editSudentView);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						System.err.println("Error, archivo EditStudentView.fxml no encontrado en la carpeta view.");
+						e1.printStackTrace();
+					}
+					//Main.service.editStudent(stu.getId());
 				};
 			});
 			edit.setOnMouseEntered(mouseOver);
