@@ -1,4 +1,4 @@
-package gui.view;
+package gui.view.student;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;

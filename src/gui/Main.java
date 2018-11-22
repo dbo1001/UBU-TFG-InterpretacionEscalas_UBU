@@ -3,7 +3,7 @@ package gui;
 import java.io.IOException;
 import java.util.List;
 
-import gui.view.EditStudentViewController;
+import gui.view.student.EditStudentViewController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -39,7 +39,7 @@ public class Main extends Application {
 		Main.primaryStage.setTitle("Menu principal");
 
 		showMain();
-		showManage();
+		showManageView();
 	}
 
 	private void showMain() throws IOException {
@@ -58,13 +58,14 @@ public class Main extends Application {
 		Main.primaryStage.getScene().setCursor(Cursor.DEFAULT);
 	}
 
-	private void showManage() throws IOException {
-		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/ManageView.fxml"));
+	public static void showManageView() throws IOException {
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/ManageView.fxml"));
 		TabPane manageView = loader.load();
 		GridPane studentsGrid = ((GridPane) ((AnchorPane) manageView.getTabs().get(0).getContent()).getChildren().get(0));
 
 		loadStudents(studentsGrid, Main.service.getStudents());
 
+		Main.mainLayout.setBottom(null);
 		Main.mainLayout.setCenter(manageView);
 		// Scene scene = new Scene(mainLayout);
 		// Scene scene = new Scene(mainLayout);
@@ -72,7 +73,7 @@ public class Main extends Application {
 		// this.primaryStage.show();
 	}
 
-	private void loadStudents(GridPane grid, List<Alumno> students) {
+	private static void loadStudents(GridPane grid, List<Alumno> students) {
 		Text text;
 		Label edit = new Label("e");
 		Label delete;
@@ -98,10 +99,11 @@ public class Main extends Application {
 			edit.setTextFill(Color.web("3366bb"));
 			edit.setUnderline(true);
 			edit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+				
 				@Override
 				public void handle(MouseEvent e) {
 					try {
-						FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/EditStudentView.fxml"));
+						FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/student/EditStudentView.fxml"));
 						AnchorPane editSudentView = loader.load();
 						EditStudentViewController editStudentController = loader.getController();
 						editStudentController.setStudent(stu);
@@ -113,6 +115,7 @@ public class Main extends Application {
 					}
 					Main.service.editStudent(stu.getId());
 				};
+				
 			});
 			edit.setOnMouseEntered(mouseOver);
 			edit.setOnMouseExited(mouseLeft);
@@ -146,10 +149,10 @@ public class Main extends Application {
 	}
 
 	public static void showStudentView() throws IOException {
-		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/StudentView.fxml"));
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/student/StudentView.fxml"));
 		AnchorPane studentView = loader.load();
 		loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("view/StudentBBView.fxml"));
+		loader.setLocation(Main.class.getResource("view/student/StudentBBView.fxml"));
 		ButtonBar studentsBBView = loader.load();
 		Main.mainLayout.setCenter(studentView);
 		Main.mainLayout.setBottom(studentsBBView);

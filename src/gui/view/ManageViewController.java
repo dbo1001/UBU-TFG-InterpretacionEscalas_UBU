@@ -5,21 +5,11 @@ import java.io.IOException;
 import gui.Main;
 import javafx.fxml.FXML;
 
-public class ManageViewController {
+public class ManageViewController extends Controller{
 	
 	@FXML
 	private void addNewStudent() throws IOException {
 		Main.showStudentView();
-	}
-	
-	@FXML
-	private void handCursor() {
-		Main.handCursor();
-	}
-	
-	@FXML
-	private void defaultCursor() {
-		Main.defaultCursor();
 	}
 
 }
