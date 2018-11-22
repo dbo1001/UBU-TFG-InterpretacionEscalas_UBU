@@ -26,12 +26,14 @@ import javafx.stage.Stage;
 import model.Alumno;
 import service.Service;
 import service.ServiceImpl;
+import service.StudentService;
+import service.StudentServiceImpl;
 
 public class Main extends Application {
 
 	private static Stage primaryStage;
 	private static BorderPane mainLayout;
-	private static Service service = new ServiceImpl();
+	private static StudentService studentService = new StudentServiceImpl();
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -63,7 +65,7 @@ public class Main extends Application {
 		TabPane manageView = loader.load();
 		GridPane studentsGrid = ((GridPane) ((AnchorPane) manageView.getTabs().get(0).getContent()).getChildren().get(0));
 
-		loadStudents(studentsGrid, Main.service.getStudents());
+		loadStudents(studentsGrid, Main.studentService.getStudents());
 
 		Main.mainLayout.setBottom(null);
 		Main.mainLayout.setCenter(manageView);
@@ -113,7 +115,7 @@ public class Main extends Application {
 						System.err.println("Error, archivo EditStudentView.fxml no encontrado en la carpeta view.");
 						e1.printStackTrace();
 					}
-					Main.service.editStudent(stu.getId());
+					Main.studentService.editStudent(stu.getId());
 				};
 				
 			});
@@ -127,7 +129,7 @@ public class Main extends Application {
 			delete.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent e) {
-					Main.service.deleteStudent(stu.getId());
+					Main.studentService.deleteStudent(stu.getId());
 				};
 			});
 			delete.setOnMouseEntered(mouseOver);

@@ -13,10 +13,5 @@ public interface Service {
 	public List<Profesor> getTeachers();
 	
 	public List<Aula> getClassrooms();
-	
-	public boolean editStudent(long id);
-	
-	public boolean deleteStudent(long id);
-	
 
 }

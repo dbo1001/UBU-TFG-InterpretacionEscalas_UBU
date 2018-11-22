@@ -8,7 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 
-public class Controller {
+public abstract class Controller {
 	
 	@FXML
 	private void handCursor() {

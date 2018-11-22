@@ -7,7 +7,7 @@ import model.Alumno;
 import model.Aula;
 import model.Profesor;
 
-public class ServiceImpl implements Service{
+public abstract class ServiceImpl implements Service{
 
 	@Override
 	public List<Alumno> getStudents() {
@@ -65,18 +65,6 @@ public class ServiceImpl implements Service{
 	public List<Aula> getClassrooms() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public boolean editStudent(long id) {
-		System.err.println("Transaccion no implementada. Alumno: " + id);
-		return false;
-	}
-
-	@Override
-	public boolean deleteStudent(long id) {
-		System.err.println("Transaccion no implementada. Alumno: " + id);
-		return false;
 	}
 
 }
