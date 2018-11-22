@@ -10,7 +10,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
@@ -51,19 +54,20 @@ public class Main extends Application {
 		Main.primaryStage.setScene(scene);
 		Main.primaryStage.show();
 	}
-	
+
 	public static void handCursor() {
 		Main.primaryStage.getScene().setCursor(Cursor.HAND);
 	}
-	
-	public static  void defaultCursor() {
+
+	public static void defaultCursor() {
 		Main.primaryStage.getScene().setCursor(Cursor.DEFAULT);
 	}
 
 	public static void showManageView() throws IOException {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/ManageView.fxml"));
 		TabPane manageView = loader.load();
-		GridPane studentsGrid = ((GridPane) ((AnchorPane) manageView.getTabs().get(0).getContent()).getChildren().get(0));
+		GridPane studentsGrid = ((GridPane) ((AnchorPane) manageView.getTabs().get(0).getContent()).getChildren()
+				.get(0));
 
 		loadStudents(studentsGrid, Main.studentService.getStudents());
 
@@ -101,11 +105,12 @@ public class Main extends Application {
 			edit.setTextFill(Color.web("3366bb"));
 			edit.setUnderline(true);
 			edit.setOnMouseClicked(new EventHandler<MouseEvent>() {
-				
+
 				@Override
 				public void handle(MouseEvent e) {
 					try {
-						FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/student/EditStudentView.fxml"));
+						FXMLLoader loader = new FXMLLoader(
+								this.getClass().getResource("view/student/EditStudentView.fxml"));
 						AnchorPane editSudentView = loader.load();
 						EditStudentViewController editStudentController = loader.getController();
 						editStudentController.setStudent(stu);
@@ -117,7 +122,7 @@ public class Main extends Application {
 					}
 					Main.studentService.editStudent(stu.getId());
 				};
-				
+
 			});
 			edit.setOnMouseEntered(mouseOver);
 			edit.setOnMouseExited(mouseLeft);
@@ -127,10 +132,21 @@ public class Main extends Application {
 			delete.setTextFill(Color.web("3366bb"));
 			delete.setUnderline(true);
 			delete.setOnMouseClicked(new EventHandler<MouseEvent>() {
+				
 				@Override
 				public void handle(MouseEvent e) {
-					Main.studentService.deleteStudent(stu.getId());
+					Alert alert = new Alert(AlertType.CONFIRMATION,
+							"¿Estás seguro de que quieres borrar el alumno/a: " + stu.getNombre() + " "
+									+ stu.getApellido1() + " " + stu.getApellido2() + "?\n"
+									+ "Los cambios serán definitivos.",
+							ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+					alert.showAndWait();
+					
+					if(alert.getResult() == ButtonType.YES) {
+						Main.studentService.deleteStudent(stu.getId());
+					}
 				};
+				
 			});
 			delete.setOnMouseEntered(mouseOver);
 			delete.setOnMouseExited(mouseLeft);
@@ -159,7 +175,7 @@ public class Main extends Application {
 		Main.mainLayout.setCenter(studentView);
 		Main.mainLayout.setBottom(studentsBBView);
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
