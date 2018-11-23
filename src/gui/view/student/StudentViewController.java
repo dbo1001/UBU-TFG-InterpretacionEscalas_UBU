@@ -6,8 +6,7 @@ import gui.Main;
 import gui.view.Controller;
 import javafx.fxml.FXML;
 
-public class StudentBBViewController extends Controller {
-
+public class StudentViewController extends Controller {
 	
 	@FXML
 	private void cancel() throws IOException {

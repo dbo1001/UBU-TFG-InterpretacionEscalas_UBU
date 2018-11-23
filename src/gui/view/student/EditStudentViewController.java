@@ -1,10 +1,14 @@
 package gui.view.student;
 
+import java.io.IOException;
+
+import gui.Main;
+import gui.view.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import model.Alumno;
 
-public class EditStudentViewController {
+public class EditStudentViewController extends Controller{
 
 	@FXML private TextField nombre;
 	@FXML private TextField primerApellido;
@@ -29,6 +33,18 @@ public class EditStudentViewController {
 		if(stu.getFechaNacimiento()!=null) {
 			this.fechaNacimiento.setText(stu.getFechaNacimiento().toString());
 		}
+	}
+	
+	@FXML
+	private void cancel() throws IOException {
+		if(cancelAlert()) {
+			Main.showManageView();
+		}
+	}
+
+	@FXML
+	private void acept() {
+		System.out.println("Aceptar y sobreescibir los cambios del alumno.");
 	}
 	
 }

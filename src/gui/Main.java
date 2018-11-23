@@ -111,7 +111,7 @@ public class Main extends Application {
 					try {
 						FXMLLoader loader = new FXMLLoader(
 								this.getClass().getResource("view/student/EditStudentView.fxml"));
-						AnchorPane editSudentView = loader.load();
+						BorderPane editSudentView = loader.load();
 						EditStudentViewController editStudentController = loader.getController();
 						editStudentController.setStudent(stu);
 						Main.mainLayout.setCenter(editSudentView);
@@ -168,12 +168,12 @@ public class Main extends Application {
 
 	public static void showStudentView() throws IOException {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/student/StudentView.fxml"));
-		AnchorPane studentView = loader.load();
+		BorderPane studentView = loader.load();
 		loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("view/student/StudentBBView.fxml"));
-		ButtonBar studentsBBView = loader.load();
+		//loader.setLocation(Main.class.getResource("view/student/StudentBBView.fxml"));
+		//ButtonBar studentsBBView = loader.load();
 		Main.mainLayout.setCenter(studentView);
-		Main.mainLayout.setBottom(studentsBBView);
+		//Main.mainLayout.setBottom(studentsBBView);
 	}
 
 	public static void main(String[] args) {
