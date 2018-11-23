@@ -17,7 +17,7 @@ public class Puntuacion implements Serializable {
 	@Id
 	private long id;
 
-	private BigDecimal valoracion;
+	private int valoracion;
 
 	//bi-directional many-to-one association to Evaluacion
 	@ManyToOne
@@ -40,11 +40,11 @@ public class Puntuacion implements Serializable {
 		this.id = id;
 	}
 
-	public BigDecimal getValoracion() {
+	public int getValoracion() {
 		return this.valoracion;
 	}
 
-	public void setValoracion(BigDecimal valoracion) {
+	public void setValoracion(int valoracion) {
 		this.valoracion = valoracion;
 	}
 

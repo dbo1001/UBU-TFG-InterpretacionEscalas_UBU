@@ -21,7 +21,7 @@ public class Item implements Serializable {
 	private String descripcion;
 
 	@Column(name="edad_asignada")
-	private BigDecimal edadAsignada;
+	private int edadAsignada;
 
 	//bi-directional many-to-one association to Areafuncional
 	@ManyToOne
@@ -51,11 +51,11 @@ public class Item implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public BigDecimal getEdadAsignada() {
+	public int getEdadAsignada() {
 		return this.edadAsignada;
 	}
 
-	public void setEdadAsignada(BigDecimal edadAsignada) {
+	public void setEdadAsignada(int edadAsignada) {
 		this.edadAsignada = edadAsignada;
 	}
 

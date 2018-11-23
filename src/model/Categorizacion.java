@@ -21,7 +21,7 @@ public class Categorizacion implements Serializable {
 	private String descripcion;
 
 	@Column(name="puntuacion_maxima")
-	private BigDecimal puntuacionMaxima;
+	private int puntuacionMaxima;
 
 	//bi-directional many-to-one association to Areafuncional
 	@OneToMany(mappedBy="categorizacion")
@@ -46,11 +46,11 @@ public class Categorizacion implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public BigDecimal getPuntuacionMaxima() {
+	public int getPuntuacionMaxima() {
 		return this.puntuacionMaxima;
 	}
 
-	public void setPuntuacionMaxima(BigDecimal puntuacionMaxima) {
+	public void setPuntuacionMaxima(int puntuacionMaxima) {
 		this.puntuacionMaxima = puntuacionMaxima;
 	}
 

@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -74,14 +76,13 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <TextField GridPane.columnIndex="1" />
-            <TextField maxWidth="300.0" prefWidth="200.0" GridPane.columnIndex="1" />
-            <TextField prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField maxWidth="300.0" prefWidth="200.0" promptText="Nombre" GridPane.columnIndex="1" />
+            <TextField prefWidth="200.0" promptText="Primer apellido" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField prefWidth="200.0" promptText="Segundo apellido" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField prefWidth="200.0" promptText="NIF" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <DatePicker prefWidth="200.0" promptText="Selecciona una fecha" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField prefWidth="200.0" promptText="Dirección" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ChoiceBox fx:id="aulaCB" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          </children>
          <BorderPane.margin>
             <Insets left="70.0" top="30.0" />

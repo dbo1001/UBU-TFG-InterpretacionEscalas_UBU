@@ -5,33 +5,47 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-
 /**
  * The persistent class for the aula database table.
  * 
  */
 @Entity
-@NamedQuery(name="Aula.findAll", query="SELECT a FROM Aula a")
+@NamedQuery(name = "Aula.findAll", query = "SELECT a FROM Aula a")
 public class Aula implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private long id;
 
-	private BigDecimal capacidad;
+	private int capacidad;
 
 	private String nombre;
 
-	//bi-directional many-to-one association to Alumno
-	@OneToMany(mappedBy="aula")
+	// bi-directional many-to-one association to Alumno
+	@OneToMany(mappedBy = "aula")
 	private List<Alumno> alumnos;
 
-	//bi-directional many-to-one association to Profesor
-	@OneToMany(mappedBy="aula")
+	// bi-directional many-to-one association to Profesor
+	@OneToMany(mappedBy = "aula")
 	private List<Profesor> profesors;
 
 	public Aula() {
 	}
+
+	/*@Override
+	public boolean equals(Object obj) {
+		if (((Aula) obj).getId() == this.id && ((Aula) obj).getNombre() == this.nombre
+				&& ((Aula) obj).getCapacidad() == this.capacidad) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		
+	}*/
 
 	public long getId() {
 		return this.id;
@@ -41,11 +55,11 @@ public class Aula implements Serializable {
 		this.id = id;
 	}
 
-	public BigDecimal getCapacidad() {
+	public int getCapacidad() {
 		return this.capacidad;
 	}
 
-	public void setCapacidad(BigDecimal capacidad) {
+	public void setCapacidad(int capacidad) {
 		this.capacidad = capacidad;
 	}
 

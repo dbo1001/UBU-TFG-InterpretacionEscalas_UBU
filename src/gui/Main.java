@@ -1,10 +1,13 @@
 package gui;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import gui.view.student.EditStudentViewController;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -27,16 +30,17 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import model.Alumno;
+import model.Aula;
+import service.ClassroomServiceImpl;
 import service.Service;
-import service.ServiceImpl;
-import service.StudentService;
 import service.StudentServiceImpl;
 
 public class Main extends Application {
 
 	private static Stage primaryStage;
 	private static BorderPane mainLayout;
-	private static StudentService studentService = new StudentServiceImpl();
+	private static Service<Alumno> studentService = new StudentServiceImpl();
+	private static Service<Aula> classroomService = new ClassroomServiceImpl();
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -69,7 +73,7 @@ public class Main extends Application {
 		GridPane studentsGrid = ((GridPane) ((AnchorPane) manageView.getTabs().get(0).getContent()).getChildren()
 				.get(0));
 
-		loadStudents(studentsGrid, Main.studentService.getStudents());
+		loadStudents(studentsGrid, Main.studentService.getAll());
 
 		Main.mainLayout.setBottom(null);
 		Main.mainLayout.setCenter(manageView);
@@ -85,6 +89,7 @@ public class Main extends Application {
 		Label delete;
 		HBox hbox;
 		int i = 1;
+		
 		EventHandler<MouseEvent> mouseOver = new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent arg0) {
@@ -108,6 +113,7 @@ public class Main extends Application {
 
 				@Override
 				public void handle(MouseEvent e) {
+					
 					try {
 						FXMLLoader loader = new FXMLLoader(
 								this.getClass().getResource("view/student/EditStudentView.fxml"));
@@ -115,12 +121,13 @@ public class Main extends Application {
 						EditStudentViewController editStudentController = loader.getController();
 						editStudentController.setStudent(stu);
 						Main.mainLayout.setCenter(editSudentView);
+						
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						System.err.println("Error, archivo EditStudentView.fxml no encontrado en la carpeta view.");
 						e1.printStackTrace();
 					}
-					Main.studentService.editStudent(stu.getId());
+					
+					Main.studentService.edit(stu.getId());
 				};
 
 			});
@@ -143,7 +150,7 @@ public class Main extends Application {
 					alert.showAndWait();
 					
 					if(alert.getResult() == ButtonType.YES) {
-						Main.studentService.deleteStudent(stu.getId());
+						Main.studentService.delete(stu.getId());
 					}
 				};
 				

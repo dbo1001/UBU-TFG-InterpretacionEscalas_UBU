@@ -6,12 +6,12 @@ import model.Alumno;
 import model.Aula;
 import model.Profesor;
 
-public interface Service {
+public interface Service<T> {
 	
-	public List<Alumno> getStudents();
+	public List<T> getAll();
 	
-	public List<Profesor> getTeachers();
+	public boolean edit(long id);
 	
-	public List<Aula> getClassrooms();
+	public boolean delete(long id);
 
 }
