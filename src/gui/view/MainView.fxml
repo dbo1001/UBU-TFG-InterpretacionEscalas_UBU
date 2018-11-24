@@ -4,35 +4,16 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.ManageViewController">
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.MainViewController">
    <top>
       <ButtonBar buttonOrder="" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" BorderPane.alignment="CENTER">
         <buttons>
-          <Button mnemonicParsing="false" text="Menu principal" />
+          <Button mnemonicParsing="false" onAction="#checkDataIntegrity" text="Menu principal" />
         </buttons>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
       </ButtonBar>
    </top>
-   <bottom>
-      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <buttons>
-          <Button mnemonicParsing="false" text="Aceptar" visible="false">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <HBox prefWidth="50.0" />
-            <Button mnemonicParsing="false" text="Cancelar" visible="false">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-        </buttons>
-         <padding>
-            <Insets bottom="20.0" right="50.0" />
-         </padding>
-      </ButtonBar>
-   </bottom>
 </BorderPane>

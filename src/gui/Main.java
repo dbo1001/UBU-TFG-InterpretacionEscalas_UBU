@@ -41,6 +41,7 @@ public class Main extends Application {
 	private static BorderPane mainLayout;
 	private static Service<Alumno> studentService = new StudentServiceImpl();
 	private static Service<Aula> classroomService = new ClassroomServiceImpl();
+	private static boolean modifiedData = false;
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -59,22 +60,14 @@ public class Main extends Application {
 		Main.primaryStage.show();
 	}
 
-	public static void handCursor() {
-		Main.primaryStage.getScene().setCursor(Cursor.HAND);
-	}
-
-	public static void defaultCursor() {
-		Main.primaryStage.getScene().setCursor(Cursor.DEFAULT);
-	}
-
 	public static void showManageView() throws IOException {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/ManageView.fxml"));
 		TabPane manageView = loader.load();
 		GridPane studentsGrid = ((GridPane) ((AnchorPane) manageView.getTabs().get(0).getContent()).getChildren()
 				.get(0));
-
+	
 		loadStudents(studentsGrid, Main.studentService.getAll());
-
+	
 		Main.mainLayout.setBottom(null);
 		Main.mainLayout.setCenter(manageView);
 		// Scene scene = new Scene(mainLayout);
@@ -83,13 +76,57 @@ public class Main extends Application {
 		// this.primaryStage.show();
 	}
 
+	public static void showStudentView() throws IOException {
+		Main.modifiedData = true;
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/student/StudentView.fxml"));
+		BorderPane studentView = loader.load();
+		loader = new FXMLLoader();
+		// loader.setLocation(Main.class.getResource("view/student/StudentBBView.fxml"));
+		// ButtonBar studentsBBView = loader.load();
+		Main.mainLayout.setCenter(studentView);
+		// Main.mainLayout.setBottom(studentsBBView);
+	}
+
+	public static void showEditStudentView(Alumno stu) throws IOException {
+		Main.modifiedData = true;
+		FXMLLoader loader = new FXMLLoader(
+				Main.class.getResource("view/student/EditStudentView.fxml"));
+		BorderPane editSudentView = loader.load();
+		EditStudentViewController editStudentController = loader.getController();
+		editStudentController.setStudent(stu);
+		Main.mainLayout.setCenter(editSudentView);
+		Main.studentService.edit(stu.getId());
+	
+	}
+
+	private static void deleteStudent(Alumno stu) {
+		Alert alert = new Alert(AlertType.CONFIRMATION,
+				"¿Estás seguro de que quieres borrar el alumno/a: " + stu.getNombre() + " "
+						+ stu.getApellido1() + " " + stu.getApellido2() + "?\n"
+						+ "Los cambios serán definitivos.",
+				ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+		alert.showAndWait();
+	
+		if (alert.getResult() == ButtonType.YES) {
+			Main.studentService.delete(stu.getId());
+		}
+	}
+
+	public static void handCursor() {
+		Main.primaryStage.getScene().setCursor(Cursor.HAND);
+	}
+
+	public static void defaultCursor() {
+		Main.primaryStage.getScene().setCursor(Cursor.DEFAULT);
+	}
+
 	private static void loadStudents(GridPane grid, List<Alumno> students) {
 		Text text;
 		Label edit = new Label("e");
 		Label delete;
 		HBox hbox;
 		int i = 1;
-		
+
 		EventHandler<MouseEvent> mouseOver = new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent arg0) {
@@ -113,21 +150,12 @@ public class Main extends Application {
 
 				@Override
 				public void handle(MouseEvent e) {
-					
 					try {
-						FXMLLoader loader = new FXMLLoader(
-								this.getClass().getResource("view/student/EditStudentView.fxml"));
-						BorderPane editSudentView = loader.load();
-						EditStudentViewController editStudentController = loader.getController();
-						editStudentController.setStudent(stu);
-						Main.mainLayout.setCenter(editSudentView);
-						
+						Main.showEditStudentView(stu);
 					} catch (IOException e1) {
 						System.err.println("Error, archivo EditStudentView.fxml no encontrado en la carpeta view.");
 						e1.printStackTrace();
 					}
-					
-					Main.studentService.edit(stu.getId());
 				};
 
 			});
@@ -139,21 +167,12 @@ public class Main extends Application {
 			delete.setTextFill(Color.web("3366bb"));
 			delete.setUnderline(true);
 			delete.setOnMouseClicked(new EventHandler<MouseEvent>() {
-				
+
 				@Override
 				public void handle(MouseEvent e) {
-					Alert alert = new Alert(AlertType.CONFIRMATION,
-							"¿Estás seguro de que quieres borrar el alumno/a: " + stu.getNombre() + " "
-									+ stu.getApellido1() + " " + stu.getApellido2() + "?\n"
-									+ "Los cambios serán definitivos.",
-							ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
-					alert.showAndWait();
-					
-					if(alert.getResult() == ButtonType.YES) {
-						Main.studentService.delete(stu.getId());
-					}
-				};
-				
+					Main.deleteStudent(stu);
+				}
+
 			});
 			delete.setOnMouseEntered(mouseOver);
 			delete.setOnMouseExited(mouseLeft);
@@ -172,15 +191,13 @@ public class Main extends Application {
 			i++;
 		}
 	}
-
-	public static void showStudentView() throws IOException {
-		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/student/StudentView.fxml"));
-		BorderPane studentView = loader.load();
-		loader = new FXMLLoader();
-		//loader.setLocation(Main.class.getResource("view/student/StudentBBView.fxml"));
-		//ButtonBar studentsBBView = loader.load();
-		Main.mainLayout.setCenter(studentView);
-		//Main.mainLayout.setBottom(studentsBBView);
+	
+	public static void setModifiedData(boolean dataStatus) {
+		Main.modifiedData = dataStatus;
+	}
+	
+	public static boolean getDataIntegrity() {
+		return Main.modifiedData;
 	}
 
 	public static void main(String[] args) {

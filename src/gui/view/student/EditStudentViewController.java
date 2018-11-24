@@ -92,6 +92,7 @@ public class EditStudentViewController extends Controller {
 	@FXML
 	private void cancel() throws IOException {
 		if (cancelAlert()) {
+			Main.setModifiedData(false);
 			Main.showManageView();
 		}
 	}
