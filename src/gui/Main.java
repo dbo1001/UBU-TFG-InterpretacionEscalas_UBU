@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
+import gui.view.ManageViewController;
 import gui.view.student.EditStudentViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -19,6 +20,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -61,6 +63,17 @@ public class Main extends Application {
 	}
 
 	public static void showManageView() throws IOException {
+		
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/ManageView.fxml"));
+		TabPane manageView = loader.load();
+		//TableView<Alumno> studentsTable = (TableView<Alumno>) ((BorderPane) manageView.getTabs().get(0).getContent()).getCenter();
+		ManageViewController mVC = loader.getController();
+		
+		mVC.loadStudents(studentService.getAll());
+	
+		Main.mainLayout.setCenter(manageView);
+		
+		/*
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/ManageView.fxml"));
 		TabPane manageView = loader.load();
 		GridPane studentsGrid = ((GridPane) ((AnchorPane) manageView.getTabs().get(0).getContent()).getChildren()
@@ -68,12 +81,13 @@ public class Main extends Application {
 	
 		loadStudents(studentsGrid, Main.studentService.getAll());
 	
-		Main.mainLayout.setBottom(null);
 		Main.mainLayout.setCenter(manageView);
 		// Scene scene = new Scene(mainLayout);
 		// Scene scene = new Scene(mainLayout);
 		// this.primaryStage.setScene(scene);
 		// this.primaryStage.show();
+		 * 
+		 */
 	}
 
 	public static void showStudentView() throws IOException {
@@ -99,7 +113,7 @@ public class Main extends Application {
 	
 	}
 
-	private static void deleteStudent(Alumno stu) {
+	public static void deleteStudent(Alumno stu) {
 		Alert alert = new Alert(AlertType.CONFIRMATION,
 				"¿Estás seguro de que quieres borrar el alumno/a: " + stu.getNombre() + " "
 						+ stu.getApellido1() + " " + stu.getApellido2() + "?\n"
@@ -120,6 +134,7 @@ public class Main extends Application {
 		Main.primaryStage.getScene().setCursor(Cursor.DEFAULT);
 	}
 
+	/*
 	private static void loadStudents(GridPane grid, List<Alumno> students) {
 		Text text;
 		Label edit = new Label("e");
@@ -191,6 +206,7 @@ public class Main extends Application {
 			i++;
 		}
 	}
+	*/
 	
 	public static void setModifiedData(boolean dataStatus) {
 		Main.modifiedData = dataStatus;

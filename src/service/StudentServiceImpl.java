@@ -26,23 +26,23 @@ public class StudentServiceImpl implements Service<Alumno> {
 		
 		alumno2.setId(2);
 		alumno2.setNombre("Barvara");
-		alumno2.setApellido1("Mendez");
-		alumno2.setApellido2("Domingo");
+		alumno2.setApellido1("Rodriguez");
+		alumno2.setApellido2("Gonzalez");
 		
 		alumno3.setId(3);
 		alumno3.setNombre("Carlos");
-		alumno3.setApellido1("Mendez");
-		alumno3.setApellido2("Domingo");
+		alumno3.setApellido1("de la Horra");
+		alumno3.setApellido2("Herrero");
 		
 		alumno4.setId(4);
 		alumno4.setNombre("Daniel");
-		alumno4.setApellido1("Mendez");
-		alumno4.setApellido2("Domingo");
+		alumno4.setApellido1("Gutierrez");
+		alumno4.setApellido2("Domador");
 		
 		alumno5.setId(5);
 		alumno5.setNombre("Esteban");
-		alumno5.setApellido1("Mendez");
-		alumno5.setApellido2("Domingo");
+		alumno5.setApellido1("Perez");
+		alumno5.setApellido2("Santamaria");
 		
 		resultado.add(alumno1);
 		resultado.add(alumno2);
