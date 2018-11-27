@@ -69,7 +69,7 @@ public class Main extends Application {
 		//TableView<Alumno> studentsTable = (TableView<Alumno>) ((BorderPane) manageView.getTabs().get(0).getContent()).getCenter();
 		ManageViewController mVC = loader.getController();
 		
-		mVC.loadStudents(studentService.getAll());
+		mVC.setAllStudents(studentService.getAll());
 	
 		Main.mainLayout.setCenter(manageView);
 		
