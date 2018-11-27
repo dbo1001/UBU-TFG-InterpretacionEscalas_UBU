@@ -11,13 +11,18 @@ import javafx.scene.control.Alert.AlertType;
 public abstract class Controller {
 	
 	@FXML
-	private void handCursor() {
+	protected void handCursor() {
 		Main.handCursor();
 	}
 	
 	@FXML
-	private void defaultCursor() {
+	protected void defaultCursor() {
 		Main.defaultCursor();
+	}
+	
+	@FXML
+	protected void loadCursor() {
+		Main.loadCursor();
 	}
 	
 	@FXML

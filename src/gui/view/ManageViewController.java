@@ -53,6 +53,7 @@ public class ManageViewController extends Controller {
 		surname2Column.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, String>("apellido2"));
 		editColumn.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, Label>("edit"));
 		deleteColumn.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, Label>("delete"));
+		table.setPlaceholder(new Label("No se han encontrado alumnos. Revisa los filtros aplicados."));
 	}
 
 	@FXML
@@ -61,10 +62,21 @@ public class ManageViewController extends Controller {
 	}
 
 	private void updateNameFilter(Label newFilter) {
-		if(this.currentNameFilter != null) {
-			this.currentNameFilter.setDisable(false);	
+		if (this.currentNameFilter != null) {
+			this.currentNameFilter.setDisable(false);
 		}
 		this.currentNameFilter = newFilter;
+		if (newFilter != null) {
+			newFilter.setDisable(true);
+		}
+		this.filter();
+	}
+
+	private void updateSurnameFilter(Label newFilter) {
+		if (this.currentSurnameFilter != null) {
+			this.currentSurnameFilter.setDisable(false);
+		}
+		this.currentSurnameFilter = newFilter;
 		if (newFilter != null) {
 			newFilter.setDisable(true);
 		}
@@ -85,15 +97,149 @@ public class ManageViewController extends Controller {
 	}
 
 	private void filter() {
-		if (this.currentNameFilter != null) {
-			List<Alumno> filteredStudents = new ArrayList<Alumno>();
+		this.loadCursor();
+		List<Alumno> filteredStudents = new ArrayList<Alumno>();
+		
+		if (this.currentNameFilter != null && this.currentSurnameFilter != null) {
 			for (Alumno stu : this.allStudents) {
-				if (stu.getNombre().charAt(0) == this.currentNameFilter.getText().charAt(0)) {
+				if (stu.getNombre().toUpperCase().charAt(0) == this.currentNameFilter.getText().charAt(0)
+						&& stu.getApellido1().toUpperCase().charAt(0) == this.currentSurnameFilter.getText().charAt(0)) {
 					filteredStudents.add(stu);
 				}
 			}
 			this.loadStudents(filteredStudents);
+			
+		}else if(this.currentNameFilter != null && this.currentSurnameFilter == null){
+			for (Alumno stu : this.allStudents) {
+				if (stu.getNombre().toUpperCase().charAt(0) == this.currentNameFilter.getText().charAt(0)){
+					filteredStudents.add(stu);
+				}
+			}
+			this.loadStudents(filteredStudents);
+			
+		}else if(this.currentNameFilter == null && this.currentSurnameFilter != null){
+			for (Alumno stu : this.allStudents) {
+				if (stu.getApellido1().toUpperCase().charAt(0) == this.currentSurnameFilter.getText().charAt(0)) {
+					filteredStudents.add(stu);
+				}
+			}
+			this.loadStudents(filteredStudents);
+			
+		} else {
+			this.loadStudents(allStudents);
 		}
+		this.defaultCursor();
+	}
+
+	@FXML
+	private void clearFilters() {
+		this.updateNameFilter(null);
+		this.updateSurnameFilter(null);
+		this.filter();
+	}
+
+	///////////////////////////////
+	public class CeldaAlumno {
+
+		private String nombre = "";
+		private String apellido1 = "";
+		private String apellido2 = "";
+		private Label edit;
+		private Label delete;
+		private final EventHandler<MouseEvent> mouseOver = new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent arg0) {
+				Main.handCursor();
+			}
+		};
+		private final EventHandler<MouseEvent> mouseLeft = new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent arg0) {
+				Main.defaultCursor();
+			}
+		};
+
+		public CeldaAlumno(Alumno stu) {
+			this.nombre = stu.getNombre();
+			this.apellido1 = stu.getApellido1();
+			this.apellido2 = stu.getApellido2();
+
+			edit = new Label("Editar");
+			// edit.setFont(new Font(18));
+			edit.setTextFill(Color.web("3366bb"));
+			edit.setUnderline(true);
+			edit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+				@Override
+				public void handle(MouseEvent e) {
+					try {
+						Main.showEditStudentView(stu);
+					} catch (IOException e1) {
+						System.err.println("Error, archivo EditStudentView.fxml no encontrado en la carpeta view.");
+						e1.printStackTrace();
+					}
+				};
+
+			});
+			edit.setOnMouseEntered(mouseOver);
+			edit.setOnMouseExited(mouseLeft);
+
+			delete = new Label("Borrar");
+			// delete.setFont(new Font(18));
+			delete.setTextFill(Color.web("3366bb"));
+			delete.setUnderline(true);
+			delete.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+				@Override
+				public void handle(MouseEvent e) {
+					Main.deleteStudent(stu);
+				}
+
+			});
+			delete.setOnMouseEntered(mouseOver);
+			delete.setOnMouseExited(mouseLeft);
+		}
+
+		public String getNombre() {
+			return nombre;
+		}
+
+		public void setNombre(String nombre) {
+			this.nombre = nombre;
+		}
+
+		public String getApellido1() {
+			return apellido1;
+		}
+
+		public void setApellido1(String apellido1) {
+			this.apellido1 = apellido1;
+		}
+
+		public String getApellido2() {
+			return apellido2;
+		}
+
+		public void setApellido2(String apellido2) {
+			this.apellido2 = apellido2;
+		}
+
+		public Label getEdit() {
+			return edit;
+		}
+
+		public void setEdit(Label edit) {
+			this.edit = edit;
+		}
+
+		public Label getDelete() {
+			return delete;
+		}
+
+		public void setDelete(Label delete) {
+			this.delete = delete;
+		}
+
 	}
 
 	@FXML
@@ -231,108 +377,139 @@ public class ManageViewController extends Controller {
 		this.updateNameFilter(nZ);
 	}
 
-	/////////////////////////////// 7
-	public class CeldaAlumno {
+	@FXML
+	private void filterSA() {
+		this.updateSurnameFilter(sA);
+	}
 
-		private String nombre = "";
-		private String apellido1 = "";
-		private String apellido2 = "";
-		private Label edit;
-		private Label delete;
-		private final EventHandler<MouseEvent> mouseOver = new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				Main.handCursor();
-			}
-		};
-		private final EventHandler<MouseEvent> mouseLeft = new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				Main.defaultCursor();
-			}
-		};
+	@FXML
+	private void filterSB() {
+		this.updateSurnameFilter(sB);
+	}
 
-		public CeldaAlumno(Alumno stu) {
-			this.nombre = stu.getNombre();
-			this.apellido1 = stu.getApellido1();
-			this.apellido2 = stu.getApellido2();
+	@FXML
+	private void filterSC() {
+		this.updateSurnameFilter(sC);
+	}
 
-			edit = new Label("Editar");
-			// edit.setFont(new Font(18));
-			edit.setTextFill(Color.web("3366bb"));
-			edit.setUnderline(true);
-			edit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	@FXML
+	private void filterSD() {
+		this.updateSurnameFilter(sD);
+	}
 
-				@Override
-				public void handle(MouseEvent e) {
-					try {
-						Main.showEditStudentView(stu);
-					} catch (IOException e1) {
-						System.err.println("Error, archivo EditStudentView.fxml no encontrado en la carpeta view.");
-						e1.printStackTrace();
-					}
-				};
+	@FXML
+	private void filterSE() {
+		this.updateSurnameFilter(sE);
+	}
 
-			});
-			edit.setOnMouseEntered(mouseOver);
-			edit.setOnMouseExited(mouseLeft);
+	@FXML
+	private void filterSF() {
+		this.updateSurnameFilter(sF);
+	}
 
-			delete = new Label("Borrar");
-			// delete.setFont(new Font(18));
-			delete.setTextFill(Color.web("3366bb"));
-			delete.setUnderline(true);
-			delete.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	@FXML
+	private void filterSG() {
+		this.updateSurnameFilter(sG);
+	}
 
-				@Override
-				public void handle(MouseEvent e) {
-					Main.deleteStudent(stu);
-				}
+	@FXML
+	private void filterSH() {
+		this.updateSurnameFilter(sH);
+	}
 
-			});
-			delete.setOnMouseEntered(mouseOver);
-			delete.setOnMouseExited(mouseLeft);
-		}
+	@FXML
+	private void filterSI() {
+		this.updateSurnameFilter(sI);
+	}
 
-		public String getNombre() {
-			return nombre;
-		}
+	@FXML
+	private void filterSJ() {
+		this.updateSurnameFilter(sJ);
+	}
 
-		public void setNombre(String nombre) {
-			this.nombre = nombre;
-		}
+	@FXML
+	private void filterSK() {
+		this.updateSurnameFilter(sK);
+	}
 
-		public String getApellido1() {
-			return apellido1;
-		}
+	@FXML
+	private void filterSL() {
+		this.updateSurnameFilter(sL);
+	}
 
-		public void setApellido1(String apellido1) {
-			this.apellido1 = apellido1;
-		}
+	@FXML
+	private void filterSM() {
+		this.updateSurnameFilter(sM);
+	}
 
-		public String getApellido2() {
-			return apellido2;
-		}
+	@FXML
+	private void filterSN() {
+		this.updateSurnameFilter(sN);
+	}
 
-		public void setApellido2(String apellido2) {
-			this.apellido2 = apellido2;
-		}
+	@FXML
+	private void filterS—() {
+		this.updateSurnameFilter(s—);
+	}
 
-		public Label getEdit() {
-			return edit;
-		}
+	@FXML
+	private void filterSO() {
+		this.updateSurnameFilter(sO);
+	}
 
-		public void setEdit(Label edit) {
-			this.edit = edit;
-		}
+	@FXML
+	private void filterSP() {
+		this.updateSurnameFilter(sP);
+	}
 
-		public Label getDelete() {
-			return delete;
-		}
+	@FXML
+	private void filterSQ() {
+		this.updateSurnameFilter(sQ);
+	}
 
-		public void setDelete(Label delete) {
-			this.delete = delete;
-		}
+	@FXML
+	private void filterSR() {
+		this.updateSurnameFilter(sR);
+	}
 
+	@FXML
+	private void filterSS() {
+		this.updateSurnameFilter(sS);
+	}
+
+	@FXML
+	private void filterST() {
+		this.updateSurnameFilter(sT);
+	}
+
+	@FXML
+	private void filterSU() {
+		this.updateSurnameFilter(sU);
+	}
+
+	@FXML
+	private void filterSV() {
+		this.updateSurnameFilter(sV);
+	}
+
+	@FXML
+	private void filterSW() {
+		this.updateSurnameFilter(sW);
+	}
+
+	@FXML
+	private void filterSX() {
+		this.updateSurnameFilter(sX);
+	}
+
+	@FXML
+	private void filterSY() {
+		this.updateSurnameFilter(sY);
+	}
+
+	@FXML
+	private void filterSZ() {
+		this.updateSurnameFilter(sZ);
 	}
 
 }

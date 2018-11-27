@@ -133,6 +133,10 @@ public class Main extends Application {
 	public static void defaultCursor() {
 		Main.primaryStage.getScene().setCursor(Cursor.DEFAULT);
 	}
+	
+	public static void loadCursor() {
+		Main.primaryStage.getScene().setCursor(Cursor.WAIT);
+	}
 
 	/*
 	private static void loadStudents(GridPane grid, List<Alumno> students) {
