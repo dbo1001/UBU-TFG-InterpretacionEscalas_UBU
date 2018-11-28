@@ -1,10 +1,11 @@
-package gui.view;
+package gui.view.student;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import gui.Main;
+import gui.view.Controller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,7 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import model.Alumno;
 
-public class ManageViewController extends Controller {
+public class StudentManageViewController extends Controller {
 
 	@FXML
 	private TableView<CeldaAlumno> table;

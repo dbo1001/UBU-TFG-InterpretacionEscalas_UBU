@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.teacher.EditTeacherViewController">
+   <top>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Introduce los datos del nuevo profesor:" BorderPane.alignment="CENTER_LEFT">
+         <font>
+            <Font size="36.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets left="50.0" top="20.0" />
+         </BorderPane.margin>
+      </Text>
+   </top>
+   <center>
+      <GridPane hgap="100.0" vgap="20.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="-Infinity" minHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" minHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Primer apellido" GridPane.rowIndex="1">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Segundo apellido" GridPane.rowIndex="2">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="NIF" GridPane.rowIndex="3">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha de nacimiento" GridPane.rowIndex="4">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aula" GridPane.rowIndex="5">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <TextField fx:id="nombre" prefWidth="200.0" promptText="Nombre" GridPane.columnIndex="1" />
+            <TextField fx:id="primerApellido" prefWidth="200.0" promptText="Primer apellido" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="segundoApellido" prefWidth="200.0" promptText="Segundo apellido" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="NIF" prefWidth="200.0" promptText="NIF" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <DatePicker fx:id="fechaNacimiento" prefWidth="200.0" promptText="Seleciona una fecha" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ChoiceBox fx:id="aulaCB" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         </children>
+         <BorderPane.margin>
+            <Insets left="70.0" top="30.0" />
+         </BorderPane.margin>
+      </GridPane>
+   </center>
+   <bottom>
+      <ButtonBar nodeOrientation="RIGHT_TO_LEFT" BorderPane.alignment="CENTER">
+        <buttons>
+            <Button mnemonicParsing="false" onAction="#cancel" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="Cancelar">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <HBox prefWidth="50.0" />
+          <Button mnemonicParsing="false" onAction="#acept" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="Aceptar">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+        </buttons>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="400.0" top="10.0" />
+         </BorderPane.margin>
+      </ButtonBar>
+   </bottom>
+</BorderPane>

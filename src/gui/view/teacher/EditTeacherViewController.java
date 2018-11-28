@@ -1,4 +1,4 @@
-package gui.view.student;
+package gui.view.teacher;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -21,7 +21,7 @@ import model.Profesor;
 import service.ClassroomServiceImpl;
 import service.Service;
 
-public class EditStudentViewController extends Controller {
+public class EditTeacherViewController extends Controller {
 
 	@FXML
 	private TextField nombre;
@@ -32,14 +32,12 @@ public class EditStudentViewController extends Controller {
 	@FXML
 	private TextField NIF;
 	@FXML
-	private TextField direccion;
-	@FXML
 	private DatePicker fechaNacimiento;
 	@FXML
 	private ChoiceBox<Aula> aulaCB;
 	
 	private Service<Aula> classroomService = new ClassroomServiceImpl();
-	private Alumno stu;
+	private Profesor tea;
 	
 	@FXML
 	private void initialize() {
@@ -64,25 +62,25 @@ public class EditStudentViewController extends Controller {
 		});
 	}
 
-	public void setStudent(Alumno stu) {
-		this.stu = stu;
+	public void setTeacher(Profesor tea) {
+		this.tea = tea;
 		this.fillFields();
 	}
 
 	@FXML
 	private void fillFields() {
-		this.nombre.setText(stu.getNombre());
-		this.primerApellido.setText(stu.getApellido1());
-		this.segundoApellido.setText(stu.getApellido2());
-		this.NIF.setText(stu.getNif());
+		this.nombre.setText(tea.getNombre());
+		this.primerApellido.setText(tea.getApellido1());
+		this.segundoApellido.setText(tea.getApellido2());
+		this.NIF.setText(tea.getNif());
 
-		Date fecha = stu.getFechaNacimiento();
+		Date fecha = tea.getFechaNacimiento();
 		if (fecha != null) {
 			this.fechaNacimiento
 					.setValue(Instant.ofEpochMilli(fecha.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
 		}
 		
-		Aula aula = stu.getAula();
+		Aula aula = tea.getAula();
 		if(aula != null) {
 			this.aulaCB.getSelectionModel().clearSelection();
 			this.aulaCB.getSelectionModel().select(aula);
@@ -99,7 +97,7 @@ public class EditStudentViewController extends Controller {
 
 	@FXML
 	private void acept() {
-		System.out.println("Aceptar y sobreescibir los cambios del profesor.");
+		System.out.println("Aceptar y sobreescibir los cambios del alumno.");
 	}
 
 }
