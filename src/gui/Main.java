@@ -1,37 +1,23 @@
 package gui;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.List;
 
+import gui.view.classroom.ClassroomManageViewController;
+import gui.view.classroom.EditClassroomViewController;
 import gui.view.student.EditStudentViewController;
 import gui.view.student.StudentManageViewController;
 import gui.view.teacher.EditTeacherViewController;
 import gui.view.teacher.TeacherManageViewController;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TableView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import model.Alumno;
@@ -71,6 +57,8 @@ public class Main extends Application {
 
 	public static void showManageView() throws IOException {
 
+		Main.loadCursor();
+		
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/ManageView.fxml"));
 		TabPane manageView = loader.load();
 
@@ -85,8 +73,16 @@ public class Main extends Application {
 		TeacherManageViewController tMVC = loader.getController();
 		tMVC.setAllTeachers(teacherService.getAll());
 		((Tab) manageView.getTabs().get(1)).setContent(teacherManageView);
+		
+		loader = new FXMLLoader(Main.class.getResource("view/classroom/ClassroomManageView.fxml"));
+		BorderPane classroomManageView = loader.load();
+		ClassroomManageViewController cMVC = loader.getController();
+		cMVC.setAllClassrooms(classroomService.getAll());
+		((Tab) manageView.getTabs().get(2)).setContent(classroomManageView);
 
 		Main.mainLayout.setCenter(manageView);
+		
+		Main.defaultCursor();
 	}
 
 	public static void showStudentView() throws IOException {
@@ -94,7 +90,7 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/student/StudentView.fxml"));
 		BorderPane studentView = loader.load();
 		loader = new FXMLLoader();
-		
+
 		Main.mainLayout.setCenter(studentView);
 	}
 
@@ -103,8 +99,18 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/teacher/TeacherView.fxml"));
 		BorderPane teacherView = loader.load();
 		loader = new FXMLLoader();
-		
+
 		Main.mainLayout.setCenter(teacherView);
+	}
+
+	public static void showClassroomView() throws IOException {
+		Main.modifiedData = true;
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/classroom/ClassroomView.fxml"));
+		BorderPane classroomView = loader.load();
+		loader = new FXMLLoader();
+
+		Main.mainLayout.setCenter(classroomView);
+		
 	}
 
 	public static void showEditStudentView(Alumno stu) throws IOException {
@@ -129,6 +135,16 @@ public class Main extends Application {
 
 	}
 
+	public static void showEditClassroomView(Aula cla) throws IOException {
+		Main.modifiedData = true;
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/classroom/EditClassroomView.fxml"));
+		BorderPane editClassroomView = loader.load();
+		EditClassroomViewController editClassroomController = loader.getController();
+		editClassroomController.setClassroom(cla);
+		Main.mainLayout.setCenter(editClassroomView);
+
+	}
+
 	public static void deleteStudent(Alumno stu) {
 		Alert alert = new Alert(AlertType.CONFIRMATION,
 				"¿Estás seguro de que quieres borrar el alumno/a: " + stu.getNombre() + " " + stu.getApellido1() + " "
@@ -150,6 +166,18 @@ public class Main extends Application {
 
 		if (alert.getResult() == ButtonType.YES) {
 			Main.teacherService.delete(tea.getId());
+		}
+
+	}
+
+	public static void deleteClassroom(Aula cla) {
+		Alert alert = new Alert(AlertType.CONFIRMATION, "¿Estás seguro de que quieres borrar el aula: "
+				+ cla.getNombre() + " ?\n" + "Los cambios serán definitivos.", ButtonType.YES, ButtonType.NO,
+				ButtonType.CANCEL);
+		alert.showAndWait();
+
+		if (alert.getResult() == ButtonType.YES) {
+			Main.classroomService.delete(cla.getId());
 		}
 
 	}

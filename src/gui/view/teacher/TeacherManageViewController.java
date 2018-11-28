@@ -177,7 +177,7 @@ public class TeacherManageViewController extends Controller {
 					try {
 						Main.showEditTeacherView(tea);
 					} catch (IOException e1) {
-						System.err.println("Error, archivo EditStudentView.fxml no encontrado en la carpeta view.");
+						System.err.println("Error, archivo EditTeacherView.fxml no encontrado en la carpeta view.");
 						e1.printStackTrace();
 					}
 				};

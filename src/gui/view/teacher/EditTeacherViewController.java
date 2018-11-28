@@ -97,7 +97,7 @@ public class EditTeacherViewController extends Controller {
 
 	@FXML
 	private void acept() {
-		System.out.println("Aceptar y sobreescibir los cambios del alumno.");
+		System.out.println("Aceptar y sobreescibir los cambios del profesor.");
 	}
 
 }

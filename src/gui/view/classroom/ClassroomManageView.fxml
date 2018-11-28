@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane prefHeight="600.0" prefWidth="900.0" stylesheets="@../../gui.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.classroom.ClassroomManageViewController">
+   <top>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="7.0" left="10.0" />
+         </BorderPane.margin>
+         <children>
+            <VBox nodeOrientation="RIGHT_TO_LEFT" spacing="2.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#addNewClassroom" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" styleClass="bigText" text="Agregar nuevo aula">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Button>
+                  <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#clearFilters" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="Limpiar filtro" />
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="filterText" text="Filtrar nombre:" />
+                  <Label fx:id="nA" onMouseClicked="#filterNA" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="A" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nB" onMouseClicked="#filterNB" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="B" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nC" onMouseClicked="#filterNC" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="C" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nD" onMouseClicked="#filterND" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="D" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nE" onMouseClicked="#filterNE" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="E" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nF" onMouseClicked="#filterNF" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="F" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nG" onMouseClicked="#filterNG" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="G" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nH" onMouseClicked="#filterNH" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="H" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nI" onMouseClicked="#filterNI" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="I" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nJ" onMouseClicked="#filterNJ" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="J" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nK" onMouseClicked="#filterNK" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="K" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nL" onMouseClicked="#filterNL" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="L" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nM" onMouseClicked="#filterNM" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="M" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nN" onMouseClicked="#filterNN" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="N" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nÑ" onMouseClicked="#filterNÑ" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="Ñ" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nO" onMouseClicked="#filterNO" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="O" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nP" onMouseClicked="#filterNP" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="P" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nQ" onMouseClicked="#filterNQ" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="Q" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nR" onMouseClicked="#filterNR" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="R" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nS" onMouseClicked="#filterNS" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="S" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nT" onMouseClicked="#filterNT" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="T" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nU" onMouseClicked="#filterNU" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="U" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nV" onMouseClicked="#filterNV" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="V" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nW" onMouseClicked="#filterNW" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="W" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nX" onMouseClicked="#filterNX" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="X" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nY" onMouseClicked="#filterNY" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="Y" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="nZ" onMouseClicked="#filterNZ" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="Z" textFill="#3366bb" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="nameColumn" editable="false" minWidth="100.0" prefWidth="-1.0" resizable="false" text="Nombre" />
+          <TableColumn fx:id="capacityColumn" editable="false" minWidth="100.0" prefWidth="-1.0" resizable="false" text="Capacidad" />
+            <TableColumn fx:id="editColumn" editable="false" minWidth="50.0" prefWidth="-1.0" resizable="false" sortable="false" />
+            <TableColumn fx:id="deleteColumn" editable="false" minWidth="50.0" prefWidth="-1.0" resizable="false" sortable="false" />
+        </columns>
+      </TableView>
+   </center>
+</BorderPane>

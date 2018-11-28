@@ -53,7 +53,7 @@ public class TeacherViewController extends Controller {
 
 	@FXML
 	private void acept() {
-		System.out.println("Aceptar y agregar alumno.");
+		System.out.println("Aceptar y agregar profesor.");
 	}
 
 }
