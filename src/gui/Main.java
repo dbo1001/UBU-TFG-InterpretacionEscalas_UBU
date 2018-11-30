@@ -2,6 +2,10 @@ package gui;
 
 import java.io.IOException;
 
+import connection.service.ClassroomServiceImpl;
+import connection.service.Service;
+import connection.service.StudentServiceImpl;
+import connection.service.TeacherServiceImpl;
 import gui.view.classroom.ClassroomManageViewController;
 import gui.view.classroom.EditClassroomViewController;
 import gui.view.student.EditStudentViewController;
@@ -23,10 +27,6 @@ import javafx.stage.Stage;
 import model.Alumno;
 import model.Aula;
 import model.Profesor;
-import service.ClassroomServiceImpl;
-import service.Service;
-import service.StudentServiceImpl;
-import service.TeacherServiceImpl;
 
 public class Main extends Application {
 
@@ -42,6 +42,7 @@ public class Main extends Application {
 		Main.primaryStage = primaryStage;
 		Main.primaryStage.setTitle("Menu principal");
 
+		System.out.println(((StudentServiceImpl) this.studentService).getEntityManager().isOpen());
 		showMain();
 		showManageView();
 	}

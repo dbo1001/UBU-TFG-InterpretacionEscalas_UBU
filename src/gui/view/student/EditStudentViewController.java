@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
+import connection.service.ClassroomServiceImpl;
+import connection.service.Service;
 import gui.Main;
 import gui.view.Controller;
 import javafx.collections.FXCollections;
@@ -18,8 +20,6 @@ import javafx.util.StringConverter;
 import model.Alumno;
 import model.Aula;
 import model.Profesor;
-import service.ClassroomServiceImpl;
-import service.Service;
 
 public class EditStudentViewController extends Controller {
 

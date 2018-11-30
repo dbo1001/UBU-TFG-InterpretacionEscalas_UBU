@@ -1,6 +1,9 @@
 package gui.view.classroom;
 
 import java.io.IOException;
+
+import connection.service.ClassroomServiceImpl;
+import connection.service.Service;
 import gui.Main;
 import gui.view.Controller;
 import javafx.collections.FXCollections;
@@ -9,8 +12,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.util.StringConverter;
 import model.Aula;
-import service.ClassroomServiceImpl;
-import service.Service;
 
 public class ClassroomViewController extends Controller {
 	

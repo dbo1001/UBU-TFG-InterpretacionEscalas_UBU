@@ -1,4 +1,4 @@
-package service;
+package connection.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,4 +73,5 @@ public class ClassroomServiceImpl implements Service<Aula> {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
 }

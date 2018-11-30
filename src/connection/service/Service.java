@@ -1,4 +1,4 @@
-package service;
+package connection.service;
 
 import java.util.List;
 
