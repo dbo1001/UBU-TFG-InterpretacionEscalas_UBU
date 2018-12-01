@@ -2,7 +2,6 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -31,21 +30,6 @@ public class Aula implements Serializable {
 
 	public Aula() {
 	}
-
-	/*@Override
-	public boolean equals(Object obj) {
-		if (((Aula) obj).getId() == this.id && ((Aula) obj).getNombre() == this.nombre
-				&& ((Aula) obj).getCapacidad() == this.capacidad) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	@Override
-	public int hashCode() {
-		
-	}*/
 
 	public long getId() {
 		return this.id;

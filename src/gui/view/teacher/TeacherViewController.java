@@ -2,8 +2,8 @@ package gui.view.teacher;
 
 import java.io.IOException;
 
-import connection.service.ClassroomServiceImpl;
-import connection.service.Service;
+import connection.manageService.ClassroomServiceImpl;
+import connection.manageService.ManageService;
 import gui.Main;
 import gui.view.Controller;
 import javafx.collections.FXCollections;

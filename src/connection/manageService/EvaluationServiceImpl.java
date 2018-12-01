@@ -1,13 +1,14 @@
-package connection.service;
+package connection.manageService;
 
 import java.util.List;
 
-import model.Areafuncional;
+import connection.ServiceImpl;
+import model.Evaluacion;
 
-public class EvaluationServiceImpl extends ServiceImpl<Areafuncional>{
+public class EvaluationServiceImpl extends ServiceImpl implements ManageService<Evaluacion>{
 
 	@Override
-	public List<Areafuncional> getAll() {
+	public List<Evaluacion> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}

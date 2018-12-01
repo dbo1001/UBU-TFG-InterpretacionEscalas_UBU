@@ -11,6 +11,7 @@ import java.util.List;
  * 
  */
 @Entity
+@Table(name="AREAFUNCIONAL", schema="public")
 @NamedQuery(name="Areafuncional.findAll", query="SELECT a FROM Areafuncional a")
 public class Areafuncional implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -24,13 +25,8 @@ public class Areafuncional implements Serializable {
 	private int puntuacionMaxima;
 
 	//bi-directional many-to-one association to Categorizacion
-	@ManyToOne
-	@JoinColumn(name="id_categorizacion")
-	private Categorizacion categorizacion;
-
-	//bi-directional many-to-one association to Item
 	@OneToMany(mappedBy="areafuncional")
-	private List<Item> items;
+	private List<Categorizacion> categorizacions;
 
 	public Areafuncional() {
 	}
@@ -59,34 +55,26 @@ public class Areafuncional implements Serializable {
 		this.puntuacionMaxima = puntuacionMaxima;
 	}
 
-	public Categorizacion getCategorizacion() {
-		return this.categorizacion;
+	public List<Categorizacion> getCategorizacions() {
+		return this.categorizacions;
 	}
 
-	public void setCategorizacion(Categorizacion categorizacion) {
-		this.categorizacion = categorizacion;
+	public void setCategorizacions(List<Categorizacion> categorizacions) {
+		this.categorizacions = categorizacions;
 	}
 
-	public List<Item> getItems() {
-		return this.items;
+	public Categorizacion addCategorizacion(Categorizacion categorizacion) {
+		getCategorizacions().add(categorizacion);
+		categorizacion.setAreafuncional(this);
+
+		return categorizacion;
 	}
 
-	public void setItems(List<Item> items) {
-		this.items = items;
-	}
+	public Categorizacion removeCategorizacion(Categorizacion categorizacion) {
+		getCategorizacions().remove(categorizacion);
+		categorizacion.setAreafuncional(null);
 
-	public Item addItem(Item item) {
-		getItems().add(item);
-		item.setAreafuncional(this);
-
-		return item;
-	}
-
-	public Item removeItem(Item item) {
-		getItems().remove(item);
-		item.setAreafuncional(null);
-
-		return item;
+		return categorizacion;
 	}
 
 }

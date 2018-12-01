@@ -1,11 +1,12 @@
-package connection.service;
+package connection.manageService;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import connection.ServiceImpl;
 import model.Aula;
 
-public class ClassroomServiceImpl implements Service<Aula> {
+public class ClassroomServiceImpl extends ServiceImpl implements ManageService<Aula> {
 	
 	private static Aula aulaPruebas = new Aula();
 	

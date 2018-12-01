@@ -2,10 +2,12 @@ package gui;
 
 import java.io.IOException;
 
-import connection.service.ClassroomServiceImpl;
-import connection.service.Service;
-import connection.service.StudentServiceImpl;
-import connection.service.TeacherServiceImpl;
+import connection.manageService.ClassroomServiceImpl;
+import connection.manageService.ManageService;
+import connection.manageService.StudentServiceImpl;
+import connection.manageService.TeacherServiceImpl;
+import connection.utilService.UtilService;
+import connection.utilService.UtilServiceImpl;
 import gui.view.classroom.ClassroomManageViewController;
 import gui.view.classroom.EditClassroomViewController;
 import gui.view.student.EditStudentViewController;
@@ -32,9 +34,10 @@ public class Main extends Application {
 
 	private static Stage primaryStage;
 	private static BorderPane mainLayout;
-	private static Service<Alumno> studentService = new StudentServiceImpl();
-	private static Service<Aula> classroomService = new ClassroomServiceImpl();
-	private static Service<Profesor> teacherService = new TeacherServiceImpl();
+	private static ManageService<Alumno> studentService = new StudentServiceImpl();
+	private static ManageService<Aula> classroomService = new ClassroomServiceImpl();
+	private static ManageService<Profesor> teacherService = new TeacherServiceImpl();
+	private static UtilService utilService = new UtilServiceImpl();
 	private static boolean modifiedData = false;
 
 	@Override
@@ -42,7 +45,9 @@ public class Main extends Application {
 		Main.primaryStage = primaryStage;
 		Main.primaryStage.setTitle("Menu principal");
 
-		System.out.println(((StudentServiceImpl) this.studentService).getEntityManager().isOpen());
+		System.out.println(Main.utilService.getAllFunctionalAreas().get(0).getDescripcion());
+		System.out.println(Main.utilService.getAllCategories().get(0).getDescripcion());
+		System.out.println(Main.utilService.getAllItems().get(0).getDescripcion());
 		showMain();
 		showManageView();
 	}

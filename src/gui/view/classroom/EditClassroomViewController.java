@@ -6,8 +6,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
-import connection.service.ClassroomServiceImpl;
-import connection.service.Service;
+import connection.manageService.ClassroomServiceImpl;
+import connection.manageService.ManageService;
 import gui.Main;
 import gui.view.Controller;
 import javafx.collections.FXCollections;
@@ -28,7 +28,7 @@ public class EditClassroomViewController extends Controller {
 	@FXML
 	private TextField capacidad;
 	
-	private Service<Aula> classroomService = new ClassroomServiceImpl();
+	private ManageService<Aula> classroomService = new ClassroomServiceImpl();
 	private Aula cla;
 
 	public void setClassroom(Aula cla) {

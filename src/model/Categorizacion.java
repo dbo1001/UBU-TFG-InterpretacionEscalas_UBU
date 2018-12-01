@@ -2,7 +2,6 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -11,6 +10,7 @@ import java.util.List;
  * 
  */
 @Entity
+@Table(name="CATEGORIZACION", schema="public")
 @NamedQuery(name="Categorizacion.findAll", query="SELECT c FROM Categorizacion c")
 public class Categorizacion implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -24,8 +24,13 @@ public class Categorizacion implements Serializable {
 	private int puntuacionMaxima;
 
 	//bi-directional many-to-one association to Areafuncional
+	@ManyToOne
+	@JoinColumn(name="id_areafuncional")
+	private Areafuncional areafuncional;
+
+	//bi-directional many-to-one association to Item
 	@OneToMany(mappedBy="categorizacion")
-	private List<Areafuncional> areafuncionals;
+	private List<Item> items;
 
 	public Categorizacion() {
 	}
@@ -54,26 +59,34 @@ public class Categorizacion implements Serializable {
 		this.puntuacionMaxima = puntuacionMaxima;
 	}
 
-	public List<Areafuncional> getAreafuncionals() {
-		return this.areafuncionals;
+	public Areafuncional getAreafuncional() {
+		return this.areafuncional;
 	}
 
-	public void setAreafuncionals(List<Areafuncional> areafuncionals) {
-		this.areafuncionals = areafuncionals;
+	public void setAreafuncional(Areafuncional areafuncional) {
+		this.areafuncional = areafuncional;
 	}
 
-	public Areafuncional addAreafuncional(Areafuncional areafuncional) {
-		getAreafuncionals().add(areafuncional);
-		areafuncional.setCategorizacion(this);
-
-		return areafuncional;
+	public List<Item> getItems() {
+		return this.items;
 	}
 
-	public Areafuncional removeAreafuncional(Areafuncional areafuncional) {
-		getAreafuncionals().remove(areafuncional);
-		areafuncional.setCategorizacion(null);
+	public void setItems(List<Item> items) {
+		this.items = items;
+	}
 
-		return areafuncional;
+	public Item addItem(Item item) {
+		getItems().add(item);
+		item.setCategorizacion(this);
+
+		return item;
+	}
+
+	public Item removeItem(Item item) {
+		getItems().remove(item);
+		item.setCategorizacion(null);
+
+		return item;
 	}
 
 }

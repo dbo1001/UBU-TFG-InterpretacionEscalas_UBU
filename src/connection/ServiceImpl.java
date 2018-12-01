@@ -1,10 +1,10 @@
-package connection.service;
+package connection;
 
 import javax.persistence.EntityManager;
 
-import connection.EntityManagerSingleton;
+import connection.manageService.ManageService;
 
-public abstract class ServiceImpl<T> implements Service<T> {
+public abstract class ServiceImpl {
 
 	private EntityManager em;
 	
@@ -12,7 +12,7 @@ public abstract class ServiceImpl<T> implements Service<T> {
 		this.em = EntityManagerSingleton.getEntityManager();
 	}
 	
-	public EntityManager getEntityManager() {
+	protected EntityManager getEntityManager() {
 		return this.em;
 	}
 }

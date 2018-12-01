@@ -5,4 +5,4 @@
  * @author lasse
  *
  */
-package connection.service;
+package connection.manageService;

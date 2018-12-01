@@ -1,4 +1,4 @@
-package connection.service;
+package connection.manageService;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import model.Alumno;
 import model.Aula;
 import model.Profesor;
 
-public interface Service<T> {
+public interface ManageService<T> {
 	
 	public List<T> getAll();
 	

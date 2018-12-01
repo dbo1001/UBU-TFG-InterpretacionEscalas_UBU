@@ -2,7 +2,6 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -11,6 +10,7 @@ import java.util.List;
  * 
  */
 @Entity
+@Table(name="ITEM", schema="public")
 @NamedQuery(name="Item.findAll", query="SELECT i FROM Item i")
 public class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -23,10 +23,10 @@ public class Item implements Serializable {
 	@Column(name="edad_asignada")
 	private int edadAsignada;
 
-	//bi-directional many-to-one association to Areafuncional
+	//bi-directional many-to-one association to Categorizacion
 	@ManyToOne
-	@JoinColumn(name="id_areafuncional")
-	private Areafuncional areafuncional;
+	@JoinColumn(name="id_categorizacion")
+	private Categorizacion categorizacion;
 
 	//bi-directional many-to-one association to Puntuacion
 	@OneToMany(mappedBy="item")
@@ -59,12 +59,12 @@ public class Item implements Serializable {
 		this.edadAsignada = edadAsignada;
 	}
 
-	public Areafuncional getAreafuncional() {
-		return this.areafuncional;
+	public Categorizacion getCategorizacion() {
+		return this.categorizacion;
 	}
 
-	public void setAreafuncional(Areafuncional areafuncional) {
-		this.areafuncional = areafuncional;
+	public void setCategorizacion(Categorizacion categorizacion) {
+		this.categorizacion = categorizacion;
 	}
 
 	public List<Puntuacion> getPuntuacions() {

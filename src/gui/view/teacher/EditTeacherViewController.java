@@ -6,8 +6,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
-import connection.service.ClassroomServiceImpl;
-import connection.service.Service;
+import connection.manageService.ClassroomServiceImpl;
+import connection.manageService.ManageService;
 import gui.Main;
 import gui.view.Controller;
 import javafx.collections.FXCollections;
@@ -36,7 +36,7 @@ public class EditTeacherViewController extends Controller {
 	@FXML
 	private ChoiceBox<Aula> aulaCB;
 	
-	private Service<Aula> classroomService = new ClassroomServiceImpl();
+	private ManageService<Aula> classroomService = new ClassroomServiceImpl();
 	private Profesor tea;
 	
 	@FXML

@@ -1,11 +1,12 @@
-package connection.service;
+package connection.manageService;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import connection.ServiceImpl;
 import model.Alumno;
 
-public class StudentServiceImpl extends ServiceImpl<Alumno> {
+public class StudentServiceImpl extends ServiceImpl implements ManageService<Alumno> {
 	
 	@Override
 	public List<Alumno> getAll() {
