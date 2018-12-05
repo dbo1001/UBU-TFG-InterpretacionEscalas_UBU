@@ -10,10 +10,13 @@ import connection.utilService.UtilService;
 import connection.utilService.UtilServiceImpl;
 import gui.view.classroom.ClassroomManageViewController;
 import gui.view.classroom.EditClassroomViewController;
+import gui.view.evaluation.EvaluationViewController;
 import gui.view.student.EditStudentViewController;
 import gui.view.student.StudentManageViewController;
+import gui.view.student.StudentViewController;
 import gui.view.teacher.EditTeacherViewController;
 import gui.view.teacher.TeacherManageViewController;
+import gui.view.teacher.TeacherViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -49,7 +52,8 @@ public class Main extends Application {
 		System.out.println(Main.utilService.getAllCategories().get(0).getDescripcion());
 		System.out.println(Main.utilService.getAllItems().get(0).getDescripcion());
 		showMain();
-		showManageView();
+		//showManageView();
+		showEvaluationView();
 	}
 
 	private void showMain() throws IOException {
@@ -64,7 +68,7 @@ public class Main extends Application {
 	public static void showManageView() throws IOException {
 
 		Main.loadCursor();
-		
+
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/ManageView.fxml"));
 		TabPane manageView = loader.load();
 
@@ -79,7 +83,7 @@ public class Main extends Application {
 		TeacherManageViewController tMVC = loader.getController();
 		tMVC.setAllTeachers(teacherService.getAll());
 		((Tab) manageView.getTabs().get(1)).setContent(teacherManageView);
-		
+
 		loader = new FXMLLoader(Main.class.getResource("view/classroom/ClassroomManageView.fxml"));
 		BorderPane classroomManageView = loader.load();
 		ClassroomManageViewController cMVC = loader.getController();
@@ -87,7 +91,7 @@ public class Main extends Application {
 		((Tab) manageView.getTabs().get(2)).setContent(classroomManageView);
 
 		Main.mainLayout.setCenter(manageView);
-		
+
 		Main.defaultCursor();
 	}
 
@@ -95,6 +99,8 @@ public class Main extends Application {
 		Main.modifiedData = true;
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/student/StudentView.fxml"));
 		BorderPane studentView = loader.load();
+		StudentViewController sVC = loader.getController();
+		sVC.setClassrooms(Main.classroomService.getAll());
 		loader = new FXMLLoader();
 
 		Main.mainLayout.setCenter(studentView);
@@ -104,6 +110,8 @@ public class Main extends Application {
 		Main.modifiedData = true;
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/teacher/TeacherView.fxml"));
 		BorderPane teacherView = loader.load();
+		TeacherViewController tVC = loader.getController();
+		tVC.setClassrooms(Main.classroomService.getAll());
 		loader = new FXMLLoader();
 
 		Main.mainLayout.setCenter(teacherView);
@@ -116,7 +124,19 @@ public class Main extends Application {
 		loader = new FXMLLoader();
 
 		Main.mainLayout.setCenter(classroomView);
-		
+
+	}
+
+	public static void showEvaluationView() throws IOException {
+		Main.modifiedData = true;
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/evaluation/EvaluationView.fxml"));
+		BorderPane evaluationView = loader.load();
+		EvaluationViewController eVC = loader.getController();
+		eVC.setData(Main.utilService.getAllFunctionalAreas(), Main.utilService.getAllCategories(),
+				Main.utilService.getAllItems());
+		loader = new FXMLLoader();
+
+		Main.mainLayout.setCenter(evaluationView);
 	}
 
 	public static void showEditStudentView(Alumno stu) throws IOException {
@@ -124,7 +144,7 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/student/EditStudentView.fxml"));
 		BorderPane editSudentView = loader.load();
 		EditStudentViewController editStudentController = loader.getController();
-		editStudentController.setStudent(stu);
+		editStudentController.setStudentAndClassrooms(stu, Main.classroomService.getAll());
 		Main.mainLayout.setCenter(editSudentView);
 		// Main.studentService.edit(stu.getId());
 
@@ -135,7 +155,7 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/teacher/EditTeacherView.fxml"));
 		BorderPane editTeacherView = loader.load();
 		EditTeacherViewController editTeacherController = loader.getController();
-		editTeacherController.setTeacher(tea);
+		editTeacherController.setTeacherAndClassrooms(tea, Main.classroomService.getAll());
 		Main.mainLayout.setCenter(editTeacherView);
 		// Main.teacherService.edit(tea.getId());
 

@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 import connection.manageService.ClassroomServiceImpl;
 import connection.manageService.ManageService;
@@ -38,13 +39,13 @@ public class EditStudentViewController extends Controller {
 	@FXML
 	private ChoiceBox<Aula> aulaCB;
 	
-	private ManageService<Aula> classroomService = new ClassroomServiceImpl();
+	private List<Aula> listAllClassrooms;
 	private Alumno stu;
 	
 	@FXML
-	private void initialize() {
+	private void loadClassrooms() {
 		ObservableList<Aula> obsList = FXCollections.observableArrayList();
-		obsList.addAll(classroomService.getAll());
+		obsList.addAll(this.listAllClassrooms);
 		
 		aulaCB.setItems(obsList);
 		aulaCB.getSelectionModel().selectFirst();
@@ -64,8 +65,9 @@ public class EditStudentViewController extends Controller {
 		});
 	}
 
-	public void setStudent(Alumno stu) {
+	public void setStudentAndClassrooms(Alumno stu, List<Aula> allClassrooms) {
 		this.stu = stu;
+		this.listAllClassrooms = allClassrooms;
 		this.fillFields();
 	}
 
@@ -82,6 +84,7 @@ public class EditStudentViewController extends Controller {
 					.setValue(Instant.ofEpochMilli(fecha.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
 		}
 		
+		this.loadClassrooms();
 		Aula aula = stu.getAula();
 		if(aula != null) {
 			this.aulaCB.getSelectionModel().clearSelection();

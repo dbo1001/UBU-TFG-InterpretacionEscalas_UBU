@@ -1,6 +1,7 @@
 package gui.view.student;
 
 import java.io.IOException;
+import java.util.List;
 
 import connection.manageService.ClassroomServiceImpl;
 import connection.manageService.ManageService;
@@ -17,12 +18,11 @@ public class StudentViewController extends Controller {
 	
 	@FXML
 	private ChoiceBox<Aula> aulaCB;
-	private ClassroomServiceImpl classroomService = new ClassroomServiceImpl();
+	private List<Aula> listAllClassrooms;
 	
-	@FXML
-	private void initialize() {
+	private void loadClassrooms() {
 		ObservableList<Aula> obsList = FXCollections.observableArrayList();
-		obsList.addAll(classroomService.getAll());
+		obsList.addAll(this.listAllClassrooms);
 		
 		aulaCB.setItems(obsList);
 		aulaCB.getSelectionModel().selectFirst();
@@ -41,6 +41,11 @@ public class StudentViewController extends Controller {
 			
 		});
 		
+	}
+	
+	public void setClassrooms(List<Aula> allClassrooms) {
+		this.listAllClassrooms = allClassrooms;
+		this.loadClassrooms();
 	}
 	
 	@FXML

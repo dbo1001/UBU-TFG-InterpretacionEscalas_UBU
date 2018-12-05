@@ -7,6 +7,14 @@
 	-fx-font-size: 18px;
 }
 
+.mediumText{
+	-fx-font-size: 14px;
+}
+
+.smallText{
+	-fx-font-size: 12px;
+}
+
 /* 
 .table-column {
 	-fx-alignment: center ;
