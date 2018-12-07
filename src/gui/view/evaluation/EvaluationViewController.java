@@ -1,18 +1,25 @@
 package gui.view.evaluation;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import gui.Main;
 import gui.view.Controller;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import model.Areafuncional;
@@ -34,21 +41,34 @@ public class EvaluationViewController extends Controller {
 			int i = 0;
 			Tab tab = new Tab(aF.getDescripcion());
 			ScrollPane scrollPane = new ScrollPane();
-			scrollPane.setPadding(new Insets(15, 20, 50, 20));
+			scrollPane.setPadding(new Insets(15, 20, 0, 20));
 			GridPane gridPane = new GridPane();
+			/*AnchorPane anchorPane = new AnchorPane();
+			AnchorPane.setRightAnchor(gridPane, 0.0);
+			AnchorPane.setLeftAnchor(gridPane, 0.0);
+			AnchorPane.setTopAnchor(gridPane, 0.0);
+			gridPane.setGridLinesVisible(true);
+			anchorPane.getChildren().add(gridPane);*/
 			scrollPane.setContent(gridPane);
-			scrollPane.setPrefSize(ScrollPane.USE_COMPUTED_SIZE, ScrollPane.USE_COMPUTED_SIZE);
+			//scrollPane.setFitToWidth(true);
+			//scrollPane.setPrefSize(ScrollPane.USE_COMPUTED_SIZE, ScrollPane.USE_COMPUTED_SIZE);
 			tab.setContent(scrollPane);
 			for(Categorizacion cat : this.allCategories) {
 				if(aF.equals(cat.getAreafuncional())) {
 					VBox textVBox = new VBox();
 					textVBox.setSpacing(10);
 					VBox buttonsVBox = new VBox();
+					//AnchorPane columnAP = new AnchorPane();
+					//buttonsVBox.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 					buttonsVBox.setSpacing(10);
+					//columnAP.getChildren().add(buttonsVBox);
 					gridPane.add(textVBox, 0, i);
 					gridPane.add(buttonsVBox, 1, i);
+					//gridPane.add(columnAP, 1, i);
 					gridPane.setVgap(30);
 					gridPane.setHgap(20);
+					//GridPane.setHgrow(columnAP, Priority.ALWAYS);
+					//AnchorPane.setRightAnchor(buttonsVBox, 0.0);
 					
 					Text catTitle = new Text(cat.getDescripcion());
 					catTitle.getStyleClass().add("bigText");
@@ -93,6 +113,13 @@ public class EvaluationViewController extends Controller {
 		this.allCategories = allCategories;
 		this.allItems = allItems;
 		this.loadData();
+	}
+	
+	@FXML
+	private void cancel() throws IOException {
+		if(this.cancelAlert()) {
+			Main.showManageView();
+		}
 	}
 	
 }

@@ -126,7 +126,7 @@ public class Main extends Application {
 		Main.mainLayout.setCenter(classroomView);
 
 	}
-
+	
 	public static void showEvaluationView() throws IOException {
 		Main.modifiedData = true;
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/evaluation/EvaluationView.fxml"));
@@ -227,6 +227,23 @@ public class Main extends Application {
 	public static boolean getDataIntegrity() {
 		return Main.modifiedData;
 	}
+	
+	public static ManageService<Alumno> getStudentService() {
+		return studentService;
+	}
+
+	public static ManageService<Aula> getClassroomService() {
+		return classroomService;
+	}
+
+	public static ManageService<Profesor> getTeacherService() {
+		return teacherService;
+	}
+
+	public static UtilService getUtilService() {
+		return utilService;
+	}
+
 
 	public static void main(String[] args) {
 		launch(args);
