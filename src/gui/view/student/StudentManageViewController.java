@@ -32,6 +32,10 @@ public class StudentManageViewController extends Controller {
 	@FXML
 	private TableColumn<CeldaAlumno, String> surname2Column;
 	@FXML
+	private TableColumn<CeldaAlumno, Label> newEvaluationColumn;
+	@FXML
+	private TableColumn<CeldaAlumno, Label> editEvaluationColumn;
+	@FXML
 	private TableColumn<CeldaAlumno, Label> editColumn;
 	@FXML
 	private TableColumn<CeldaAlumno, Label> deleteColumn;
@@ -52,6 +56,8 @@ public class StudentManageViewController extends Controller {
 		nameColumn.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, String>("nombre"));
 		surname1Column.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, String>("apellido1"));
 		surname2Column.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, String>("apellido2"));
+		newEvaluationColumn.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, Label>("newEvaluation"));
+		editEvaluationColumn.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, Label>("editEvaluation"));
 		editColumn.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, Label>("edit"));
 		deleteColumn.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, Label>("delete"));
 		table.setPlaceholder(new Label("No se han encontrado alumnos. Revisa los filtros aplicados."));
@@ -142,9 +148,11 @@ public class StudentManageViewController extends Controller {
 	///////////////////////////////
 	public class CeldaAlumno {
 
+		private Alumno stu;
 		private String nombre = "";
 		private String apellido1 = "";
 		private String apellido2 = "";
+		private Label newEvaluation;
 		private Label edit;
 		private Label delete;
 		private final EventHandler<MouseEvent> mouseOver = new EventHandler<MouseEvent>() {
@@ -161,10 +169,31 @@ public class StudentManageViewController extends Controller {
 		};
 
 		public CeldaAlumno(Alumno stu) {
+			this.stu = stu;
 			this.nombre = stu.getNombre();
 			this.apellido1 = stu.getApellido1();
 			this.apellido2 = stu.getApellido2();
 
+			newEvaluation = new Label("Crear nueva evaluacion");
+			// edit.setFont(new Font(18));
+			newEvaluation.setTextFill(Color.web("3366bb"));
+			newEvaluation.setUnderline(true);
+			newEvaluation.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+				@Override
+				public void handle(MouseEvent e) {
+					try {
+						Main.showEvaluationView(stu);
+					} catch (IOException e1) {
+						System.err.println("Error, archivo EvaluationtView.fxml no encontrado en la carpeta gui/view/evaluation.");
+						e1.printStackTrace();
+					}
+				};
+
+			});
+			newEvaluation.setOnMouseEntered(mouseOver);
+			newEvaluation.setOnMouseExited(mouseLeft);
+			
 			edit = new Label("Editar");
 			// edit.setFont(new Font(18));
 			edit.setTextFill(Color.web("3366bb"));
@@ -240,6 +269,24 @@ public class StudentManageViewController extends Controller {
 		public void setDelete(Label delete) {
 			this.delete = delete;
 		}
+		
+		public Label getNewEvaluation() {
+			return newEvaluation;
+		}
+
+		public void setNewEvaluation(Label newEvaluation) {
+			this.newEvaluation = newEvaluation;
+		}
+
+		private Label editEvaluation;
+		public Label getEditEvaluation() {
+			return editEvaluation;
+		}
+
+		public void setEditEvaluation(Label editEvaluation) {
+			this.editEvaluation = editEvaluation;
+		}
+
 
 	}
 

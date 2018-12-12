@@ -52,8 +52,7 @@ public class Main extends Application {
 		System.out.println(Main.utilService.getAllCategories().get(0).getDescripcion());
 		System.out.println(Main.utilService.getAllItems().get(0).getDescripcion());
 		showMain();
-		//showManageView();
-		showEvaluationView();
+		showManageView();
 	}
 
 	private void showMain() throws IOException {
@@ -127,12 +126,12 @@ public class Main extends Application {
 
 	}
 	
-	public static void showEvaluationView() throws IOException {
+	public static void showEvaluationView(Alumno stu) throws IOException {
 		Main.modifiedData = true;
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/evaluation/EvaluationView.fxml"));
 		BorderPane evaluationView = loader.load();
 		EvaluationViewController eVC = loader.getController();
-		eVC.setData(Main.utilService.getAllFunctionalAreas(), Main.utilService.getAllCategories(),
+		eVC.setData(stu, Main.utilService.getAllFunctionalAreas(), Main.utilService.getAllCategories(),
 				Main.utilService.getAllItems());
 		loader = new FXMLLoader();
 
