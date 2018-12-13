@@ -6,10 +6,8 @@ import java.util.List;
 
 import gui.Main;
 import gui.view.Controller;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -18,7 +16,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import model.Alumno;
 
 public class StudentManageViewController extends Controller {
@@ -146,15 +143,13 @@ public class StudentManageViewController extends Controller {
 	}
 
 	///////////////////////////////
-	public class CeldaAlumno {
+	protected class CeldaAlumno {
 
 		private Alumno stu;
-		private String nombre = "";
-		private String apellido1 = "";
-		private String apellido2 = "";
 		private Label newEvaluation;
 		private Label edit;
 		private Label delete;
+		private Label editEvaluation;
 		private final EventHandler<MouseEvent> mouseOver = new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent arg0) {
@@ -170,9 +165,6 @@ public class StudentManageViewController extends Controller {
 
 		public CeldaAlumno(Alumno stu) {
 			this.stu = stu;
-			this.nombre = stu.getNombre();
-			this.apellido1 = stu.getApellido1();
-			this.apellido2 = stu.getApellido2();
 
 			newEvaluation = new Label("Crear nueva evaluacion");
 			// edit.setFont(new Font(18));
@@ -231,63 +223,32 @@ public class StudentManageViewController extends Controller {
 		}
 
 		public String getNombre() {
-			return nombre;
-		}
-
-		public void setNombre(String nombre) {
-			this.nombre = nombre;
+			return this.stu.getNombre();
 		}
 
 		public String getApellido1() {
-			return apellido1;
-		}
-
-		public void setApellido1(String apellido1) {
-			this.apellido1 = apellido1;
+			return this.stu.getApellido1();
 		}
 
 		public String getApellido2() {
-			return apellido2;
-		}
-
-		public void setApellido2(String apellido2) {
-			this.apellido2 = apellido2;
+			return this.stu.getApellido2();
 		}
 
 		public Label getEdit() {
 			return edit;
 		}
 
-		public void setEdit(Label edit) {
-			this.edit = edit;
-		}
-
 		public Label getDelete() {
 			return delete;
-		}
-
-		public void setDelete(Label delete) {
-			this.delete = delete;
 		}
 		
 		public Label getNewEvaluation() {
 			return newEvaluation;
 		}
 
-		public void setNewEvaluation(Label newEvaluation) {
-			this.newEvaluation = newEvaluation;
-		}
-
-		private Label editEvaluation;
 		public Label getEditEvaluation() {
 			return editEvaluation;
 		}
-
-		public void setEditEvaluation(Label editEvaluation) {
-			this.editEvaluation = editEvaluation;
-		}
-
-
 	}
 
 	@FXML

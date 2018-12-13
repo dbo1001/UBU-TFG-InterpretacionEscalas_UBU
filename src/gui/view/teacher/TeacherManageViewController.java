@@ -6,10 +6,8 @@ import java.util.List;
 
 import gui.Main;
 import gui.view.Controller;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -18,8 +16,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import model.Alumno;
 import model.Profesor;
 
 public class TeacherManageViewController extends Controller {
@@ -141,7 +137,7 @@ public class TeacherManageViewController extends Controller {
 	}
 
 	///////////////////////////////
-	public class CeldaProfesor {
+	protected class CeldaProfesor {
 
 		private String nombre = "";
 		private String apellido1 = "";

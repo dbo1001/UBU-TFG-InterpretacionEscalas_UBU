@@ -5,6 +5,7 @@ import java.util.List;
 
 import connection.ServiceImpl;
 import model.Alumno;
+import model.Aula;
 import model.Profesor;
 
 public class TeacherServiceImpl extends ServiceImpl implements ManageService<Profesor> {
@@ -76,6 +77,22 @@ public class TeacherServiceImpl extends ServiceImpl implements ManageService<Pro
 	public boolean delete(long id) {
 		System.err.println("Transaccion no implementada. Profesor: " + id);
 		return false;
+	}
+	
+	public Profesor getCurrentteacher() {
+		Profesor tea = new Profesor();
+		Aula classroom = new Aula();
+		ManageService<Alumno> mS = new StudentServiceImpl();
+		tea.setId(1);
+		tea.setNombre("Gonzalo");
+		tea.setApellido1("Garcia");
+		tea.setApellido2("Sanchez");
+		classroom.setNombre("Aula1");
+		classroom.setCapacidad(1);
+		classroom.setAlumnos(mS.getAll());
+		tea.setAula(classroom);
+		
+		return tea;
 	}
 
 }
