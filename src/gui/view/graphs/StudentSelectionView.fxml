@@ -9,17 +9,17 @@
 
 <BorderPane prefHeight="600.0" prefWidth="900.0" stylesheets="@../../gui.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.graphs.StudentSelectionViewController">
    <center>
-      <HBox alignment="TOP_CENTER" spacing="100.0" BorderPane.alignment="CENTER">
+      <HBox alignment="TOP_CENTER" spacing="90.0" BorderPane.alignment="CENTER">
          <children>
             <VBox HBox.hgrow="ALWAYS">
                <children>
                   <ListView fx:id="studentDisplay" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
-            <VBox alignment="CENTER" spacing="75.0">
+            <VBox alignment="CENTER" spacing="100.0">
                <children>
-                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" styleClass="arrow-button" />
-                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" rotate="180.0" styleClass="arrow-button" />
+                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" styleClass="arrowButton" />
+                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" rotate="180.0" styleClass="arrowButton" />
                </children>
             </VBox>
             <VBox HBox.hgrow="ALWAYS">

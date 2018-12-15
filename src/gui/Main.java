@@ -8,6 +8,7 @@ import connection.manageService.StudentServiceImpl;
 import connection.manageService.TeacherServiceImpl;
 import connection.utilService.UtilService;
 import connection.utilService.UtilServiceImpl;
+import gui.view.MainViewController;
 import gui.view.classroom.ClassroomManageViewController;
 import gui.view.classroom.EditClassroomViewController;
 import gui.view.evaluation.EvaluationViewController;
@@ -63,6 +64,8 @@ public class Main extends Application {
 	private void showMain() throws IOException {
 		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/MainView.fxml"));
 		Main.mainLayout = loader.load();
+		MainViewController mVC = loader.getController();
+		mVC.setCurrentTeacher(currentTeacher);
 		Scene scene = new Scene(mainLayout);
 		scene.getStylesheets().add(this.getClass().getResource("gui.css").toExternalForm());
 		Main.primaryStage.setScene(scene);

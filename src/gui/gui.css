@@ -15,18 +15,18 @@
 	-fx-font-size: 12px;
 }
 
-.arrow-button{
+.arrowButton{
 	-fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
 	-fx-background-insets:0.0 0 0 -1 0, 0;
 	-fx-padding:0.0 0.25em;
 	-fx-shape: "M 0 -3.5 v 7 l 4 -3.5 z";
 }
 
-.arrow-button:hover{
+.arrowButton:hover{
 	-fx-background-color: -fx-mark-highlight-color, derive(-fx-mark-color, 50%);
 }
 
-.arrow-button:pressed{
+.arrowButton:pressed{
 	-fx-background-color: -fx-mark-highlight-color, lightblue;
 }
 

@@ -6,8 +6,14 @@ import gui.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.text.Text;
+import model.Profesor;
 
 public class MainViewController extends Controller {
+	
+	@FXML
+	private Text teacherName;
+	private Profesor currentTeacher;
 
 	@FXML
 	private void checkDataIntegrity() throws IOException {
@@ -17,6 +23,11 @@ public class MainViewController extends Controller {
 			Main.setModifiedData(false);
 			Main.showManageView();
 		}
+	}
+	
+	public void setCurrentTeacher(Profesor tea) {
+		this.currentTeacher = tea;
+		this.teacherName.setText(this.currentTeacher.getApellido1() + " " + this.currentTeacher.getApellido2() + ", " + this.currentTeacher.getNombre());
 	}
 
 }

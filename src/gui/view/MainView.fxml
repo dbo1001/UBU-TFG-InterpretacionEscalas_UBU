@@ -3,17 +3,32 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.MainViewController">
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../gui.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.MainViewController">
    <top>
-      <ButtonBar buttonOrder="" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" BorderPane.alignment="CENTER">
-        <buttons>
-          <Button mnemonicParsing="false" onAction="#checkDataIntegrity" text="Menu principal" />
-        </buttons>
+      <AnchorPane maxHeight="-Infinity" prefHeight="30.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
-      </ButtonBar>
+         <children>
+            <ButtonBar buttonOrder="" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0">
+              <buttons>
+                <Button mnemonicParsing="false" onAction="#checkDataIntegrity" text="Menu principal" />
+              </buttons>
+            </ButtonBar>
+            <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Text fx:id="teacherName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="mediumText" />
+               </children>
+               <padding>
+                  <Insets right="20.0" />
+               </padding>
+            </HBox>
+         </children>
+      </AnchorPane>
    </top>
 </BorderPane>
