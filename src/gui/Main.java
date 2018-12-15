@@ -1,6 +1,7 @@
 package gui;
 
 import java.io.IOException;
+import java.util.List;
 
 import connection.manageService.ClassroomServiceImpl;
 import connection.manageService.ManageService;
@@ -18,6 +19,7 @@ import gui.view.student.StudentViewController;
 import gui.view.teacher.EditTeacherViewController;
 import gui.view.teacher.TeacherManageViewController;
 import gui.view.teacher.TeacherViewController;
+import gui.view.graphs.GraphSelectionViewController;
 import gui.view.graphs.StudentSelectionViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -53,9 +55,6 @@ public class Main extends Application {
 		Main.primaryStage = primaryStage;
 		Main.primaryStage.setTitle("Menu principal");
 
-		System.out.println(Main.utilService.getAllFunctionalAreas().get(0).getDescripcion());
-		System.out.println(Main.utilService.getAllCategories().get(0).getDescripcion());
-		System.out.println(Main.utilService.getAllItems().get(0).getDescripcion());
 		showMain();
 		//showManageView();
 		showStudentSelectionView();
@@ -146,9 +145,19 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/StudentSelectionView.fxml"));
 		BorderPane studentSelectionView = loader.load();
 		StudentSelectionViewController ssVC = loader.getController();
+		//TODO adaptar al caso del ADMIN
 		ssVC.setStudents(Main.currentTeacher.getAula().getAlumnos());
 
 		Main.mainLayout.setCenter(studentSelectionView);
+	}
+	
+	public static void showGraphSelectionView(List<Alumno> selectedStudents) throws IOException {
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/GraphSelectionView.fxml"));
+		BorderPane graphSelectionView = loader.load();
+		GraphSelectionViewController gsVC = loader.getController();
+		gsVC.setData(selectedStudents, Main.utilService.getAllFunctionalAreas());
+
+		Main.mainLayout.setCenter(graphSelectionView);
 	}
 
 	public static void showEditStudentView(Alumno stu) throws IOException {

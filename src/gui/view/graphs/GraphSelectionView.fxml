@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="600.0" prefWidth="900.0" stylesheets="@../../gui.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.graphs.GraphSelectionViewController">
+   <center>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <HBox spacing="100.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox spacing="7.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <CheckBox fx:id="allFaSelected" mnemonicParsing="false" onAction="#selectAllFa" text="Seleccionar todas">
+                           <VBox.margin>
+                              <Insets left="2.0" />
+                           </VBox.margin>
+                        </CheckBox>
+                        <ListView fx:id="funtionalareaLV" styleClass="mediumText" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="7.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <CheckBox mnemonicParsing="false" text="Seleccionar todas">
+                           <VBox.margin>
+                              <Insets left="2.0" />
+                           </VBox.margin>
+                        </CheckBox>
+                        <ListView VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="7.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <CheckBox mnemonicParsing="false" text="Seleccionar todas">
+                           <VBox.margin>
+                              <Insets left="2.0" />
+                           </VBox.margin>
+                        </CheckBox>
+                        <ListView VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="100.0" left="30.0" right="30.0" top="30.0" />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+</BorderPane>

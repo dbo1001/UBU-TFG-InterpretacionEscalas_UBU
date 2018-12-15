@@ -43,7 +43,7 @@
       <HBox alignment="TOP_RIGHT" spacing="100.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#goBack" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" styleClass="bigText" text="Volver" />
-            <Button mnemonicParsing="false" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" styleClass="bigText" text="Siguiente" />
+            <Button mnemonicParsing="false" onAction="#next" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" styleClass="bigText" text="Siguiente" />
          </children>
          <BorderPane.margin>
             <Insets bottom="20.0" left="30.0" right="30.0" />

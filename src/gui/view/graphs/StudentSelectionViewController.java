@@ -12,6 +12,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -56,6 +58,18 @@ public class StudentSelectionViewController extends Controller {
 	private void goBack() throws IOException {
 		//TODO esto no deberia llevar a la vista de gestion
 		Main.showManageView();
+	}
+	
+	@FXML
+	private void next() throws IOException {
+		if(this.studentSelected.getItems().size() > 0) {
+			Main.showGraphSelectionView(this.studentSelected.getSelectionModel().getSelectedItems());
+		}else {
+			Alert alert = new Alert(AlertType.INFORMATION, "Debes seleccionar almenos 1 alumno antes de continuar.");
+			alert.setTitle("Alerta");
+			alert.setHeaderText("");
+			alert.show();
+		}
 	}
 	
 	@FXML
