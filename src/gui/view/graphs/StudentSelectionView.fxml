@@ -6,31 +6,48 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane prefHeight="600.0" prefWidth="900.0" stylesheets="@../../gui.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.graphs.StudentSelectionViewController">
    <center>
-      <HBox alignment="TOP_CENTER" spacing="90.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox HBox.hgrow="ALWAYS">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bigText" text="Selecciona los alumnos que quieres que aparezcan en el gráfico y pasalos al panel de la derecha:" />
+            <HBox alignment="TOP_CENTER" spacing="90.0" VBox.vgrow="ALWAYS">
                <children>
-                  <ListView fx:id="studentDisplay" VBox.vgrow="ALWAYS" />
+                  <VBox alignment="TOP_CENTER" spacing="7.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <ListView fx:id="studentDisplay" styleClass="mediumText" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" spacing="100.0">
+                     <children>
+                        <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#select" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" prefHeight="60.0" prefWidth="60.0" styleClass="arrowButton" />
+                        <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deselect" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" prefHeight="60.0" prefWidth="60.0" rotate="180.0" styleClass="arrowButton" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" spacing="7.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <ListView fx:id="studentSelected" styleClass="mediumText" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
                </children>
-            </VBox>
-            <VBox alignment="CENTER" spacing="100.0">
-               <children>
-                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" styleClass="arrowButton" />
-                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" rotate="180.0" styleClass="arrowButton" />
-               </children>
-            </VBox>
-            <VBox HBox.hgrow="ALWAYS">
-               <children>
-                  <ListView fx:id="studentSelected" VBox.vgrow="ALWAYS" />
-               </children>
-            </VBox>
+            </HBox>
          </children>
-         <padding>
-            <Insets bottom="100.0" left="30.0" right="30.0" top="50.0" />
-         </padding>
-      </HBox>
+         <BorderPane.margin>
+            <Insets bottom="50.0" left="30.0" right="30.0" top="15.0" />
+         </BorderPane.margin>
+      </VBox>
    </center>
+   <bottom>
+      <HBox alignment="TOP_RIGHT" spacing="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#goBack" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" styleClass="bigText" text="Volver" />
+            <Button mnemonicParsing="false" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" styleClass="bigText" text="Siguiente" />
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="30.0" right="30.0" />
+         </BorderPane.margin>
+      </HBox>
+   </bottom>
 </BorderPane>

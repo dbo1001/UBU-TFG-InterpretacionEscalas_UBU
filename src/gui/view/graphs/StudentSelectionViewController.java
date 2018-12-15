@@ -1,9 +1,12 @@
 package gui.view.graphs;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import gui.Main;
 import gui.view.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -47,6 +50,32 @@ public class StudentSelectionViewController extends Controller {
 		this.studentSelected.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		this.studentDisplay.setCellFactory(callback);
 		this.studentSelected.setCellFactory(callback);
+	}
+	
+	@FXML
+	private void goBack() throws IOException {
+		//TODO esto no deberia llevar a la vista de gestion
+		Main.showManageView();
+	}
+	
+	@FXML
+	private void select() {
+		this.studentSelected.getItems().addAll(this.studentDisplay.getSelectionModel().getSelectedItems());
+		this.studentDisplay.getItems().removeAll(this.studentDisplay.getSelectionModel().getSelectedItems());
+		this.sortStudents();
+	}
+	
+	@FXML
+	private void deselect() {
+		this.studentDisplay.getItems().addAll(this.studentSelected.getSelectionModel().getSelectedItems());
+		this.studentSelected.getItems().removeAll(this.studentSelected.getSelectionModel().getSelectedItems());
+		this.sortStudents();
+	}
+	
+	
+	private void sortStudents() {
+		Collections.sort(this.studentDisplay.getItems(), new SortStudent());
+		Collections.sort(this.studentSelected.getItems(), new SortStudent());
 	}
 	
 	public void setStudents(List<Alumno> students) {
