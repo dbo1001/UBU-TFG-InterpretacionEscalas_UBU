@@ -169,6 +169,7 @@ public class StudentManageViewController extends Controller {
 			newEvaluation = new Label("Crear nueva evaluacion");
 			// edit.setFont(new Font(18));
 			newEvaluation.setTextFill(Color.web("3366bb"));
+			newEvaluation.getStyleClass().add("controlLabel");
 			newEvaluation.setUnderline(true);
 			newEvaluation.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -190,6 +191,7 @@ public class StudentManageViewController extends Controller {
 			// edit.setFont(new Font(18));
 			edit.setTextFill(Color.web("3366bb"));
 			edit.setUnderline(true);
+			edit.getStyleClass().add("controlLabel");
 			edit.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 				@Override
@@ -210,6 +212,7 @@ public class StudentManageViewController extends Controller {
 			// delete.setFont(new Font(18));
 			delete.setTextFill(Color.web("3366bb"));
 			delete.setUnderline(true);
+			delete.getStyleClass().add("controlLabel");
 			delete.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 				@Override

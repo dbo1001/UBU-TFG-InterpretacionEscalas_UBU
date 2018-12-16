@@ -17,7 +17,7 @@
          <children>
             <ButtonBar buttonOrder="" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0">
               <buttons>
-                <Button mnemonicParsing="false" onAction="#checkDataIntegrity" text="Menu principal" />
+                <Button mnemonicParsing="false" onAction="#checkDataIntegrity" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="Menu principal" />
               </buttons>
             </ButtonBar>
             <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

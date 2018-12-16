@@ -14,6 +14,23 @@
 .smallText{
 	-fx-font-size: 12px;
 }
+ 
+.button:hover{
+	-fx-cursor:hand ;
+}
+
+
+.button:pressed{
+	-fx-cursor:wait ;
+}
+
+.controlLabel:hover{
+	-fx-cursor:hand ;
+}
+
+.controlLabel:pressed{
+	-fx-cursor:wait ;
+}
 
 .arrowButton{
 	-fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
