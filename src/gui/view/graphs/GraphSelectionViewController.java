@@ -1,6 +1,7 @@
 package gui.view.graphs;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,13 +40,13 @@ public class GraphSelectionViewController extends Controller {
 	private List<Alumno> selectedStudents;
 	private Set<Categorizacion> selectedCa = new LinkedHashSet<Categorizacion>();
 	private Set<Item> selectedIt = new LinkedHashSet<Item>();
-	private final EventHandler<MouseEvent> handCursor= new EventHandler<MouseEvent>() {
+	private final EventHandler<MouseEvent> handCursor = new EventHandler<MouseEvent>() {
 
 		@Override
 		public void handle(MouseEvent event) {
 			handCursor();
 		}
-		
+
 	};
 	private final EventHandler<MouseEvent> defaultCursor = new EventHandler<MouseEvent>() {
 
@@ -53,7 +54,7 @@ public class GraphSelectionViewController extends Controller {
 		public void handle(MouseEvent event) {
 			defaultCursor();
 		}
-		
+
 	};
 
 	@FXML
@@ -96,7 +97,7 @@ public class GraphSelectionViewController extends Controller {
 				}
 				this.checkedCa = this.categoryLV.getItems().size();
 			}
-		}else {
+		} else {
 			this.allCaSelected.setSelected(false);
 		}
 	}
@@ -115,14 +116,38 @@ public class GraphSelectionViewController extends Controller {
 				}
 				this.checkedIt = this.itemLV.getItems().size();
 			}
-		}else {
+		} else {
 			this.allItSelected.setSelected(false);
 		}
 	}
-	
+
 	@FXML
 	private void goBack() throws IOException {
 		Main.showStudentSelectionView();
+	}
+
+	@FXML
+	private void generateGraph() throws IOException {
+		List<Areafuncional> finalFaList = new ArrayList<Areafuncional>();
+		List<Categorizacion> finalCaList = new ArrayList<Categorizacion>();
+		List<Item> finalItList = new ArrayList<Item>();
+		
+		for(CheckBox cb : this.functionalareaLV.getItems()) {
+			if(cb.isSelected()) {
+				finalFaList.add((Areafuncional) cb.getUserData());
+				System.out.println("fa");
+			}
+		}
+		
+		for(CheckBox cb : this.categoryLV.getSelectionModel().getSelectedItems()) {
+			finalCaList.add((Categorizacion) cb.getUserData());
+		}
+		
+		for(CheckBox cb : this.itemLV.getSelectionModel().getSelectedItems()) {
+			finalItList.add((Item) cb.getUserData());
+		}
+		
+		Main.showGraphView(selectedStudents,finalFaList, finalCaList, finalItList);
 	}
 
 	public void setData(List<Alumno> selectedStudents, List<Areafuncional> faList) {

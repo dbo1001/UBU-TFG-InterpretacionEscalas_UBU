@@ -59,7 +59,7 @@
          </BorderPane.margin>
          <children>
             <Button cancelButton="true" mnemonicParsing="false" onAction="#goBack" styleClass="bigText" text="Volver" />
-            <Button mnemonicParsing="false" styleClass="bigText" text="Generar gráfico" />
+            <Button mnemonicParsing="false" onAction="#generateGraph" styleClass="bigText" text="Generar gráfico" />
          </children>
       </HBox>
    </bottom>

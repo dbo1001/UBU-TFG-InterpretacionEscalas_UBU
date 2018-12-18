@@ -20,6 +20,7 @@ import gui.view.teacher.EditTeacherViewController;
 import gui.view.teacher.TeacherManageViewController;
 import gui.view.teacher.TeacherViewController;
 import gui.view.graphs.GraphSelectionViewController;
+import gui.view.graphs.GraphViewController;
 import gui.view.graphs.StudentSelectionViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -34,7 +35,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import model.Alumno;
+import model.Areafuncional;
 import model.Aula;
+import model.Categorizacion;
+import model.Item;
 import model.Profesor;
 
 public class Main extends Application {
@@ -53,7 +57,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		Main.primaryStage = primaryStage;
-		Main.primaryStage.setTitle("Menu principal");
+		Main.primaryStage.setTitle("Interpretación de escalas");
 
 		showMain();
 		//showManageView();
@@ -158,6 +162,26 @@ public class Main extends Application {
 		gsVC.setData(selectedStudents, Main.utilService.getAllFunctionalAreas());
 
 		Main.mainLayout.setCenter(graphSelectionView);
+	}
+	
+	public static void showGraphView(List<Alumno> selectedStudents, List<Areafuncional> selectedFa, List<Categorizacion> selectedCa, List<Item> selectedIt) throws IOException {
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/GraphView.fxml"));
+		BorderPane graphView = loader.load();
+		GraphViewController gVC = loader.getController();
+		
+		if(selectedCa.size() == 0 && selectedIt.size()==0) {
+			gVC.faChart(selectedStudents, selectedFa);
+			System.out.println("1");
+		}else if(selectedIt == null) {
+			gVC.caChart();
+			System.out.println("2");
+		}else {
+			gVC.itChart();
+			System.out.println("3");
+		}
+		
+
+		Main.mainLayout.setCenter(graphView);
 	}
 
 	public static void showEditStudentView(Alumno stu) throws IOException {
