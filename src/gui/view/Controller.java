@@ -37,5 +37,10 @@ public abstract class Controller {
 		}
 		
 	}
+	
+	@FXML
+	protected void goBack() {
+		Main.goBack();
+	}
 
 }

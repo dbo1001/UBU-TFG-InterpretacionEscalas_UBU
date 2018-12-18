@@ -122,11 +122,6 @@ public class GraphSelectionViewController extends Controller {
 	}
 
 	@FXML
-	private void goBack() throws IOException {
-		Main.showStudentSelectionView();
-	}
-
-	@FXML
 	private void generateGraph() throws IOException {
 		List<Areafuncional> finalFaList = new ArrayList<Areafuncional>();
 		List<Categorizacion> finalCaList = new ArrayList<Categorizacion>();

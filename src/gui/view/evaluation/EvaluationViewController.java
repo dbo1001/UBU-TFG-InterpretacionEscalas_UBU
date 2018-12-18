@@ -135,7 +135,7 @@ public class EvaluationViewController extends Controller {
 	@FXML
 	private void cancel() throws IOException {
 		if (this.cancelAlert()) {
-			Main.showManageView();
+			super.goBack();
 		}
 	}
 	

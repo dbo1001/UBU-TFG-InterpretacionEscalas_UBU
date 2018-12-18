@@ -55,12 +55,6 @@ public class StudentSelectionViewController extends Controller {
 	}
 	
 	@FXML
-	private void goBack() throws IOException {
-		//TODO esto no deberia llevar a la vista de gestion
-		Main.showManageView();
-	}
-	
-	@FXML
 	private void next() throws IOException {
 		if(this.studentSelected.getItems().size() > 0) {
 			Main.showGraphSelectionView(this.studentSelected.getSelectionModel().getSelectedItems());

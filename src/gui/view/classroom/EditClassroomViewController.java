@@ -46,7 +46,7 @@ public class EditClassroomViewController extends Controller {
 	private void cancel() throws IOException {
 		if (cancelAlert()) {
 			Main.setModifiedData(false);
-			Main.showManageView();
+			super.goBack();
 		}
 	}
 

@@ -1,7 +1,9 @@
 package gui;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import connection.manageService.ClassroomServiceImpl;
 import connection.manageService.ManageService;
@@ -25,6 +27,7 @@ import gui.view.graphs.StudentSelectionViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -53,6 +56,7 @@ public class Main extends Application {
 	//TODO borrar esta variable
 	private static TeacherServiceImpl tS = new TeacherServiceImpl();
 	private static Profesor currentTeacher = tS.getCurrentteacher();
+	private static LinkedList<Node> previousNodeQueue = new LinkedList<Node>();
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -78,6 +82,9 @@ public class Main extends Application {
 	public static void showManageView() throws IOException {
 
 		Main.loadCursor();
+		
+		//TODO esto deberia estar en el menu principal
+		Main.previousNodeQueue.clear();
 
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/ManageView.fxml"));
 		TabPane manageView = loader.load();
@@ -112,6 +119,7 @@ public class Main extends Application {
 		StudentViewController sVC = loader.getController();
 		sVC.setClassrooms(Main.classroomService.getAll());
 
+		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(studentView);
 	}
 
@@ -122,6 +130,7 @@ public class Main extends Application {
 		TeacherViewController tVC = loader.getController();
 		tVC.setClassrooms(Main.classroomService.getAll());
 
+		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(teacherView);
 	}
 
@@ -130,6 +139,7 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/classroom/ClassroomView.fxml"));
 		BorderPane classroomView = loader.load();
 
+		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(classroomView);
 
 	}
@@ -142,6 +152,7 @@ public class Main extends Application {
 		eVC.setData(stu, Main.utilService.getAllFunctionalAreas(), Main.utilService.getAllCategories(),
 				Main.utilService.getAllItems());
 
+		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(evaluationView);
 	}
 	
@@ -152,6 +163,7 @@ public class Main extends Application {
 		//TODO adaptar al caso del ADMIN
 		ssVC.setStudents(Main.currentTeacher.getAula().getAlumnos());
 
+		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(studentSelectionView);
 	}
 	
@@ -161,6 +173,7 @@ public class Main extends Application {
 		GraphSelectionViewController gsVC = loader.getController();
 		gsVC.setData(selectedStudents, Main.utilService.getAllFunctionalAreas());
 
+		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(graphSelectionView);
 	}
 	
@@ -181,6 +194,7 @@ public class Main extends Application {
 		}
 		
 
+		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(graphView);
 	}
 
@@ -190,6 +204,8 @@ public class Main extends Application {
 		BorderPane editSudentView = loader.load();
 		EditStudentViewController editStudentController = loader.getController();
 		editStudentController.setStudentAndClassrooms(stu, Main.classroomService.getAll());
+		
+		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(editSudentView);
 		// Main.studentService.edit(stu.getId());
 
@@ -201,6 +217,8 @@ public class Main extends Application {
 		BorderPane editTeacherView = loader.load();
 		EditTeacherViewController editTeacherController = loader.getController();
 		editTeacherController.setTeacherAndClassrooms(tea, Main.classroomService.getAll());
+		
+		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(editTeacherView);
 		// Main.teacherService.edit(tea.getId());
 
@@ -212,6 +230,8 @@ public class Main extends Application {
 		BorderPane editClassroomView = loader.load();
 		EditClassroomViewController editClassroomController = loader.getController();
 		editClassroomController.setClassroom(cla);
+		
+		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(editClassroomView);
 
 	}
@@ -253,6 +273,9 @@ public class Main extends Application {
 
 	}
 
+	public static void goBack() {
+		Main.mainLayout.setCenter(Main.previousNodeQueue.pollLast());
+	}
 	public static void handCursor() {
 		Main.primaryStage.getScene().setCursor(Cursor.HAND);
 	}
