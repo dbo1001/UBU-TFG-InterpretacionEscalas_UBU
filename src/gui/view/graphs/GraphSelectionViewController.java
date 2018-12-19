@@ -126,23 +126,26 @@ public class GraphSelectionViewController extends Controller {
 		List<Areafuncional> finalFaList = new ArrayList<Areafuncional>();
 		List<Categorizacion> finalCaList = new ArrayList<Categorizacion>();
 		List<Item> finalItList = new ArrayList<Item>();
-		
-		for(CheckBox cb : this.functionalareaLV.getItems()) {
-			if(cb.isSelected()) {
+
+		for (CheckBox cb : this.functionalareaLV.getItems()) {
+			if (cb.isSelected()) {
 				finalFaList.add((Areafuncional) cb.getUserData());
-				System.out.println("fa");
 			}
 		}
-		
-		for(CheckBox cb : this.categoryLV.getSelectionModel().getSelectedItems()) {
-			finalCaList.add((Categorizacion) cb.getUserData());
+
+		for (CheckBox cb : this.categoryLV.getItems()) {
+			if (cb.isSelected()) {
+				finalCaList.add((Categorizacion) cb.getUserData());
+			}
 		}
-		
-		for(CheckBox cb : this.itemLV.getSelectionModel().getSelectedItems()) {
-			finalItList.add((Item) cb.getUserData());
+
+		for (CheckBox cb : this.itemLV.getItems()) {
+			if (cb.isSelected()) {
+				finalItList.add((Item) cb.getUserData());
+			}
 		}
-		
-		Main.showGraphView(selectedStudents,finalFaList, finalCaList, finalItList);
+
+		Main.showGraphView(this.selectedStudents, finalFaList, finalCaList, finalItList);
 	}
 
 	public void setData(List<Alumno> selectedStudents, List<Areafuncional> faList) {
@@ -251,7 +254,6 @@ public class GraphSelectionViewController extends Controller {
 				public void handle(MouseEvent arg0) {
 					if (itemCB.isSelected()) {
 						checkedIt++;
-						System.out.println(checkedIt);
 						if (checkedIt == itemLV.getItems().size()) {
 							allItSelected.setSelected(true);
 						}

@@ -184,13 +184,10 @@ public class Main extends Application {
 		
 		if(selectedCa.size() == 0 && selectedIt.size()==0) {
 			gVC.faChart(selectedStudents, selectedFa);
-			System.out.println("1");
-		}else if(selectedIt == null) {
-			gVC.caChart();
-			System.out.println("2");
+		}else if(selectedIt.size() == 0) {
+			gVC.caChart(selectedStudents, selectedCa);
 		}else {
-			gVC.itChart();
-			System.out.println("3");
+			gVC.itChart(selectedStudents, selectedIt);
 		}
 		
 

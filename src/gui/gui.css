@@ -47,6 +47,11 @@
 	-fx-background-color: -fx-mark-highlight-color, lightblue;
 }
 
+.xAxis{
+	-fx-tick-label-font-size:0.0em ;
+	-fx-tick-label-rotate: 30;
+}
+
 /* 
 .table-column {
 	-fx-alignment: center ;

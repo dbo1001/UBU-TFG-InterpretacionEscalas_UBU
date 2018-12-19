@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,7 +41,7 @@ public class Alumno implements Serializable{
 
 	//bi-directional many-to-one association to Evaluacion
 	@OneToMany(mappedBy="alumno")
-	private List<Evaluacion> evaluacions;
+	private List<Evaluacion> evaluacions = new ArrayList<Evaluacion>();
 
 	public Alumno() {
 	}

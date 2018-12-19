@@ -1,7 +1,10 @@
 package gui.view.graphs;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,65 +19,145 @@ import javafx.scene.layout.BorderPane;
 import model.Alumno;
 import model.Areafuncional;
 import model.Categorizacion;
+import model.Item;
 import model.Puntuacion;
 
 public class GraphViewController extends Controller {
 
 	@FXML
 	BorderPane root;
-	private Map<String, Integer> datos = new HashMap<String, Integer>();
+	private Map<String, Integer> datos = new LinkedHashMap<String, Integer>();
 	private CategoryAxis xAxis;
 	private NumberAxis yAxis;
 	private LineChart<String, Number> chart;
-	
+	Series<String, Number> series;
+
 	public void faChart(List<Alumno> students, List<Areafuncional> faList) {
-		
-		for(Areafuncional fa: faList) {
-			System.out.println("Samba");
-			for(Categorizacion ca : fa.getCategorizacions()) {
-				System.out.println("Mary tenia un ovejita");
-				datos.put(ca.getDescripcion(), 0);
-				for(Alumno stu: students) {
-					for(Puntuacion pun : stu.getEvaluacions().get(0).getPuntuacions()) {
-						datos.replace(ca.getDescripcion(), datos.get(ca.getDescripcion() + pun.getValoracion()));
+		for (Areafuncional fa : faList) {
+			datos.put(fa.getDescripcion(), 0);
+			for (Alumno stu : students) {
+				datos.replace(fa.getDescripcion(), datos.get(fa.getDescripcion()) + 10);
+				if (stu.getEvaluacions().size() > 0) {
+					for (Puntuacion pun : stu.getEvaluacions().get(0).getPuntuacions()) {
+						// datos.replace(fa.getDescripcion(), datos.get(fa.getDescripcion()) +
+						// pun.getValoracion());
+						System.out.print("evaluacion");
 					}
 				}
 			}
 		}
-		
-		for(String caName : datos.keySet()) {
-			for(Alumno stu: students) {
-				for(Puntuacion pun : stu.getEvaluacions().get(0).getPuntuacions()) {
-					if(caName.equals(pun.getItem().getCategorizacion().getDescripcion())) {
-						datos.replace(caName, datos.get(caName) + pun.getValoracion() +2);
-					}
-				}
-			}
+
+		xAxis = new CategoryAxis();
+		yAxis = new NumberAxis();
+		xAxis.getStyleClass().add("xAxis");
+		//yAxis.setUpperBound(0.0);
+		chart = new LineChart<String, Number>(xAxis, yAxis);
+
+		series = new Series<String, Number>();
+		for (Areafuncional fa : faList) {
+			series.getData().add(new XYChart.Data<String, Number>(fa.getDescripcion(), fa.getPuntuacionMaxima()));
 		}
-		
-		
-		CategoryAxis xAxis = new CategoryAxis();
-		NumberAxis yAxis = new NumberAxis();
-		LineChart<String, Number> chart = new LineChart<String, Number>(xAxis, yAxis);
-		
-		Series<String, Number> series = new Series<String, Number>();
-		for(String caName: datos.keySet()) {
-			series.getData().add(new XYChart.Data<>(caName, datos.get(caName)));
-			System.out.println(caName);
-		}
-		
+		series.setName("Puntuación máxima");
 		chart.getData().add(series);
-		chart.setTitle("Grafico generado");
 		
+		for (Alumno stu : students) {
+			series = new Series<String, Number>();
+			for (String faName : datos.keySet()) {
+				series.getData().add(new XYChart.Data<String, Number>(faName, datos.get(faName)));
+				series.setName(stu.getNombre() + " " + stu.getApellido1() + " " + stu.getApellido2());
+			}
+			chart.getData().add(series);
+		}
+
+		xAxis.setTickLabelRotation(30);
+		chart.setTitle("Grafico generado");
+
 		root.setCenter(chart);
 	}
-	
-	public void caChart() {
+
+	public void caChart(List<Alumno> students, List<Categorizacion> caList) {
+		for (Categorizacion ca : caList) {
+			datos.put(ca.getDescripcion(), 0);
+			for (Alumno stu : students) {
+				datos.replace(ca.getDescripcion(), datos.get(ca.getDescripcion()) + 10);
+				if (stu.getEvaluacions().size() > 0) {
+					for (Puntuacion pun : stu.getEvaluacions().get(0).getPuntuacions()) {
+						// datos.replace(fa.getDescripcion(), datos.get(fa.getDescripcion()) +
+						// pun.getValoracion());
+						System.out.print("evaluacion");
+					}
+				}
+			}
+		}
+
+		xAxis = new CategoryAxis();
+		yAxis = new NumberAxis();
+		xAxis.getStyleClass().add("xAxis");
+		//yAxis.setUpperBound(0.0);
+		chart = new LineChart<String, Number>(xAxis, yAxis);
+
+		series = new Series<String, Number>();
+		for (Categorizacion ca : caList) {
+			series.getData().add(new XYChart.Data<String, Number>(ca.getDescripcion(), ca.getPuntuacionMaxima()));
+		}
+		series.setName("Puntuación máxima");
+		chart.getData().add(series);
 		
+		for (Alumno stu : students) {
+			series = new Series<String, Number>();
+			for (String faName : datos.keySet()) {
+				series.getData().add(new XYChart.Data<String, Number>(faName, datos.get(faName)));
+				series.setName(stu.getNombre() + " " + stu.getApellido1() + " " + stu.getApellido2());
+			}
+			chart.getData().add(series);
+		}
+
+		chart.setTitle("Grafico generado");
+
+		root.setCenter(chart);
 	}
-	
-	public void itChart() {
+
+	public void itChart(List<Alumno> students, List<Item> itList) {
+		for (Item it : itList) {
+			datos.put("Item " + it.getNumero(), 0);
+			for (Alumno stu : students) {
+				datos.replace("Item " + it.getNumero(), datos.get("Item " + it.getNumero()) + 10);
+				if (stu.getEvaluacions().size() > 0) {
+					for (Puntuacion pun : stu.getEvaluacions().get(0).getPuntuacions()) {
+						// datos.replace(fa.getDescripcion(), datos.get(fa.getDescripcion()) +
+						// pun.getValoracion());
+						System.out.print("evaluacion");
+					}
+				}
+			}
+		}
+
+		xAxis = new CategoryAxis();
+		yAxis = new NumberAxis();
+		xAxis.getStyleClass().add("xAxis");
+		//yAxis.setUpperBound(0.0);
+		chart = new LineChart<String, Number>(xAxis, yAxis);
+
+		/*
+		series = new Series<String, Number>();
+		for (Item it : itList) {
+			series.getData().add(new XYChart.Data<String, Number>(it.getDescripcion(), 5));
+		}
+		series.setName("Puntuación máxima");
+		chart.getData().add(series);*/
 		
+		for (Alumno stu : students) {
+			series = new Series<String, Number>();
+			for (String itName : datos.keySet()) {
+				series.getData().add(new XYChart.Data<String, Number>(itName, datos.get(itName)));
+				series.setName(stu.getNombre() + " " + stu.getApellido1() + " " + stu.getApellido2());
+			}
+			chart.getData().add(series);
+		}
+
+		chart.setTitle("Grafico generado");
+
+		root.setCenter(chart);
 	}
-	
+
 }

@@ -57,7 +57,7 @@ public class StudentSelectionViewController extends Controller {
 	@FXML
 	private void next() throws IOException {
 		if(this.studentSelected.getItems().size() > 0) {
-			Main.showGraphSelectionView(this.studentSelected.getSelectionModel().getSelectedItems());
+			Main.showGraphSelectionView(this.studentSelected.getItems());
 		}else {
 			Alert alert = new Alert(AlertType.INFORMATION, "Debes seleccionar almenos 1 alumno antes de continuar.");
 			alert.setTitle("Alerta");
