@@ -1,6 +1,7 @@
 package gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -161,7 +162,9 @@ public class Main extends Application {
 		BorderPane studentSelectionView = loader.load();
 		StudentSelectionViewController ssVC = loader.getController();
 		//TODO adaptar al caso del ADMIN
-		ssVC.setStudents(Main.currentTeacher.getAula().getAlumnos());
+		List<Aula> c = new ArrayList<Aula>();
+		c.add(Main.currentTeacher.getAula());
+		ssVC.setClassrooms(Main.classroomService.getAll());
 
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(studentSelectionView);

@@ -14,14 +14,20 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 import model.Alumno;
+import model.Aula;
 
 public class StudentSelectionViewController extends Controller {
 
+	@FXML
+	ChoiceBox<Aula> classroom;
 	@FXML
 	ListView<Alumno> studentDisplay = new ListView<Alumno>();
 	@FXML
@@ -52,6 +58,20 @@ public class StudentSelectionViewController extends Controller {
 		this.studentSelected.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		this.studentDisplay.setCellFactory(callback);
 		this.studentSelected.setCellFactory(callback);
+		this.classroom.setConverter(new StringConverter<Aula>() {
+
+			@Override
+			public Aula fromString(String string) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public String toString(Aula object) {
+				return object.getNombre();
+			}
+			
+		});
 	}
 	
 	@FXML
@@ -80,15 +100,26 @@ public class StudentSelectionViewController extends Controller {
 		this.sortStudents();
 	}
 	
+	@FXML
+	private void switchDisplay() {
+		this.studentDisplay.getItems().clear();
+		this.studentDisplay.getItems().addAll(((Aula) this.classroom.getSelectionModel().getSelectedItem()).getAlumnos());
+		this.sortStudents();
+	}
+	
 	
 	private void sortStudents() {
 		Collections.sort(this.studentDisplay.getItems(), new SortStudent());
 		Collections.sort(this.studentSelected.getItems(), new SortStudent());
 	}
 	
-	public void setStudents(List<Alumno> students) {
+	public void setClassrooms(List<Aula> classRooms) {
+		List<Alumno> students = new ArrayList<Alumno>();
+		students.addAll(classRooms.get(0).getAlumnos());
 		Collections.sort(students, new SortStudent());
 		this.studentDisplay.getItems().addAll(students);
+		this.classroom.getItems().addAll(classRooms);
+		this.classroom.getSelectionModel().selectFirst();
 	}
 	
 	private class SortStudent implements Comparator<Alumno>{

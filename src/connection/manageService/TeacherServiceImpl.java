@@ -82,6 +82,10 @@ public class TeacherServiceImpl extends ServiceImpl implements ManageService<Pro
 	public Profesor getCurrentteacher() {
 		Profesor tea = new Profesor();
 		Aula classroom = new Aula();
+		//Aula classroom2 = new Aula();
+		//Alumno al = new Alumno();
+		//List<Alumno> aList = new ArrayList<Alumno>();
+		//aList.add(al);
 		ManageService<Alumno> mS = new StudentServiceImpl();
 		tea.setId(1);
 		tea.setNombre("Gonzalo");
@@ -90,6 +94,11 @@ public class TeacherServiceImpl extends ServiceImpl implements ManageService<Pro
 		classroom.setNombre("Aula1");
 		classroom.setCapacidad(1);
 		classroom.setAlumnos(mS.getAll());
+		//classroom2.setNombre("Aula2");
+		//classroom2.setCapacidad(2);
+		//classroom2.setAlumnos(aList);
+		//al.setApellido1("Cortés");
+		//al.setNombre("Hernan");
 		tea.setAula(classroom);
 		
 		return tea;
