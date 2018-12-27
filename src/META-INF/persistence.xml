@@ -4,6 +4,8 @@
 		<class>model.Alumno</class>
 		<class>model.Areafuncional</class>
 		<class>model.Aula</class>
+		<class>model.AulaProfesor</class>
+		<class>model.AulaProfesorPK</class>
 		<class>model.Categorizacion</class>
 		<class>model.Evaluacion</class>
 		<class>model.Item</class>

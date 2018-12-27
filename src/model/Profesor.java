@@ -2,7 +2,10 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -10,6 +13,7 @@ import java.util.Date;
  * 
  */
 @Entity
+@Table(name="PROFESOR", schema="public")
 @NamedQuery(name="Profesor.findAll", query="SELECT p FROM Profesor p")
 public class Profesor implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -21,6 +25,8 @@ public class Profesor implements Serializable {
 
 	private String apellido2;
 
+	private String contrasena;
+
 	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_nacimiento")
 	private Date fechaNacimiento;
@@ -29,12 +35,14 @@ public class Profesor implements Serializable {
 
 	private String nombre;
 
-	//bi-directional many-to-one association to Aula
-	@ManyToOne
-	@JoinColumn(name="id_aula")
-	private Aula aula;
+	private String notas;
+
+	//bi-directional many-to-many association to Aula
+	@ManyToMany(mappedBy="profesors")
+	private List<Aula> aulas;
 
 	public Profesor() {
+		this.aulas = new ArrayList<Aula>();
 	}
 
 	public long getId() {
@@ -61,6 +69,14 @@ public class Profesor implements Serializable {
 		this.apellido2 = apellido2;
 	}
 
+	public String getContrasena() {
+		return this.contrasena;
+	}
+
+	public void setContrasena(String contrasena) {
+		this.contrasena = contrasena;
+	}
+
 	public Date getFechaNacimiento() {
 		return this.fechaNacimiento;
 	}
@@ -85,12 +101,20 @@ public class Profesor implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public Aula getAula() {
-		return this.aula;
+	public String getNotas() {
+		return this.notas;
 	}
 
-	public void setAula(Aula aula) {
-		this.aula = aula;
+	public void setNotas(String notas) {
+		this.notas = notas;
+	}
+
+	public List<Aula> getAulas() {
+		return this.aulas;
+	}
+
+	public void setAulas(List<Aula> aulas) {
+		this.aulas = aulas;
 	}
 
 }

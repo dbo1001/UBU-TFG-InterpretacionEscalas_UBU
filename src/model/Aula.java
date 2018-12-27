@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,6 +11,7 @@ import java.util.List;
  * 
  */
 @Entity
+@Table(name = "AULA", schema = "public")
 @NamedQuery(name = "Aula.findAll", query = "SELECT a FROM Aula a")
 public class Aula implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -20,15 +23,21 @@ public class Aula implements Serializable {
 
 	private String nombre;
 
+	private String notas;
+
 	// bi-directional many-to-one association to Alumno
 	@OneToMany(mappedBy = "aula")
 	private List<Alumno> alumnos;
 
-	// bi-directional many-to-one association to Profesor
-	@OneToMany(mappedBy = "aula")
+	// bi-directional many-to-many association to Profesor
+	@ManyToMany
+	@JoinTable(name = "aula_profesor", joinColumns = { @JoinColumn(name = "ID_AULA") }, inverseJoinColumns = {
+			@JoinColumn(name = "ID_PROFESOR") })
 	private List<Profesor> profesors;
 
 	public Aula() {
+		this.alumnos = new ArrayList<Alumno>();
+		this.profesors = new ArrayList<Profesor>();
 	}
 
 	public long getId() {
@@ -53,6 +62,14 @@ public class Aula implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public String getNotas() {
+		return this.notas;
+	}
+
+	public void setNotas(String notas) {
+		this.notas = notas;
 	}
 
 	public List<Alumno> getAlumnos() {
@@ -83,20 +100,6 @@ public class Aula implements Serializable {
 
 	public void setProfesors(List<Profesor> profesors) {
 		this.profesors = profesors;
-	}
-
-	public Profesor addProfesor(Profesor profesor) {
-		getProfesors().add(profesor);
-		profesor.setAula(this);
-
-		return profesor;
-	}
-
-	public Profesor removeProfesor(Profesor profesor) {
-		getProfesors().remove(profesor);
-		profesor.setAula(null);
-
-		return profesor;
 	}
 
 }

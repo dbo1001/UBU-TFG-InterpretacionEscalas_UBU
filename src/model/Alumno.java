@@ -2,8 +2,6 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,8 +11,9 @@ import java.util.List;
  * 
  */
 @Entity
+@Table(name="ALUMNO", schema="public")
 @NamedQuery(name="Alumno.findAll", query="SELECT a FROM Alumno a")
-public class Alumno implements Serializable{
+public class Alumno implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -34,6 +33,8 @@ public class Alumno implements Serializable{
 
 	private String nombre;
 
+	private String notas;
+
 	//bi-directional many-to-one association to Aula
 	@ManyToOne
 	@JoinColumn(name="id_aula")
@@ -41,7 +42,7 @@ public class Alumno implements Serializable{
 
 	//bi-directional many-to-one association to Evaluacion
 	@OneToMany(mappedBy="alumno")
-	private List<Evaluacion> evaluacions = new ArrayList<Evaluacion>();
+	private List<Evaluacion> evaluacions;
 
 	public Alumno() {
 	}
@@ -100,6 +101,14 @@ public class Alumno implements Serializable{
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public String getNotas() {
+		return this.notas;
+	}
+
+	public void setNotas(String notas) {
+		this.notas = notas;
 	}
 
 	public Aula getAula() {

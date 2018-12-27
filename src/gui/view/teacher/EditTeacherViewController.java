@@ -83,10 +83,10 @@ public class EditTeacherViewController extends Controller {
 		}
 		
 		this.loadClassrooms();
-		Aula aula = tea.getAula();
-		if(aula != null) {
+		List<Aula> aulas = tea.getAulas();
+		if(aulas.size() == 1) {
 			this.aulaCB.getSelectionModel().clearSelection();
-			this.aulaCB.getSelectionModel().select(aula);
+			this.aulaCB.getSelectionModel().select(aulas.get(0));
 		}
 	}
 

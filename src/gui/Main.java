@@ -162,9 +162,7 @@ public class Main extends Application {
 		BorderPane studentSelectionView = loader.load();
 		StudentSelectionViewController ssVC = loader.getController();
 		//TODO adaptar al caso del ADMIN
-		List<Aula> c = new ArrayList<Aula>();
-		c.add(Main.currentTeacher.getAula());
-		ssVC.setClassrooms(Main.classroomService.getAll());
+		ssVC.setClassrooms(Main.currentTeacher.getAulas());
 
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(studentSelectionView);
