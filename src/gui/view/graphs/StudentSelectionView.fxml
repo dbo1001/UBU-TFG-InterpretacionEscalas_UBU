@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -27,7 +27,7 @@
                               </HBox>
                               <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <ChoiceBox fx:id="classroom" onMouseClicked="#switchDisplay" />
+                                    <ComboBox fx:id="classroom" onAction="#switchDisplay" />
                                  </children>
                               </HBox>
                            </children>

@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -27,7 +28,7 @@ import model.Aula;
 public class StudentSelectionViewController extends Controller {
 
 	@FXML
-	ChoiceBox<Aula> classroom;
+	ComboBox<Aula> classroom;
 	@FXML
 	ListView<Alumno> studentDisplay = new ListView<Alumno>();
 	@FXML
