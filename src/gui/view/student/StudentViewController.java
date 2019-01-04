@@ -1,8 +1,13 @@
 package gui.view.student;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
+import connection.ConnectionException;
 import connection.manageService.ClassroomServiceImpl;
 import connection.manageService.ManageService;
 import gui.Main;
@@ -12,11 +17,28 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
+import model.Alumno;
 import model.Aula;
 
 public class StudentViewController extends Controller {
 	
+	@FXML
+	TextField name;
+	@FXML
+	TextField surname1;
+	@FXML
+	TextField surname2;
+	@FXML
+	TextField NIF;
+	@FXML
+	TextField direction;
+	@FXML
+	TextArea description;
+	@FXML
+	DatePicker date;
 	@FXML
 	private ChoiceBox<Aula> aulaCB;
 	private List<Aula> listAllClassrooms;
@@ -59,8 +81,21 @@ public class StudentViewController extends Controller {
 	}
 
 	@FXML
-	private void acept() {
-		System.out.println("Aceptar y agregar alumno.");
+	private void acept() throws ConnectionException {
+		Alumno stu = new Alumno();
+		LocalDate localDate = this.date.getValue();
+		Date date = null;
+		if(localDate != null) {
+				date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
+		}
+		stu.setNif(this.NIF.getText());
+		stu.setNombre(this.name.getText());
+		stu.setApellido1(this.surname1.getText());
+		stu.setApellido2(this.surname2.getText());
+		stu.setFechaNacimiento(date);
+		stu.setDireccion(this.direction.getText());
+		stu.setNotas(this.description.getText());
+		Main.getStudentService().add(stu);
 	}
 
 }

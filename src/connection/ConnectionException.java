@@ -10,6 +10,7 @@ public class ConnectionException extends Exception {
 	}
 	
 	public ConnectionException (ConnectionError error) {
+		super("");
 		this.error = error;
 	}
 	

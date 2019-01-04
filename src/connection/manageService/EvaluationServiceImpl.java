@@ -2,6 +2,7 @@ package connection.manageService;
 
 import java.util.List;
 
+import connection.ConnectionException;
 import connection.ServiceImpl;
 import model.Evaluacion;
 
@@ -12,9 +13,15 @@ public class EvaluationServiceImpl extends ServiceImpl implements ManageService<
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public boolean add(Evaluacion object) throws ConnectionException {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	@Override
-	public boolean edit(long id) {
+	public boolean edit(Evaluacion object) throws ConnectionException {
 		// TODO Auto-generated method stub
 		return false;
 	}

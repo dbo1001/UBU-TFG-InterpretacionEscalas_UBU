@@ -3,6 +3,7 @@ package connection.manageService;
 import java.util.ArrayList;
 import java.util.List;
 
+import connection.ConnectionException;
 import connection.ServiceImpl;
 import model.Alumno;
 import model.Aula;
@@ -68,8 +69,14 @@ public class TeacherServiceImpl extends ServiceImpl implements ManageService<Pro
 	}
 	
 	@Override
-	public boolean edit(long id) {
-		System.err.println("Transaccion no implementada. Profesor: " + id);
+	public boolean add(Profesor object) throws ConnectionException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean edit(Profesor object) throws ConnectionException {
+		// TODO Auto-generated method stub
 		return false;
 	}
 

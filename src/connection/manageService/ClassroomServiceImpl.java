@@ -3,6 +3,7 @@ package connection.manageService;
 import java.util.ArrayList;
 import java.util.List;
 
+import connection.ConnectionException;
 import connection.ServiceImpl;
 import model.Aula;
 
@@ -64,7 +65,13 @@ public class ClassroomServiceImpl extends ServiceImpl implements ManageService<A
 	}
 
 	@Override
-	public boolean edit(long id) {
+	public boolean add(Aula object) throws ConnectionException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean edit(Aula object) throws ConnectionException {
 		// TODO Auto-generated method stub
 		return false;
 	}
