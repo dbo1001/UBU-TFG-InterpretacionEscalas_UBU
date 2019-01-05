@@ -60,6 +60,10 @@
 	-fx-tick-label-rotate: 30;
 }
 
+.scrollPane{
+	-fx-background-color:transparent;
+}
+
 /* 
 .table-column {
 	-fx-alignment: center ;

@@ -15,6 +15,9 @@ import gui.view.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
@@ -24,7 +27,7 @@ import model.Alumno;
 import model.Aula;
 
 public class StudentViewController extends Controller {
-	
+
 	@FXML
 	TextField name;
 	@FXML
@@ -42,11 +45,11 @@ public class StudentViewController extends Controller {
 	@FXML
 	private ChoiceBox<Aula> aulaCB;
 	private List<Aula> listAllClassrooms;
-	
+
 	private void loadClassrooms() {
 		ObservableList<Aula> obsList = FXCollections.observableArrayList();
 		obsList.addAll(this.listAllClassrooms);
-		
+
 		aulaCB.setItems(obsList);
 		aulaCB.getSelectionModel().selectFirst();
 		aulaCB.setConverter(new StringConverter<Aula>() {
@@ -61,33 +64,34 @@ public class StudentViewController extends Controller {
 			public String toString(Aula object) {
 				return object.getNombre();
 			}
-			
+
 		});
-		
+
 	}
-	
+
 	public void setClassrooms(List<Aula> allClassrooms) {
 		this.listAllClassrooms = allClassrooms;
 		this.loadClassrooms();
 	}
-	
+
 	@FXML
 	private void cancel() throws IOException {
-		if(cancelAlert()) {
+		if (cancelAlert()) {
 			Main.setModifiedData(false);
 			super.goBack();
 		}
-		
+
 	}
 
 	@FXML
-	private void acept() throws ConnectionException {
+	private void acept() throws IOException {
 		Alumno stu = new Alumno();
 		LocalDate localDate = this.date.getValue();
 		Date date = null;
-		if(localDate != null) {
-				date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
+		if (localDate != null) {
+			date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
 		}
+		
 		stu.setNif(this.NIF.getText());
 		stu.setNombre(this.name.getText());
 		stu.setApellido1(this.surname1.getText());
@@ -95,7 +99,19 @@ public class StudentViewController extends Controller {
 		stu.setFechaNacimiento(date);
 		stu.setDireccion(this.direction.getText());
 		stu.setNotas(this.description.getText());
-		Main.getStudentService().add(stu);
+		
+		try {
+			if (Main.getStudentService().add(stu)) {
+				Alert alert = new Alert(AlertType.INFORMATION, "El nuevo alumno se ha creado correctamente",
+						ButtonType.OK);
+				alert.showAndWait();
+				Main.setModifiedData(false);
+				Main.showManageView();
+			}
+		} catch (ConnectionException cEx) {
+			Alert alert = new Alert(AlertType.ERROR, cEx.getError().getText(), ButtonType.OK);
+			alert.showAndWait();
+		}
 	}
 
 }
