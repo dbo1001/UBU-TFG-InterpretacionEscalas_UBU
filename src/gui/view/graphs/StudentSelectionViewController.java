@@ -8,6 +8,7 @@ import java.util.List;
 
 import gui.Main;
 import gui.view.Controller;
+import gui.view.SelectorController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
@@ -25,14 +26,10 @@ import javafx.util.StringConverter;
 import model.Alumno;
 import model.Aula;
 
-public class StudentSelectionViewController extends Controller {
+public class StudentSelectionViewController extends SelectorController<Alumno> {
 
 	@FXML
 	ComboBox<Aula> classroom;
-	@FXML
-	ListView<Alumno> studentDisplay = new ListView<Alumno>();
-	@FXML
-	ListView<Alumno> studentSelected = new ListView<Alumno>();
 	private final Callback<ListView<Alumno>, ListCell<Alumno>> callback = new Callback<ListView<Alumno>, ListCell<Alumno>>(){
 		
 		@Override
@@ -55,10 +52,6 @@ public class StudentSelectionViewController extends Controller {
 	
 	@FXML
 	private void initialize() {
-		this.studentDisplay.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		this.studentSelected.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		this.studentDisplay.setCellFactory(callback);
-		this.studentSelected.setCellFactory(callback);
 		this.classroom.setConverter(new StringConverter<Aula>() {
 
 			@Override
@@ -77,8 +70,8 @@ public class StudentSelectionViewController extends Controller {
 	
 	@FXML
 	private void next() throws IOException {
-		if(this.studentSelected.getItems().size() > 0) {
-			Main.showGraphSelectionView(this.studentSelected.getItems());
+		if(super.getSelectedObjects().size() > 0) {
+			Main.showGraphSelectionView(super.getSelectedObjects());
 		}else {
 			Alert alert = new Alert(AlertType.INFORMATION, "Debes seleccionar almenos 1 alumno antes de continuar.");
 			alert.setTitle("Alerta");
@@ -88,37 +81,16 @@ public class StudentSelectionViewController extends Controller {
 	}
 	
 	@FXML
-	private void select() {
-		this.studentSelected.getItems().addAll(this.studentDisplay.getSelectionModel().getSelectedItems());
-		this.studentDisplay.getItems().removeAll(this.studentDisplay.getSelectionModel().getSelectedItems());
-		this.sortStudents();
-	}
-	
-	@FXML
-	private void deselect() {
-		this.studentDisplay.getItems().addAll(this.studentSelected.getSelectionModel().getSelectedItems());
-		this.studentSelected.getItems().removeAll(this.studentSelected.getSelectionModel().getSelectedItems());
-		this.sortStudents();
-	}
-	
-	@FXML
 	private void switchDisplay() {
-		this.studentDisplay.getItems().clear();
-		this.studentDisplay.getItems().addAll(((Aula) this.classroom.getSelectionModel().getSelectedItem()).getAlumnos());
-		this.sortStudents();
-	}
-	
-	
-	private void sortStudents() {
-		Collections.sort(this.studentDisplay.getItems(), new SortStudent());
-		Collections.sort(this.studentSelected.getItems(), new SortStudent());
+		super.getDisplayedObjects().clear();
+		super.getDisplayedObjects().addAll(((Aula) this.classroom.getSelectionModel().getSelectedItem()).getAlumnos());
+		super.sortObjects();
 	}
 	
 	public void setClassrooms(List<Aula> classRooms) {
 		List<Alumno> students = new ArrayList<Alumno>();
 		students.addAll(classRooms.get(0).getAlumnos());
-		Collections.sort(students, new SortStudent());
-		this.studentDisplay.getItems().addAll(students);
+		super.initialize(callback, students, new SortStudent());
 		this.classroom.getItems().addAll(classRooms);
 		this.classroom.getSelectionModel().selectFirst();
 	}

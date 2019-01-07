@@ -10,6 +10,7 @@ import connection.manageService.ClassroomServiceImpl;
 import connection.manageService.ManageService;
 import gui.Main;
 import gui.view.Controller;
+import gui.view.SelectorController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -25,7 +26,7 @@ import javafx.util.StringConverter;
 import model.Alumno;
 import model.Aula;
 
-public class TeacherViewController extends Controller {
+public class TeacherViewController extends SelectorController<Aula> {
 
 	@FXML
 	TextField name;
@@ -37,11 +38,6 @@ public class TeacherViewController extends Controller {
 	TextField NIF;
 	@FXML
 	TextArea description;
-	@FXML
-	private ListView<Aula> displayClassrooms;
-	@FXML
-	private ListView<Aula> selectedClassrooms;
-	private List<Aula> listAllClassrooms;
 	private final Callback<ListView<Aula>, ListCell<Aula>> callback = new Callback<ListView<Aula>, ListCell<Aula>>() {
 
 		@Override
@@ -62,28 +58,6 @@ public class TeacherViewController extends Controller {
 	};
 
 	@FXML
-	public void initialize() {
-		this.displayClassrooms.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		this.displayClassrooms.setCellFactory(callback);
-		this.selectedClassrooms.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		this.selectedClassrooms.setCellFactory(callback);
-	}
-
-	@FXML
-	private void select() {
-		this.selectedClassrooms.getItems().addAll(this.displayClassrooms.getSelectionModel().getSelectedItems());
-		this.displayClassrooms.getItems().removeAll(this.displayClassrooms.getSelectionModel().getSelectedItems());
-		this.sortClassrooms();
-	}
-
-	@FXML
-	private void deselect() {
-		this.displayClassrooms.getItems().addAll(this.selectedClassrooms.getSelectionModel().getSelectedItems());
-		this.selectedClassrooms.getItems().removeAll(this.selectedClassrooms.getSelectionModel().getSelectedItems());
-		this.sortClassrooms();
-	}
-
-	@FXML
 	private void cancel() throws IOException {
 		if (cancelAlert()) {
 			Main.setModifiedData(false);
@@ -98,15 +72,10 @@ public class TeacherViewController extends Controller {
 	}
 
 	public void setClassrooms(List<Aula> allClassrooms) {
-		this.listAllClassrooms = allClassrooms;
-		Collections.sort(listAllClassrooms, new SortClassroom());
-		this.displayClassrooms.getItems().addAll(listAllClassrooms);
+		super.initialize(callback, allClassrooms, new SortClassroom());
 	}
 
-	private void sortClassrooms() {
-		Collections.sort(this.displayClassrooms.getItems(), new SortClassroom());
-		Collections.sort(this.selectedClassrooms.getItems(), new SortClassroom());
-	}
+
 
 	private class SortClassroom implements Comparator<Aula> {
 		@Override

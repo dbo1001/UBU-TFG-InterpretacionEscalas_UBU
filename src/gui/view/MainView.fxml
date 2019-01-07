@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -15,11 +14,14 @@
             <Insets />
          </BorderPane.margin>
          <children>
-            <ButtonBar buttonOrder="" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0">
-              <buttons>
+            <HBox>
+               <children>
                 <Button mnemonicParsing="false" onAction="#checkDataIntegrity" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="Menu principal" />
-              </buttons>
-            </ButtonBar>
+               </children>
+               <padding>
+                  <Insets left="1.0" top="1.0" />
+               </padding>
+            </HBox>
             <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Text fx:id="teacherName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="mediumText" />

@@ -14,6 +14,7 @@ import connection.utilService.UtilService;
 import connection.utilService.UtilServiceImpl;
 import gui.view.MainViewController;
 import gui.view.classroom.ClassroomManageViewController;
+import gui.view.classroom.ClassroomViewController;
 import gui.view.classroom.EditClassroomViewController;
 import gui.view.evaluation.EvaluationViewController;
 import gui.view.student.EditStudentViewController;
@@ -139,6 +140,8 @@ public class Main extends Application {
 		Main.modifiedData = true;
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/classroom/ClassroomView.fxml"));
 		BorderPane classroomView = loader.load();
+		ClassroomViewController cVC = loader.getController();
+		cVC.setTeachers(Main.teacherService.getAll());
 
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(classroomView);

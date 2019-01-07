@@ -32,7 +32,7 @@
                               </HBox>
                            </children>
                         </HBox>
-                        <ListView fx:id="studentDisplay" styleClass="mediumText" VBox.vgrow="ALWAYS" />
+                        <ListView fx:id="objectsDisplayed" styleClass="mediumText" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" spacing="100.0">
@@ -43,8 +43,11 @@
                   </VBox>
                   <VBox alignment="TOP_CENTER" spacing="7.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <ListView fx:id="studentSelected" styleClass="mediumText" VBox.vgrow="ALWAYS" />
+                        <ListView fx:id="objectsSelected" styleClass="mediumText" VBox.vgrow="ALWAYS" />
                      </children>
+                     <HBox.margin>
+                        <Insets top="32.0" />
+                     </HBox.margin>
                   </VBox>
                </children>
             </HBox>
