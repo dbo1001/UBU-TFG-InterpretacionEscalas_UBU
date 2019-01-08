@@ -23,6 +23,7 @@ import gui.view.student.StudentViewController;
 import gui.view.teacher.EditTeacherViewController;
 import gui.view.teacher.TeacherManageViewController;
 import gui.view.teacher.TeacherViewController;
+import gui.view.graphs.EvaluationSelectionViewController;
 import gui.view.graphs.GraphSelectionViewController;
 import gui.view.graphs.GraphViewController;
 import gui.view.graphs.StudentSelectionViewController;
@@ -43,6 +44,7 @@ import model.Alumno;
 import model.Areafuncional;
 import model.Aula;
 import model.Categorizacion;
+import model.Evaluacion;
 import model.Item;
 import model.Profesor;
 
@@ -171,27 +173,37 @@ public class Main extends Application {
 		Main.mainLayout.setCenter(studentSelectionView);
 	}
 	
-	public static void showGraphSelectionView(List<Alumno> selectedStudents) throws IOException {
+	public static void showEvaluationSelectionView(List<Alumno> selectedStudents) throws IOException {
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/EvaluationSelectionView.fxml"));
+		BorderPane evaluationSelectionView = loader.load();
+		EvaluationSelectionViewController esVC = loader.getController();
+		esVC.setStudents(selectedStudents);
+
+		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
+		Main.mainLayout.setCenter(evaluationSelectionView);
+	}
+	
+	public static void showGraphSelectionView(List<Evaluacion> selectedEvaluations) throws IOException {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/GraphSelectionView.fxml"));
 		BorderPane graphSelectionView = loader.load();
 		GraphSelectionViewController gsVC = loader.getController();
-		gsVC.setData(selectedStudents, Main.utilService.getAllFunctionalAreas());
+		gsVC.setData(selectedEvaluations, Main.utilService.getAllFunctionalAreas());
 
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(graphSelectionView);
 	}
 	
-	public static void showGraphView(List<Alumno> selectedStudents, List<Areafuncional> selectedFa, List<Categorizacion> selectedCa, List<Item> selectedIt) throws IOException {
+	public static void showGraphView(List<Evaluacion> selectedEvaluations, List<Areafuncional> selectedFa, List<Categorizacion> selectedCa, List<Item> selectedIt) throws IOException {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/GraphView.fxml"));
 		BorderPane graphView = loader.load();
 		GraphViewController gVC = loader.getController();
-		
+
 		if(selectedCa.size() == 0 && selectedIt.size()==0) {
-			gVC.faChart(selectedStudents, selectedFa);
+			gVC.faChart(selectedEvaluations, selectedFa);
 		}else if(selectedIt.size() == 0) {
-			gVC.caChart(selectedStudents, selectedCa);
+			gVC.caChart(selectedEvaluations, selectedCa);
 		}else {
-			gVC.itChart(selectedStudents, selectedIt);
+			gVC.itChart(selectedEvaluations, selectedIt);
 		}
 		
 
@@ -230,7 +242,7 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/classroom/EditClassroomView.fxml"));
 		BorderPane editClassroomView = loader.load();
 		EditClassroomViewController editClassroomController = loader.getController();
-		editClassroomController.setClassroom(cla);
+		editClassroomController.setClassroom(cla, Main.teacherService.getAll());
 		
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(editClassroomView);

@@ -9,6 +9,7 @@ import gui.view.SelectorController;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import model.Profesor;
@@ -19,6 +20,8 @@ public class ClassroomViewController extends SelectorController<Profesor> {
 	TextField name;
 	@FXML
 	TextField capacity;
+	@FXML
+	TextArea description;
 	private final Callback<ListView<Profesor>, ListCell<Profesor>> callback = new Callback<ListView<Profesor>, ListCell<Profesor>>() {
 
 		@Override

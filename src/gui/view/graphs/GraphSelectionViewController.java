@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import model.Alumno;
 import model.Areafuncional;
 import model.Categorizacion;
+import model.Evaluacion;
 import model.Item;
 
 public class GraphSelectionViewController extends Controller {
@@ -37,7 +38,7 @@ public class GraphSelectionViewController extends Controller {
 	@FXML
 	CheckBox allItSelected;
 	private int checkedFa, checkedCa, checkedIt = 0;
-	private List<Alumno> selectedStudents;
+	private List<Evaluacion> selectedEvaluations;
 	private Set<Categorizacion> selectedCa = new LinkedHashSet<Categorizacion>();
 	private Set<Item> selectedIt = new LinkedHashSet<Item>();
 	private final EventHandler<MouseEvent> handCursor = new EventHandler<MouseEvent>() {
@@ -145,11 +146,11 @@ public class GraphSelectionViewController extends Controller {
 			}
 		}
 
-		Main.showGraphView(this.selectedStudents, finalFaList, finalCaList, finalItList);
+		Main.showGraphView(this.selectedEvaluations, finalFaList, finalCaList, finalItList);
 	}
 
-	public void setData(List<Alumno> selectedStudents, List<Areafuncional> faList) {
-		this.selectedStudents = selectedStudents;
+	public void setData(List<Evaluacion> selectedEvaluations, List<Areafuncional> faList) {
+		this.selectedEvaluations = selectedEvaluations;
 		for (Areafuncional fa : faList) {
 			CheckBox cb = new CheckBox(fa.getDescripcion());
 			cb.setUserData(fa);

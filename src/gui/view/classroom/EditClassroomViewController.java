@@ -4,42 +4,77 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 import connection.manageService.ClassroomServiceImpl;
 import connection.manageService.ManageService;
 import gui.Main;
 import gui.view.Controller;
+import gui.view.SelectorController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 import model.Alumno;
 import model.Aula;
 import model.Profesor;
 
-public class EditClassroomViewController extends Controller {
+public class EditClassroomViewController extends SelectorController<Profesor> {
 
 	@FXML
-	private TextField nombre;
+	private TextField name;
 	@FXML
-	private TextField capacidad;
+	private TextField capacity;
+	@FXML
+	private TextArea description;
 	
-	private ManageService<Aula> classroomService = new ClassroomServiceImpl();
+	private List<Profesor> listAllTeachers = new ArrayList<Profesor>();
 	private Aula cla;
+	private final Callback<ListView<Profesor>, ListCell<Profesor>> callback = new Callback<ListView<Profesor>, ListCell<Profesor>>() {
 
-	public void setClassroom(Aula cla) {
+		@Override
+		public ListCell<Profesor> call(ListView<Profesor> teachers) {
+			ListCell<Profesor> cellsList = new ListCell<Profesor>() {
+				@Override
+				protected void updateItem(Profesor tea, boolean empty) {
+					super.updateItem(tea, empty);
+					if (tea != null) {
+						setText(tea.getApellido1() + " " + tea.getApellido2() + ", " + tea.getNombre());
+					} else {
+						setText("");
+					}
+				}
+			};
+			return cellsList;
+		}
+	};
+
+	public void setClassroom(Aula cla, List<Profesor> listAllTeachers) {
 		this.cla = cla;
+		this.listAllTeachers = listAllTeachers;
 		this.fillFields();
 	}
 
 	@FXML
 	private void fillFields() {
-		this.nombre.setText(cla.getNombre());
-		this.capacidad.setText("" + cla.getCapacidad());
+		this.name.setText(cla.getNombre());
+		this.capacity.setText("" + cla.getCapacidad());
+		this.description.setText(cla.getNotas());
+		
+		super.initialize(callback, this.listAllTeachers, new SortTeacher());
+		super.getSelectedObjects().addAll(cla.getProfesors());
+		super.getDisplayedObjects().removeAll(cla.getProfesors());
+		super.sortObjects();
 	}
 
 	@FXML
@@ -53,6 +88,15 @@ public class EditClassroomViewController extends Controller {
 	@FXML
 	private void acept() {
 		System.out.println("Aceptar y sobreescibir los cambios del aula.");
+	}
+	
+	private class SortTeacher implements Comparator<Profesor> {
+		@Override
+		public int compare(Profesor p1, Profesor p2) {
+			String p1Display = "" + p1.getApellido1() + " " + p1.getApellido2() + ", " + p1.getNombre();
+			String p2Display = "" + p2.getApellido1() + " " + p2.getApellido2() + ", " + p2.getNombre();
+			return String.CASE_INSENSITIVE_ORDER.compare(p1Display, p2Display);	
+		}
 	}
 
 }

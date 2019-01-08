@@ -139,6 +139,7 @@ public class TeacherManageViewController extends Controller {
 	///////////////////////////////
 	protected class CeldaProfesor {
 
+		private Profesor teacher;
 		private String nombre = "";
 		private String apellido1 = "";
 		private String apellido2 = "";
@@ -158,9 +159,11 @@ public class TeacherManageViewController extends Controller {
 		};
 
 		public CeldaProfesor(Profesor tea) {
+			this.teacher = tea;
 			this.nombre = tea.getNombre();
 			this.apellido1 = tea.getApellido1();
 			this.apellido2 = tea.getApellido2();
+			
 
 			edit = new Label("Editar");
 			// edit.setFont(new Font(18));
@@ -171,7 +174,7 @@ public class TeacherManageViewController extends Controller {
 				@Override
 				public void handle(MouseEvent e) {
 					try {
-						Main.showEditTeacherView(tea);
+						Main.showEditTeacherView(teacher);
 					} catch (IOException e1) {
 						System.err.println("Error, archivo EditTeacherView.fxml no encontrado en la carpeta view.");
 						e1.printStackTrace();
@@ -190,7 +193,7 @@ public class TeacherManageViewController extends Controller {
 
 				@Override
 				public void handle(MouseEvent e) {
-					Main.deleteTeacher(tea);
+					Main.deleteTeacher(teacher);
 				}
 
 			});

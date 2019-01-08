@@ -71,7 +71,20 @@ public class StudentSelectionViewController extends SelectorController<Alumno> {
 	@FXML
 	private void next() throws IOException {
 		if(super.getSelectedObjects().size() > 0) {
-			Main.showGraphSelectionView(super.getSelectedObjects());
+			boolean flag = false;
+			for(Alumno stu: super.getSelectedObjects()) {
+				if(stu.getEvaluacions() == null || stu.getEvaluacions().size() == 0) {
+					flag = true;
+					Alert alert = new Alert(AlertType.INFORMATION, "El alumno " + stu.getNombre() + " " + stu.getApellido1() + " " + stu.getApellido2() + " no tiene ninguna evaluacion asignada. Asígnale una o mas evaluaciones o deseleccionalo.");
+					alert.setTitle("Alerta");
+					alert.setHeaderText("");
+					alert.show();
+					break;
+				}
+			}
+			if(!flag) {
+				Main.showEvaluationSelectionView(super.getSelectedObjects());
+			}
 		}else {
 			Alert alert = new Alert(AlertType.INFORMATION, "Debes seleccionar almenos 1 alumno antes de continuar.");
 			alert.setTitle("Alerta");
