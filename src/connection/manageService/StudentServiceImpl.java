@@ -31,8 +31,6 @@ public class StudentServiceImpl extends ServiceImpl implements ManageService<Alu
 
 			try {
 				em.getTransaction().begin();
-				//TODO borrar esta linea y hacer que la id se genere por sequence
-				stu.setId(1);
 				this.getEntityManager().persist(stu);
 				em.getTransaction().commit();
 			} catch (Exception ex) {

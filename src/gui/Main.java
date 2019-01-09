@@ -197,14 +197,14 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/GraphView.fxml"));
 		BorderPane graphView = loader.load();
 		GraphViewController gVC = loader.getController();
-
+/*
 		if(selectedCa.size() == 0 && selectedIt.size()==0) {
 			gVC.faChart(selectedEvaluations, selectedFa);
 		}else if(selectedIt.size() == 0) {
 			gVC.caChart(selectedEvaluations, selectedCa);
 		}else {
 			gVC.itChart(selectedEvaluations, selectedIt);
-		}
+		}*/
 		
 
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());

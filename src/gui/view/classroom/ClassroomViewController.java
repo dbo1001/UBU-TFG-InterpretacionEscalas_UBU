@@ -1,21 +1,32 @@
 package gui.view.classroom;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
+import connection.ConnectionError;
+import connection.ConnectionException;
 import gui.Main;
 import gui.view.SelectorController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.util.Callback;
+import model.Alumno;
+import model.Aula;
 import model.Profesor;
 
 public class ClassroomViewController extends SelectorController<Profesor> {
-	
+
 	@FXML
 	TextField name;
 	@FXML
@@ -40,32 +51,53 @@ public class ClassroomViewController extends SelectorController<Profesor> {
 			return cellsList;
 		}
 	};
-	
-	
+
 	@FXML
 	private void cancel() throws IOException {
-		if(cancelAlert()) {
+		if (cancelAlert()) {
 			Main.setModifiedData(false);
 			super.goBack();
 		}
-		
+
 	}
 
 	@FXML
-	private void acept() {
-		System.out.println("Aceptar y agregar aula.");
+	private void acept() throws IOException {
+		Aula cla = new Aula();
+		if (this.capacity.getText().length() > 0 && !super.intPattern.matcher(this.capacity.getText()).find()) {
+			cla.setCapacidad(Integer.parseInt(this.capacity.getText()));
+			cla.setNombre(this.name.getText());
+			cla.setNotas(this.description.getText());
+			//cla.setProfesors(super.getSelectedObjects());
+
+			try {
+				if (Main.getClassroomService().add(cla)) {
+					Alert alert = new Alert(AlertType.INFORMATION, "La nueva aula se ha creado correctamente",
+							ButtonType.OK);
+					alert.showAndWait();
+					Main.setModifiedData(false);
+					Main.showManageView();
+				}
+			} catch (ConnectionException cEx) {
+				Alert alert = new Alert(AlertType.ERROR, cEx.getError().getText(), ButtonType.OK);
+				alert.showAndWait();
+			}
+		}else {
+			Alert alert = new Alert(AlertType.ERROR, ConnectionError.WRONG_CAPACITY.getText(), ButtonType.OK);
+			alert.showAndWait();
+		}
 	}
-	
+
 	public void setTeachers(List<Profesor> allTeachers) {
 		super.initialize(callback, allTeachers, new SortTeacher());
 	}
-	
+
 	private class SortTeacher implements Comparator<Profesor> {
 		@Override
 		public int compare(Profesor p1, Profesor p2) {
 			String p1Display = "" + p1.getApellido1() + " " + p1.getApellido2() + ", " + p1.getNombre();
 			String p2Display = "" + p2.getApellido1() + " " + p2.getApellido2() + ", " + p2.getNombre();
-			return String.CASE_INSENSITIVE_ORDER.compare(p1Display, p2Display);	
+			return String.CASE_INSENSITIVE_ORDER.compare(p1Display, p2Display);
 		}
 
 	}

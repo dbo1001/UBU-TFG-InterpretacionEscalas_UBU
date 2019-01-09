@@ -17,6 +17,8 @@ public class Alumno implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="ALUMNO_ID_GENERATOR", sequenceName="SEQ_ALUMNO")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ALUMNO_ID_GENERATOR")
 	private long id;
 
 	private String apellido1;

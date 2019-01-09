@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -16,6 +17,8 @@ public class Areafuncional implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="AREAFUNCIONAL_ID_GENERATOR", sequenceName="SEQ_AREAFUNCIONAL")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="AREAFUNCIONAL_ID_GENERATOR")
 	private long id;
 
 	private String descripcion;

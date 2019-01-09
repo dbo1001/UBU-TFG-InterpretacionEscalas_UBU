@@ -2,9 +2,6 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -19,6 +16,8 @@ public class Profesor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="PROFESOR_ID_GENERATOR", sequenceName="SEQ_PROFESOR")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PROFESOR_ID_GENERATOR")
 	private long id;
 
 	private String apellido1;
@@ -26,10 +25,6 @@ public class Profesor implements Serializable {
 	private String apellido2;
 
 	private String contrasena;
-
-	@Temporal(TemporalType.DATE)
-	@Column(name="fecha_nacimiento")
-	private Date fechaNacimiento;
 
 	private String nif;
 
@@ -42,7 +37,6 @@ public class Profesor implements Serializable {
 	private List<Aula> aulas;
 
 	public Profesor() {
-		this.aulas = new ArrayList<Aula>();
 	}
 
 	public long getId() {
@@ -75,14 +69,6 @@ public class Profesor implements Serializable {
 
 	public void setContrasena(String contrasena) {
 		this.contrasena = contrasena;
-	}
-
-	public Date getFechaNacimiento() {
-		return this.fechaNacimiento;
-	}
-
-	public void setFechaNacimiento(Date fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
 	}
 
 	public String getNif() {

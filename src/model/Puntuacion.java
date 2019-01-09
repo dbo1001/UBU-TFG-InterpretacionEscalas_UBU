@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 
 /**
@@ -15,6 +16,8 @@ public class Puntuacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="PUNTUACION_ID_GENERATOR", sequenceName="SEQ_PUNTUACION")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PUNTUACION_ID_GENERATOR")
 	private long id;
 
 	private int valoracion;

@@ -4,8 +4,6 @@
 		<class>model.Alumno</class>
 		<class>model.Areafuncional</class>
 		<class>model.Aula</class>
-		<class>model.AulaProfesor</class>
-		<class>model.AulaProfesorPK</class>
 		<class>model.Categorizacion</class>
 		<class>model.Evaluacion</class>
 		<class>model.Item</class>
@@ -15,7 +13,7 @@
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL81Dialect"/>
 			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
 			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/postgres"/>
-			<property name="hibernate.default_schema" value="postgres"/>
+			<property name="hibernate.default_schema" value="public"/>
 			<property name="hibernate.connection.username" value="postgres"/>
 			<property name="hibernate.connection.password" value="pgp"/>
 			<property name="hibernate.connection.autocommit" value="false"/>

@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -16,6 +17,8 @@ public class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="ITEM_NUMERO_GENERATOR", sequenceName="SEQ_ITEM")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ITEM_NUMERO_GENERATOR")
 	private long numero;
 
 	private String descripcion;

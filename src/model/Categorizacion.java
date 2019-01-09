@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -16,6 +17,8 @@ public class Categorizacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="CATEGORIZACION_ID_GENERATOR", sequenceName="SEQ_CATEGORIZACION")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CATEGORIZACION_ID_GENERATOR")
 	private long id;
 
 	private String descripcion;

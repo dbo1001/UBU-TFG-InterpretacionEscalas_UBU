@@ -1,6 +1,7 @@
 package gui.view;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import gui.Main;
 import javafx.fxml.FXML;
@@ -9,6 +10,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 
 public abstract class Controller {
+	protected final Pattern intPattern = Pattern.compile("[^0-9]");
 	
 	@FXML
 	protected void handCursor() {

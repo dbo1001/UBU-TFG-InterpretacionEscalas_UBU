@@ -1,10 +1,15 @@
 package connection.manageService;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
+import connection.ConnectionError;
 import connection.ConnectionException;
 import connection.ServiceImpl;
+import model.Alumno;
 import model.Aula;
 
 public class ClassroomServiceImpl extends ServiceImpl implements ManageService<Aula> {
@@ -24,6 +29,9 @@ public class ClassroomServiceImpl extends ServiceImpl implements ManageService<A
 
 	@Override
 	public List<Aula> getAll() {
+		
+		return getEntityManager().createNamedQuery("Aula.findAll", Aula.class).getResultList();
+		/*
 		//Codigo de ejemplo usado para testear
 		
 				List<Aula> resultado = new ArrayList<Aula>();
@@ -61,13 +69,32 @@ public class ClassroomServiceImpl extends ServiceImpl implements ManageService<A
 				resultado.add(aula4);
 				resultado.add(aula5);
 				
-				return resultado;
+				return resultado;*/
 	}
 
 	@Override
-	public boolean add(Aula object) throws ConnectionException {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean add(Aula cla) throws ConnectionException {
+		if (this.checkFields(cla)) {
+
+			EntityManager em = this.getEntityManager();
+
+			try {
+				em.getTransaction().begin();
+				this.getEntityManager().persist(cla);
+				em.getTransaction().commit();
+				System.out.println("Aula añadida");
+			} catch (Exception ex) {
+
+				em.getTransaction().rollback();
+				throw ex;
+			} finally {
+				if (em.isOpen()) {
+					em.close();
+				}
+			}
+		}
+
+		return true;
 	}
 
 	@Override
@@ -80,6 +107,23 @@ public class ClassroomServiceImpl extends ServiceImpl implements ManageService<A
 	public boolean delete(long id) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	private boolean checkFields(Aula cla) throws ConnectionException {
+		
+		if (cla.getNombre() == null) {
+			throw new ConnectionException(ConnectionError.FIELD_IS_EMPTY);
+		} else if (cla.getNombre().length() > 50) {
+			throw new ConnectionException(ConnectionError.NAME_TOO_LONG);
+		} else if (super.specialCharacterPattern.matcher(cla.getNombre()).find()) {
+			throw new ConnectionException(ConnectionError.WRONG_CLASSROOM_NAME);
+		}
+
+		if (cla.getNotas() != null && cla.getNotas().length() > 1000) {
+			throw new ConnectionException(ConnectionError.DESCRIPTION_TOO_LONG);
+		}
+		
+		return true;
 	}
 	
 }

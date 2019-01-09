@@ -17,6 +17,8 @@ public class Evaluacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="EVALUACION_ID_GENERATOR", sequenceName="SEQ_EVALUACION")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="EVALUACION_ID_GENERATOR")
 	private long id;
 
 	private Timestamp fecha;
