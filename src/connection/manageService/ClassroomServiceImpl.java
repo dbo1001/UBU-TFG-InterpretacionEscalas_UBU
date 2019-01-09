@@ -80,9 +80,9 @@ public class ClassroomServiceImpl extends ServiceImpl implements ManageService<A
 
 			try {
 				em.getTransaction().begin();
-				this.getEntityManager().persist(cla);
+				em.flush();
+				em.persist(cla);
 				em.getTransaction().commit();
-				System.out.println("Aula añadida");
 			} catch (Exception ex) {
 
 				em.getTransaction().rollback();

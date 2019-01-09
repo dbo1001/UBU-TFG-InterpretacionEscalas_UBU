@@ -68,7 +68,7 @@ public class ClassroomViewController extends SelectorController<Profesor> {
 			cla.setCapacidad(Integer.parseInt(this.capacity.getText()));
 			cla.setNombre(this.name.getText());
 			cla.setNotas(this.description.getText());
-			//cla.setProfesors(super.getSelectedObjects());
+			cla.setProfesors(super.getSelectedObjects());
 
 			try {
 				if (Main.getClassroomService().add(cla)) {
