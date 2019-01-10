@@ -17,7 +17,7 @@ public class Aula implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="AULA_ID_GENERATOR", sequenceName="SEQ_AULA")
+	@SequenceGenerator(name="AULA_ID_GENERATOR", sequenceName="SEQ_AULA", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="AULA_ID_GENERATOR")
 	private long id;
 

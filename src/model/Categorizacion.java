@@ -17,7 +17,7 @@ public class Categorizacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="CATEGORIZACION_ID_GENERATOR", sequenceName="SEQ_CATEGORIZACION")
+	@SequenceGenerator(name="CATEGORIZACION_ID_GENERATOR", sequenceName="SEQ_CATEGORIZACION", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CATEGORIZACION_ID_GENERATOR")
 	private long id;
 

@@ -16,7 +16,7 @@ public class Profesor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="PROFESOR_ID_GENERATOR", sequenceName="SEQ_PROFESOR")
+	@SequenceGenerator(name="PROFESOR_ID_GENERATOR", sequenceName="SEQ_PROFESOR", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PROFESOR_ID_GENERATOR")
 	private long id;
 
@@ -31,6 +31,8 @@ public class Profesor implements Serializable {
 	private String nombre;
 
 	private String notas;
+
+	private Boolean permisos;
 
 	//bi-directional many-to-many association to Aula
 	@ManyToMany(mappedBy="profesors")
@@ -93,6 +95,14 @@ public class Profesor implements Serializable {
 
 	public void setNotas(String notas) {
 		this.notas = notas;
+	}
+
+	public Boolean getPermisos() {
+		return this.permisos;
+	}
+
+	public void setPermisos(Boolean permisos) {
+		this.permisos = permisos;
 	}
 
 	public List<Aula> getAulas() {

@@ -11,13 +11,13 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="ALUMNO", schema="public")
+@Table(name="Alumno", schema="public")
 @NamedQuery(name="Alumno.findAll", query="SELECT a FROM Alumno a")
 public class Alumno implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="ALUMNO_ID_GENERATOR", sequenceName="SEQ_ALUMNO")
+	@SequenceGenerator(name="ALUMNO_ID_GENERATOR", sequenceName="SEQ_ALUMNO", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ALUMNO_ID_GENERATOR")
 	private long id;
 

@@ -17,7 +17,7 @@ public class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="ITEM_NUMERO_GENERATOR", sequenceName="SEQ_ITEM")
+	@SequenceGenerator(name="ITEM_NUMERO_GENERATOR", sequenceName="SEQ_ITEM", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ITEM_NUMERO_GENERATOR")
 	private long numero;
 

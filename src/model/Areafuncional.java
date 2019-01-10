@@ -17,7 +17,7 @@ public class Areafuncional implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="AREAFUNCIONAL_ID_GENERATOR", sequenceName="SEQ_AREAFUNCIONAL")
+	@SequenceGenerator(name="AREAFUNCIONAL_ID_GENERATOR", sequenceName="SEQ_AREAFUNCIONAL", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="AREAFUNCIONAL_ID_GENERATOR")
 	private long id;
 
