@@ -54,8 +54,8 @@ public class StudentServiceImpl extends ServiceImpl implements ManageService<Alu
 	}
 
 	@Override
-	public boolean delete(long id) {
-		System.err.println("Transaccion no implementada. Alumno: " + id);
+	public boolean delete(Alumno stu) {
+		System.err.println("Transaccion no implementada. Alumno: " + stu.getId());
 		return false;
 	}
 

@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -257,7 +258,7 @@ public class Main extends Application {
 		alert.showAndWait();
 
 		if (alert.getResult() == ButtonType.YES) {
-			Main.studentService.delete(stu.getId());
+			Main.studentService.delete(stu);
 		}
 	}
 
@@ -269,19 +270,26 @@ public class Main extends Application {
 		alert.showAndWait();
 
 		if (alert.getResult() == ButtonType.YES) {
-			Main.teacherService.delete(tea.getId());
+			Main.teacherService.delete(tea);
 		}
 
 	}
 
-	public static void deleteClassroom(Aula cla) {
+	public static void deleteClassroom(Aula cla) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION, "¿Estás seguro de que quieres borrar el aula: "
 				+ cla.getNombre() + " ?\n" + "Los cambios serán definitivos.", ButtonType.YES, ButtonType.NO,
 				ButtonType.CANCEL);
 		alert.showAndWait();
 
 		if (alert.getResult() == ButtonType.YES) {
-			Main.classroomService.delete(cla.getId());
+			if(Main.classroomService.delete(cla)) {
+				alert = new Alert(AlertType.INFORMATION, "El aula se ha borrado correctamente.");
+				alert.showAndWait();
+				Main.showManageView();
+			}else {
+				alert = new Alert(AlertType.ERROR, "Ha ocurrido un error inesperado. Vuelve a intentarlo más tarde.");
+				alert.showAndWait();
+			}
 		}
 
 	}
@@ -329,4 +337,5 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
 }

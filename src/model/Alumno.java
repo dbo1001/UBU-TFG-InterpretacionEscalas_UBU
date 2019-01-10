@@ -5,20 +5,22 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * The persistent class for the alumno database table.
  * 
  */
 @Entity
-@Table(name="Alumno", schema="public")
-@NamedQuery(name="Alumno.findAll", query="SELECT a FROM Alumno a")
+@Table(name = "Alumno", schema = "public")
+@NamedQueries({ 
+	@NamedQuery(name = "Alumno.findAll", query = "SELECT a FROM Alumno a"),
+	@NamedQuery(name = "Alumno.findByNIF", query = "SELECT a FROM Alumno a WHERE a.nif = :nif")
+})
 public class Alumno implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="ALUMNO_ID_GENERATOR", sequenceName="SEQ_ALUMNO", allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ALUMNO_ID_GENERATOR")
+	@SequenceGenerator(name = "ALUMNO_ID_GENERATOR", sequenceName = "SEQ_ALUMNO", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ALUMNO_ID_GENERATOR")
 	private long id;
 
 	private String apellido1;
@@ -28,7 +30,7 @@ public class Alumno implements Serializable {
 	private String direccion;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="fecha_nacimiento")
+	@Column(name = "fecha_nacimiento")
 	private Date fechaNacimiento;
 
 	private String nif;
@@ -37,13 +39,13 @@ public class Alumno implements Serializable {
 
 	private String notas;
 
-	//bi-directional many-to-one association to Aula
+	// bi-directional many-to-one association to Aula
 	@ManyToOne
-	@JoinColumn(name="id_aula")
+	@JoinColumn(name = "id_aula")
 	private Aula aula;
 
-	//bi-directional many-to-one association to Evaluacion
-	@OneToMany(mappedBy="alumno")
+	// bi-directional many-to-one association to Evaluacion
+	@OneToMany(mappedBy = "alumno")
 	private List<Evaluacion> evaluacions;
 
 	public Alumno() {

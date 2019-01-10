@@ -2,6 +2,8 @@ package gui.view.teacher;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import gui.Main;
@@ -83,6 +85,7 @@ public class TeacherManageViewController extends Controller {
 
 	public void setAllTeachers(List<Profesor> teachers) {
 		this.allTeachers = teachers;
+		Collections.sort(this.allTeachers, new SortTeacher());
 		this.loadTeachers(teachers);
 	}
 
@@ -239,6 +242,16 @@ public class TeacherManageViewController extends Controller {
 
 		public void setDelete(Label delete) {
 			this.delete = delete;
+		}
+
+	}
+	
+	private class SortTeacher implements Comparator<Profesor> {
+		@Override
+		public int compare(Profesor p1, Profesor p2) {
+			String p1Display = "" + p1.getApellido1() + " " + p1.getApellido2() + ", " + p1.getNombre();
+			String p2Display = "" + p2.getApellido1() + " " + p2.getApellido2() + ", " + p2.getNombre();
+			return String.CASE_INSENSITIVE_ORDER.compare(p1Display, p2Display);
 		}
 
 	}

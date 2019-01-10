@@ -104,7 +104,7 @@
             <DatePicker fx:id="date" prefWidth="200.0" promptText="Selecciona una fecha" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="direction" maxWidth="200.0" prefWidth="200.0" promptText="Dirección" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <ChoiceBox fx:id="aulaCB" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <TextArea fx:id="description" maxHeight="70.0" maxWidth="300.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" />
+            <TextArea fx:id="description" maxHeight="70.0" maxWidth="300.0" prefWidth="300.0" promptText="Descripción" wrapText="true" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" />
          </children>
          <BorderPane.margin>
             <Insets top="30.0" />

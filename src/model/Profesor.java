@@ -11,7 +11,10 @@ import java.util.List;
  */
 @Entity
 @Table(name="PROFESOR", schema="public")
-@NamedQuery(name="Profesor.findAll", query="SELECT p FROM Profesor p")
+@NamedQueries({ 
+	@NamedQuery(name="Profesor.findAll", query="SELECT p FROM Profesor p"),
+	@NamedQuery(name="Profesor.findByNIF", query="SELECT p FROM Profesor p WHERE p.nif = :nif")
+})
 public class Profesor implements Serializable {
 	private static final long serialVersionUID = 1L;
 

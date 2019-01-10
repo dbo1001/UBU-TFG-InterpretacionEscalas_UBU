@@ -27,7 +27,7 @@ public class EvaluationServiceImpl extends ServiceImpl implements ManageService<
 	}
 
 	@Override
-	public boolean delete(long id) {
+	public boolean delete(Evaluacion object) {
 		// TODO Auto-generated method stub
 		return false;
 	}

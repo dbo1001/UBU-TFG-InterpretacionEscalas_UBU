@@ -84,7 +84,7 @@
                   <TextField fx:id="primerApellido" maxWidth="-Infinity" prefWidth="200.0" promptText="Primer apellido" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <TextField fx:id="segundoApellido" maxWidth="-Infinity" prefWidth="200.0" promptText="Segundo apellido" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <TextField fx:id="NIF" maxWidth="-Infinity" prefWidth="200.0" promptText="NIF" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                  <TextArea fx:id="description" maxHeight="70.0" maxWidth="-Infinity" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  <TextArea fx:id="description" maxHeight="70.0" maxWidth="-Infinity" prefWidth="300.0" promptText="Descripción" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                   <ListView fx:id="objectsDisplayed" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="180.0" prefWidth="300.0" styleClass="mediumText" GridPane.rowIndex="6" />
                   <ListView fx:id="objectsSelected" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="180.0" prefWidth="300.0" styleClass="mediumText" GridPane.columnIndex="2" GridPane.rowIndex="6" />
                </children>

@@ -2,6 +2,8 @@ package gui.view.classroom;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import gui.Main;
@@ -65,6 +67,7 @@ public class ClassroomManageViewController extends Controller {
 
 	public void setAllClassrooms(List<Aula> classrooms) {
 		this.allClassrooms = classrooms;
+		Collections.sort(this.allClassrooms, new SortClassroom());
 		this.loadClassrooms(classrooms);
 	}
 
@@ -103,6 +106,7 @@ public class ClassroomManageViewController extends Controller {
 	///////////////////////////////
 	protected class CeldaAula {
 
+		private Aula cla;
 		private String nombre = "";
 		private String capacidad = "";
 		private Label edit;
@@ -123,11 +127,13 @@ public class ClassroomManageViewController extends Controller {
 		public CeldaAula(Aula cla) {
 			this.nombre = cla.getNombre();
 			this.capacidad = "" + cla.getCapacidad();
+			this.cla = cla;
 
 			edit = new Label("Editar");
 			// edit.setFont(new Font(18));
 			edit.setTextFill(Color.web("3366bb"));
 			edit.setUnderline(true);
+			edit.getStyleClass().add("controlLabel");
 			edit.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 				@Override
@@ -148,11 +154,17 @@ public class ClassroomManageViewController extends Controller {
 			// delete.setFont(new Font(18));
 			delete.setTextFill(Color.web("3366bb"));
 			delete.setUnderline(true);
+			delete.getStyleClass().add("controlLabel");
 			delete.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 				@Override
 				public void handle(MouseEvent e) {
-					Main.deleteClassroom(cla);
+					try {
+						Main.deleteClassroom(cla);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 
 			});
@@ -200,6 +212,13 @@ public class ClassroomManageViewController extends Controller {
 			this.delete = delete;
 		}
 
+	}
+	
+	private class SortClassroom implements Comparator<Aula> {
+		@Override
+		public int compare(Aula a1, Aula a2) {
+			return String.CASE_INSENSITIVE_ORDER.compare(a1.getNombre(), a2.getNombre());
+		}
 	}
 
 	@FXML

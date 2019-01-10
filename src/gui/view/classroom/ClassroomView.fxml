@@ -70,7 +70,7 @@
                </font>
             </Text>
             <TextField fx:id="name" maxWidth="200.0" prefWidth="200.0" promptText="Nombre" GridPane.columnIndex="2" />
-            <TextField fx:id="capacity" maxWidth="-Infinity" prefWidth="200.0" promptText="Primer apellido" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <TextField fx:id="capacity" maxWidth="-Infinity" prefWidth="200.0" promptText="Capacidad" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bigText" text="Selecciona el profesor/es:" GridPane.rowIndex="3" />
             <ListView fx:id="objectsDisplayed" maxWidth="-Infinity" prefWidth="300.0" styleClass="mediumText" GridPane.rowIndex="4" />
             <ListView fx:id="objectsSelected" maxWidth="-Infinity" prefWidth="300.0" styleClass="mediumText" GridPane.columnIndex="2" GridPane.rowIndex="4" />
@@ -80,8 +80,8 @@
                   <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#deselect" prefHeight="50.0" prefWidth="40.0" rotate="180.0" styleClass="arrowButton" />
                </children>
             </VBox>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subTitle" text="Descripcion" GridPane.rowIndex="2" />
-            <TextArea fx:id="description" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="300.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subTitle" text="Descripción" GridPane.rowIndex="2" />
+            <TextArea fx:id="description" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="300.0" promptText="Descripcion " GridPane.columnIndex="2" GridPane.rowIndex="2" />
          </children>
          <BorderPane.margin>
             <Insets top="30.0" />

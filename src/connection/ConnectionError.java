@@ -12,7 +12,8 @@ public enum ConnectionError {
 	DIRECTION_TOO_LONG("ERROR: La longitud de la dirección no puede ser superior a 150 carácteres."),
 	DESCRIPTION_TOO_LONG("ERROR: La longitud de la descripción no puede ser superior a 1000 carácteres."),
 	CLASSROOM_IS_FULL("ERROR: La clase a la que estas intentando añadir al alumno esta llena."),
-	FIELD_IS_EMPTY("ERROR: Los campos marcados con * son obligatorios y no pueden quedar en blanco.");
+	FIELD_IS_EMPTY("ERROR: Los campos marcados con * son obligatorios y no pueden quedar en blanco."),
+	CLASSROOM_ALREADY_EXISTS("ERROR: Ya existe un aula con el mismo nombre.");
 	
 	
 	private String text;

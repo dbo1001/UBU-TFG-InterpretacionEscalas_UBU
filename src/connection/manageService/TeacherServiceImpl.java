@@ -81,8 +81,8 @@ public class TeacherServiceImpl extends ServiceImpl implements ManageService<Pro
 	}
 
 	@Override
-	public boolean delete(long id) {
-		System.err.println("Transaccion no implementada. Profesor: " + id);
+	public boolean delete(Profesor tea) {
+		System.err.println("Transaccion no implementada. Profesor: " + tea.getId());
 		return false;
 	}
 	

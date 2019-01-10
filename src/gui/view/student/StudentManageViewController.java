@@ -2,6 +2,8 @@ package gui.view.student;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import gui.Main;
@@ -89,6 +91,7 @@ public class StudentManageViewController extends Controller {
 
 	public void setAllStudents(List<Alumno> students) {
 		this.allStudents = students;
+		Collections.sort(this.allStudents, new SortStudent());
 		this.loadStudents(students);
 	}
 
@@ -252,6 +255,16 @@ public class StudentManageViewController extends Controller {
 		public Label getEditEvaluation() {
 			return editEvaluation;
 		}
+	}
+	
+	private class SortStudent implements Comparator<Alumno>{
+		@Override
+		public int compare(Alumno a1, Alumno a2) {
+			String a1Display = "" + a1.getApellido1() + " " + a1.getApellido2() + ", " + a1.getNombre();
+			String a2Display = "" + a2.getApellido1() + " " + a2.getApellido2() + ", " + a2.getNombre();
+			return String.CASE_INSENSITIVE_ORDER.compare(a1Display, a2Display);	
+		}
+		
 	}
 
 	@FXML

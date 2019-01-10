@@ -9,6 +9,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import connection.ConnectionError;
+import connection.ConnectionException;
 import connection.manageService.ClassroomServiceImpl;
 import connection.manageService.ManageService;
 import gui.Main;
@@ -17,12 +19,15 @@ import gui.view.SelectorController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import model.Alumno;
@@ -86,8 +91,29 @@ public class EditClassroomViewController extends SelectorController<Profesor> {
 	}
 
 	@FXML
-	private void acept() {
-		System.out.println("Aceptar y sobreescibir los cambios del aula.");
+	private void acept() throws IOException {
+		if (this.capacity.getText().length() > 0 && !super.intPattern.matcher(this.capacity.getText()).find()) {
+			cla.setCapacidad(Integer.parseInt(this.capacity.getText()));
+			cla.setNombre(this.name.getText());
+			cla.setNotas(this.description.getText());
+			cla.setProfesors(super.getSelectedObjects());
+
+			try {
+				if (Main.getClassroomService().edit(cla)) {
+					Alert alert = new Alert(AlertType.INFORMATION, "La nueva aula se ha creado correctamente",
+							ButtonType.OK);
+					alert.showAndWait();
+					Main.setModifiedData(false);
+					Main.showManageView();
+				}
+			} catch (ConnectionException cEx) {
+				Alert alert = new Alert(AlertType.ERROR, cEx.getError().getText(), ButtonType.OK);
+				alert.showAndWait();
+			}
+		}else {
+			Alert alert = new Alert(AlertType.ERROR, ConnectionError.WRONG_CAPACITY.getText(), ButtonType.OK);
+			alert.showAndWait();
+		}
 	}
 	
 	private class SortTeacher implements Comparator<Profesor> {
