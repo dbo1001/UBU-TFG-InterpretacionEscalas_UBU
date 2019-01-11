@@ -72,7 +72,7 @@ public class ClassroomViewController extends SelectorController<Profesor> {
 
 			try {
 				if (Main.getClassroomService().add(cla)) {
-					Alert alert = new Alert(AlertType.INFORMATION, "La nueva aula se ha creado correctamente",
+					Alert alert = new Alert(AlertType.INFORMATION, "El nuevo aula se ha creado correctamente",
 							ButtonType.OK);
 					alert.showAndWait();
 					Main.setModifiedData(false);

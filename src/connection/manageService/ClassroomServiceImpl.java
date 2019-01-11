@@ -98,7 +98,6 @@ public class ClassroomServiceImpl extends ServiceImpl implements ManageService<A
 				List<Aula> check = em.createNamedQuery("Aula.findByName", Aula.class)
 						.setParameter("name", cla.getNombre()).getResultList();
 				if (check.size() != 0 && check.get(0).getId() != cla.getId()) {
-					System.out.println(check.get(0).getId() + "asd" + cla.getId());
 					throw new ConnectionException(ConnectionError.CLASSROOM_ALREADY_EXISTS);
 				}
 				em.merge(cla);
@@ -141,7 +140,7 @@ public class ClassroomServiceImpl extends ServiceImpl implements ManageService<A
 
 	private boolean checkFields(Aula cla) throws ConnectionException {
 
-		if (cla.getNombre() == null) {
+		if (cla.getNombre().equals("")) {
 			throw new ConnectionException(ConnectionError.FIELD_IS_EMPTY);
 		} else if (cla.getNombre().length() > 50) {
 			throw new ConnectionException(ConnectionError.NAME_TOO_LONG);
@@ -149,7 +148,7 @@ public class ClassroomServiceImpl extends ServiceImpl implements ManageService<A
 			throw new ConnectionException(ConnectionError.WRONG_CLASSROOM_NAME);
 		}
 
-		if (cla.getNotas() != null && cla.getNotas().length() > 1000) {
+		if (cla.getNotas().length() > 1000) {
 			throw new ConnectionException(ConnectionError.DESCRIPTION_TOO_LONG);
 		}
 

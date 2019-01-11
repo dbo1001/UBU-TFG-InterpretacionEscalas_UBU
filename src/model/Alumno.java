@@ -5,47 +5,48 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+
 /**
  * The persistent class for the alumno database table.
  * 
  */
 @Entity
-@Table(name = "Alumno", schema = "public")
+@Table(name="ALUMNO", schema="public")
 @NamedQueries({ 
 	@NamedQuery(name = "Alumno.findAll", query = "SELECT a FROM Alumno a"),
-	@NamedQuery(name = "Alumno.findByNIF", query = "SELECT a FROM Alumno a WHERE a.nif = :nif")
+	@NamedQuery(name = "Alumno.findByCodigo", query = "SELECT a FROM Alumno a WHERE a.codigo = :codigo")
 })
 public class Alumno implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name = "ALUMNO_ID_GENERATOR", sequenceName = "SEQ_ALUMNO", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ALUMNO_ID_GENERATOR")
+	@SequenceGenerator(name="ALUMNO_ID_GENERATOR", sequenceName="SEQ_ALUMNO", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ALUMNO_ID_GENERATOR")
 	private long id;
 
 	private String apellido1;
 
 	private String apellido2;
 
+	private String codigo;
+
 	private String direccion;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "fecha_nacimiento")
+	@Column(name="fecha_nacimiento")
 	private Date fechaNacimiento;
-
-	private String nif;
 
 	private String nombre;
 
 	private String notas;
 
-	// bi-directional many-to-one association to Aula
+	//bi-directional many-to-one association to Aula
 	@ManyToOne
-	@JoinColumn(name = "id_aula")
+	@JoinColumn(name="id_aula")
 	private Aula aula;
 
-	// bi-directional many-to-one association to Evaluacion
-	@OneToMany(mappedBy = "alumno")
+	//bi-directional many-to-one association to Evaluacion
+	@OneToMany(mappedBy="alumno")
 	private List<Evaluacion> evaluacions;
 
 	public Alumno() {
@@ -75,6 +76,14 @@ public class Alumno implements Serializable {
 		this.apellido2 = apellido2;
 	}
 
+	public String getCodigo() {
+		return this.codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
 	public String getDireccion() {
 		return this.direccion;
 	}
@@ -89,14 +98,6 @@ public class Alumno implements Serializable {
 
 	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
-	}
-
-	public String getNif() {
-		return this.nif;
-	}
-
-	public void setNif(String nif) {
-		this.nif = nif;
 	}
 
 	public String getNombre() {

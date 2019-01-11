@@ -12,6 +12,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -106,32 +108,32 @@ public class StudentManageViewController extends Controller {
 	private void filter() {
 		this.loadCursor();
 		List<Alumno> filteredStudents = new ArrayList<Alumno>();
-		
+
 		if (this.currentNameFilter != null && this.currentSurnameFilter != null) {
 			for (Alumno stu : this.allStudents) {
-				if (stu.getNombre().toUpperCase().charAt(0) == this.currentNameFilter.getText().charAt(0)
-						&& stu.getApellido1().toUpperCase().charAt(0) == this.currentSurnameFilter.getText().charAt(0)) {
+				if (stu.getNombre().toUpperCase().charAt(0) == this.currentNameFilter.getText().charAt(0) && stu
+						.getApellido1().toUpperCase().charAt(0) == this.currentSurnameFilter.getText().charAt(0)) {
 					filteredStudents.add(stu);
 				}
 			}
 			this.loadStudents(filteredStudents);
-			
-		}else if(this.currentNameFilter != null && this.currentSurnameFilter == null){
+
+		} else if (this.currentNameFilter != null && this.currentSurnameFilter == null) {
 			for (Alumno stu : this.allStudents) {
-				if (stu.getNombre().toUpperCase().charAt(0) == this.currentNameFilter.getText().charAt(0)){
+				if (stu.getNombre().toUpperCase().charAt(0) == this.currentNameFilter.getText().charAt(0)) {
 					filteredStudents.add(stu);
 				}
 			}
 			this.loadStudents(filteredStudents);
-			
-		}else if(this.currentNameFilter == null && this.currentSurnameFilter != null){
+
+		} else if (this.currentNameFilter == null && this.currentSurnameFilter != null) {
 			for (Alumno stu : this.allStudents) {
 				if (stu.getApellido1().toUpperCase().charAt(0) == this.currentSurnameFilter.getText().charAt(0)) {
 					filteredStudents.add(stu);
 				}
 			}
 			this.loadStudents(filteredStudents);
-			
+
 		} else {
 			this.loadStudents(allStudents);
 		}
@@ -181,7 +183,8 @@ public class StudentManageViewController extends Controller {
 					try {
 						Main.showEvaluationView(stu);
 					} catch (IOException e1) {
-						System.err.println("Error, archivo EvaluationtView.fxml no encontrado en la carpeta gui/view/evaluation.");
+						System.err.println(
+								"Error, archivo EvaluationtView.fxml no encontrado en la carpeta gui/view/evaluation.");
 						e1.printStackTrace();
 					}
 				};
@@ -189,7 +192,7 @@ public class StudentManageViewController extends Controller {
 			});
 			newEvaluation.setOnMouseEntered(mouseOver);
 			newEvaluation.setOnMouseExited(mouseLeft);
-			
+
 			edit = new Label("Editar");
 			// edit.setFont(new Font(18));
 			edit.setTextFill(Color.web("3366bb"));
@@ -202,7 +205,9 @@ public class StudentManageViewController extends Controller {
 					try {
 						Main.showEditStudentView(stu);
 					} catch (IOException e1) {
-						System.err.println("Error, archivo EditStudentView.fxml no encontrado en la carpeta view.");
+						Alert alert = new Alert(AlertType.ERROR,
+								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+						alert.showAndWait();
 						e1.printStackTrace();
 					}
 				};
@@ -220,7 +225,14 @@ public class StudentManageViewController extends Controller {
 
 				@Override
 				public void handle(MouseEvent e) {
-					Main.deleteStudent(stu);
+					try {
+						Main.deleteStudent(stu);
+					} catch (IOException e1) {
+						Alert alert = new Alert(AlertType.ERROR,
+								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+						alert.showAndWait();
+						e1.printStackTrace();
+					}
 				}
 
 			});
@@ -247,7 +259,7 @@ public class StudentManageViewController extends Controller {
 		public Label getDelete() {
 			return delete;
 		}
-		
+
 		public Label getNewEvaluation() {
 			return newEvaluation;
 		}
@@ -256,15 +268,15 @@ public class StudentManageViewController extends Controller {
 			return editEvaluation;
 		}
 	}
-	
-	private class SortStudent implements Comparator<Alumno>{
+
+	private class SortStudent implements Comparator<Alumno> {
 		@Override
 		public int compare(Alumno a1, Alumno a2) {
 			String a1Display = "" + a1.getApellido1() + " " + a1.getApellido2() + ", " + a1.getNombre();
 			String a2Display = "" + a2.getApellido1() + " " + a2.getApellido2() + ", " + a2.getNombre();
-			return String.CASE_INSENSITIVE_ORDER.compare(a1Display, a2Display);	
+			return String.CASE_INSENSITIVE_ORDER.compare(a1Display, a2Display);
 		}
-		
+
 	}
 
 	@FXML

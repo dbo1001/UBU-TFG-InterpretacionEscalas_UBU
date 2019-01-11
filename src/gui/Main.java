@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import connection.ConnectionException;
 import connection.manageService.ClassroomServiceImpl;
 import connection.manageService.ManageService;
 import connection.manageService.StudentServiceImpl;
@@ -58,7 +59,7 @@ public class Main extends Application {
 	private static ManageService<Profesor> teacherService = new TeacherServiceImpl();
 	private static UtilService utilService = new UtilServiceImpl();
 	private static boolean modifiedData = false;
-	//TODO borrar esta variable
+	// TODO borrar esta variable
 	private static TeacherServiceImpl tS = new TeacherServiceImpl();
 	private static Profesor currentTeacher = tS.getCurrentteacher();
 	private static LinkedList<Node> previousNodeQueue = new LinkedList<Node>();
@@ -69,7 +70,7 @@ public class Main extends Application {
 		Main.primaryStage.setTitle("Interpretación de escalas");
 
 		showMain();
-		//showManageView();
+		// showManageView();
 		showStudentSelectionView();
 	}
 
@@ -87,8 +88,8 @@ public class Main extends Application {
 	public static void showManageView() throws IOException {
 
 		Main.loadCursor();
-		
-		//TODO esto deberia estar en el menu principal
+
+		// TODO esto deberia estar en el menu principal
 		Main.previousNodeQueue.clear();
 
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/ManageView.fxml"));
@@ -150,7 +151,7 @@ public class Main extends Application {
 		Main.mainLayout.setCenter(classroomView);
 
 	}
-	
+
 	public static void showEvaluationView(Alumno stu) throws IOException {
 		Main.modifiedData = true;
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/evaluation/EvaluationView.fxml"));
@@ -162,18 +163,18 @@ public class Main extends Application {
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(evaluationView);
 	}
-	
+
 	public static void showStudentSelectionView() throws IOException {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/StudentSelectionView.fxml"));
 		BorderPane studentSelectionView = loader.load();
 		StudentSelectionViewController ssVC = loader.getController();
-		//TODO adaptar al caso del ADMIN
+		// TODO adaptar al caso del ADMIN
 		ssVC.setClassrooms(Main.currentTeacher.getAulas());
 
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(studentSelectionView);
 	}
-	
+
 	public static void showEvaluationSelectionView(List<Alumno> selectedStudents) throws IOException {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/EvaluationSelectionView.fxml"));
 		BorderPane evaluationSelectionView = loader.load();
@@ -183,7 +184,7 @@ public class Main extends Application {
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(evaluationSelectionView);
 	}
-	
+
 	public static void showGraphSelectionView(List<Evaluacion> selectedEvaluations) throws IOException {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/GraphSelectionView.fxml"));
 		BorderPane graphSelectionView = loader.load();
@@ -193,20 +194,18 @@ public class Main extends Application {
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(graphSelectionView);
 	}
-	
-	public static void showGraphView(List<Evaluacion> selectedEvaluations, List<Areafuncional> selectedFa, List<Categorizacion> selectedCa, List<Item> selectedIt) throws IOException {
+
+	public static void showGraphView(List<Evaluacion> selectedEvaluations, List<Areafuncional> selectedFa,
+			List<Categorizacion> selectedCa, List<Item> selectedIt) throws IOException {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/GraphView.fxml"));
 		BorderPane graphView = loader.load();
 		GraphViewController gVC = loader.getController();
-/*
-		if(selectedCa.size() == 0 && selectedIt.size()==0) {
-			gVC.faChart(selectedEvaluations, selectedFa);
-		}else if(selectedIt.size() == 0) {
-			gVC.caChart(selectedEvaluations, selectedCa);
-		}else {
-			gVC.itChart(selectedEvaluations, selectedIt);
-		}*/
-		
+		/*
+		 * if(selectedCa.size() == 0 && selectedIt.size()==0) {
+		 * gVC.faChart(selectedEvaluations, selectedFa); }else if(selectedIt.size() ==
+		 * 0) { gVC.caChart(selectedEvaluations, selectedCa); }else {
+		 * gVC.itChart(selectedEvaluations, selectedIt); }
+		 */
 
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(graphView);
@@ -218,7 +217,7 @@ public class Main extends Application {
 		BorderPane editSudentView = loader.load();
 		EditStudentViewController editStudentController = loader.getController();
 		editStudentController.setStudentAndClassrooms(stu, Main.classroomService.getAll());
-		
+
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(editSudentView);
 		// Main.studentService.edit(stu.getId());
@@ -231,7 +230,7 @@ public class Main extends Application {
 		BorderPane editTeacherView = loader.load();
 		EditTeacherViewController editTeacherController = loader.getController();
 		editTeacherController.setTeacherAndClassrooms(tea, Main.classroomService.getAll());
-		
+
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(editTeacherView);
 		// Main.teacherService.edit(tea.getId());
@@ -244,13 +243,13 @@ public class Main extends Application {
 		BorderPane editClassroomView = loader.load();
 		EditClassroomViewController editClassroomController = loader.getController();
 		editClassroomController.setClassroom(cla, Main.teacherService.getAll());
-		
+
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(editClassroomView);
 
 	}
 
-	public static void deleteStudent(Alumno stu) {
+	public static void deleteStudent(Alumno stu) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION,
 				"¿Estás seguro de que quieres borrar el alumno/a: " + stu.getNombre() + " " + stu.getApellido1() + " "
 						+ stu.getApellido2() + "?\n" + "Los cambios serán definitivos.",
@@ -258,11 +257,20 @@ public class Main extends Application {
 		alert.showAndWait();
 
 		if (alert.getResult() == ButtonType.YES) {
-			Main.studentService.delete(stu);
+			try {
+				if (Main.studentService.delete(stu)) {
+					alert = new Alert(AlertType.INFORMATION, "El alumno se ha borrado correctamente.");
+					alert.showAndWait();
+					Main.showManageView();
+				}
+			} catch (ConnectionException cEx) {
+				alert = new Alert(AlertType.ERROR, cEx.getError().getText());
+				alert.showAndWait();
+			}
 		}
 	}
 
-	public static void deleteTeacher(Profesor tea) {
+	public static void deleteTeacher(Profesor tea) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION,
 				"¿Estás seguro de que quieres borrar el profesor/a: " + tea.getNombre() + " " + tea.getApellido1() + " "
 						+ tea.getApellido2() + "?\n" + "Los cambios serán definitivos.",
@@ -270,7 +278,16 @@ public class Main extends Application {
 		alert.showAndWait();
 
 		if (alert.getResult() == ButtonType.YES) {
-			Main.teacherService.delete(tea);
+			try {
+				if (Main.teacherService.delete(tea)) {
+					alert = new Alert(AlertType.INFORMATION, "El profesor se ha borrado correctamente.");
+					alert.showAndWait();
+					Main.showManageView();
+				}
+			} catch (ConnectionException cEx) {
+				alert = new Alert(AlertType.ERROR, cEx.getError().getText());
+				alert.showAndWait();
+			}
 		}
 
 	}
@@ -282,14 +299,18 @@ public class Main extends Application {
 		alert.showAndWait();
 
 		if (alert.getResult() == ButtonType.YES) {
-			if(Main.classroomService.delete(cla)) {
-				alert = new Alert(AlertType.INFORMATION, "El aula se ha borrado correctamente.");
-				alert.showAndWait();
-				Main.showManageView();
-			}else {
-				alert = new Alert(AlertType.ERROR, "Ha ocurrido un error inesperado. Vuelve a intentarlo más tarde.");
+
+			try {
+				if (Main.classroomService.delete(cla)) {
+					alert = new Alert(AlertType.INFORMATION, "El aula se ha borrado correctamente.");
+					alert.showAndWait();
+					Main.showManageView();
+				}
+			} catch (ConnectionException cEx) {
+				alert = new Alert(AlertType.ERROR, cEx.getError().getText());
 				alert.showAndWait();
 			}
+
 		}
 
 	}
@@ -297,6 +318,7 @@ public class Main extends Application {
 	public static void goBack() {
 		Main.mainLayout.setCenter(Main.previousNodeQueue.pollLast());
 	}
+
 	public static void handCursor() {
 		Main.primaryStage.getScene().setCursor(Cursor.HAND);
 	}
@@ -316,7 +338,7 @@ public class Main extends Application {
 	public static boolean getDataIntegrity() {
 		return Main.modifiedData;
 	}
-	
+
 	public static ManageService<Alumno> getStudentService() {
 		return studentService;
 	}
@@ -333,9 +355,8 @@ public class Main extends Application {
 		return utilService;
 	}
 
-
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
+
 }

@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import connection.ConnectionException;
 import connection.manageService.ClassroomServiceImpl;
 import connection.manageService.ManageService;
 import gui.Main;
@@ -16,12 +18,15 @@ import gui.view.SelectorController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import model.Alumno;
@@ -31,15 +36,19 @@ import model.Profesor;
 public class EditTeacherViewController extends SelectorController<Aula> {
 
 	@FXML
-	private TextField nombre;
+	TextField name;
 	@FXML
-	private TextField primerApellido;
+	TextField surname1;
 	@FXML
-	private TextField segundoApellido;
+	TextField surname2;
 	@FXML
-	private TextField NIF;
+	TextField NIF;
 	@FXML
-	private TextArea description;
+	TextArea description;
+	@FXML
+	TextField password;
+	@FXML
+	ChoiceBox<String> rights;
 	
 	private List<Aula> listAllClassrooms;
 	private Profesor tea;
@@ -61,6 +70,16 @@ public class EditTeacherViewController extends SelectorController<Aula> {
 			return cellsList;
 		}
 	};
+	
+	@FXML
+	private void initialize() {
+		List<String> choices = new ArrayList<String>();
+		choices.add("Sí");
+		choices.add("No");
+		this.rights.getItems().addAll(choices);
+		this.rights.getSelectionModel().select("No");
+	}
+	
 
 	public void setTeacherAndClassrooms(Profesor tea, List<Aula> allClassrooms) {
 		this.tea = tea;
@@ -71,11 +90,13 @@ public class EditTeacherViewController extends SelectorController<Aula> {
 	@FXML
 	private void fillFields() {
 	
-		if(nombre != null)this.nombre.setText(tea.getNombre());
-		this.primerApellido.setText(tea.getApellido1());
-		this.segundoApellido.setText(tea.getApellido2());
+		this.name.setText(tea.getNombre());
+		this.surname1.setText(tea.getApellido1());
+		this.surname2.setText(tea.getApellido2());
 		this.NIF.setText(tea.getNif());
 		this.description.setText(this.tea.getNotas());
+		this.rights.getSelectionModel().select(this.tea.getPermisos() == true ? "Sí" : "No");
+		this.password.setText(tea.getContrasena());
 		
 		
 		super.initialize(callback, this.listAllClassrooms, new SortClassroom());
@@ -94,8 +115,29 @@ public class EditTeacherViewController extends SelectorController<Aula> {
 	}
 
 	@FXML
-	private void acept() {
-		System.out.println("Aceptar y sobreescibir los cambios del profesor.");
+	private void acept() throws IOException {
+		tea.setNombre(this.name.getText());
+		tea.setApellido1(this.surname1.getText());
+		tea.setApellido2(this.surname2.getText());
+		tea.setNif(this.NIF.getText());
+		tea.setNotas(this.description.getText());
+		tea.setContrasena(this.password.getText());
+		tea.setPermisos(this.rights.getSelectionModel().getSelectedItem().equals("No") ? false : true);
+		tea.setAulas(super.getSelectedObjects());
+
+		try {
+			if (Main.getTeacherService().edit(tea)) {
+				Alert alert = new Alert(AlertType.INFORMATION, "El profesor se ha modificado correctamente",
+						ButtonType.OK);
+				alert.showAndWait();
+				Main.setModifiedData(false);
+				Main.showManageView();
+			}
+		} catch (ConnectionException cEx) {
+			Alert alert = new Alert(AlertType.ERROR, cEx.getError().getText(), ButtonType.OK);
+			alert.showAndWait();
+		}
+
 	}
 	
 	private class SortClassroom implements Comparator<Aula> {

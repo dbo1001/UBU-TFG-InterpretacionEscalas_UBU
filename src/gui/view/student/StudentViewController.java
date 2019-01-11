@@ -35,7 +35,7 @@ public class StudentViewController extends Controller {
 	@FXML
 	TextField surname2;
 	@FXML
-	TextField NIF;
+	TextField codigo;
 	@FXML
 	TextField direction;
 	@FXML
@@ -92,7 +92,7 @@ public class StudentViewController extends Controller {
 			date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
 		}
 		
-		stu.setNif(this.NIF.getText());
+		stu.setCodigo(this.codigo.getText());
 		stu.setNombre(this.name.getText());
 		stu.setApellido1(this.surname1.getText());
 		stu.setApellido2(this.surname2.getText());

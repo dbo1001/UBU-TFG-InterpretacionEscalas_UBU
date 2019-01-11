@@ -35,7 +35,7 @@ public class Aula implements Serializable {
 	private List<Alumno> alumnos;
 
 	//bi-directional many-to-many association to Profesor
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 		name="aula_profesor"
 		, joinColumns={
@@ -110,6 +110,16 @@ public class Aula implements Serializable {
 
 	public void setProfesors(List<Profesor> profesors) {
 		this.profesors = profesors;
+	}
+	
+	@Override
+	public boolean equals(Object cla) {
+		if(cla instanceof Aula && this.id == ((Aula) cla).getId()) {
+			return true;
+		}else {
+			return false;
+		}
+		
 	}
 
 }

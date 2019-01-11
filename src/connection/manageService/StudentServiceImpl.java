@@ -78,8 +78,10 @@ public class StudentServiceImpl extends ServiceImpl implements ManageService<Alu
 			throw new ConnectionException(ConnectionError.WRONG_SURNAME);
 		}
 
-		if (stu.getNif() == null) {
+		if (stu.getCodigo() == "") {
 			throw new ConnectionException(ConnectionError.FIELD_IS_EMPTY);
+		}else if (stu.getCodigo().length() > 30) {
+			throw new ConnectionException(ConnectionError.WRONG_CODE);
 		}
 
 		if (stu.getFechaNacimiento() == null) {

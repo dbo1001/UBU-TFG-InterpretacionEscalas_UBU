@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
@@ -45,16 +46,17 @@
                   <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                   <RowConstraints maxHeight="-Infinity" minHeight="10.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints maxHeight="-Infinity" minHeight="10.0" valignment="CENTER" vgrow="ALWAYS" />
               </rowConstraints>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subTitle" text="Nombre">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subTitle" text="Nombre*">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subTitle" text="Primer apellido" GridPane.rowIndex="1">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subTitle" text="Primer apellido*" GridPane.rowIndex="1">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -64,18 +66,18 @@
                         <Font size="24.0" />
                      </font>
                   </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subTitle" text="NIF" GridPane.rowIndex="3">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subTitle" text="NIF*" GridPane.rowIndex="3">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Text>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subTitle" text="Descripción" GridPane.rowIndex="4" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bigText" text="Selecciona las aula/s:" GridPane.rowIndex="6">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bigText" text="Selecciona las aula/s:" GridPane.rowIndex="7">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Text>
-                  <VBox alignment="CENTER" spacing="25.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                  <VBox alignment="CENTER" spacing="25.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
                      <children>
                         <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#select" prefHeight="50.0" prefWidth="40.0" styleClass="arrowButton" />
                         <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#deselect" prefHeight="50.0" prefWidth="40.0" rotate="180.0" styleClass="arrowButton" />
@@ -86,10 +88,12 @@
                   <TextField fx:id="surname2" maxWidth="-Infinity" prefWidth="200.0" promptText="Segundo apellido" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <TextField fx:id="NIF" maxWidth="-Infinity" prefWidth="200.0" promptText="NIF" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                   <TextArea fx:id="description" maxHeight="70.0" maxWidth="-Infinity" prefWidth="300.0" promptText="Descripción" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                  <ListView fx:id="objectsDisplayed" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="180.0" prefWidth="300.0" styleClass="mediumText" GridPane.rowIndex="7" />
-                  <ListView fx:id="objectsSelected" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="180.0" prefWidth="300.0" styleClass="mediumText" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subTitle" text="Contraseña:" GridPane.rowIndex="5" />
+                  <ListView fx:id="objectsDisplayed" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="180.0" prefWidth="300.0" styleClass="mediumText" GridPane.rowIndex="8" />
+                  <ListView fx:id="objectsSelected" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="180.0" prefWidth="300.0" styleClass="mediumText" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subTitle" text="Contraseña*" GridPane.rowIndex="5" />
                   <TextField fx:id="password" promptText="Contraseña" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subTitle" text="Derechos de edición" GridPane.rowIndex="6" />
+                  <ChoiceBox fx:id="rights" GridPane.columnIndex="2" GridPane.rowIndex="6" />
                </children>
             </GridPane>
          </content>

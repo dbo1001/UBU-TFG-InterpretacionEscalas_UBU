@@ -31,7 +31,7 @@ public class EditStudentViewController extends Controller {
 	@FXML
 	private TextField segundoApellido;
 	@FXML
-	private TextField NIF;
+	private TextField codigo;
 	@FXML
 	private TextField direccion;
 	@FXML
@@ -76,7 +76,7 @@ public class EditStudentViewController extends Controller {
 		this.nombre.setText(stu.getNombre());
 		this.primerApellido.setText(stu.getApellido1());
 		this.segundoApellido.setText(stu.getApellido2());
-		this.NIF.setText(stu.getNif());
+		this.codigo.setText(stu.getCodigo());
 
 		Date fecha = stu.getFechaNacimiento();
 		if (fecha != null) {

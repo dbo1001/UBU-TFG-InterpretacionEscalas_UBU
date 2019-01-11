@@ -15,6 +15,6 @@ public interface ManageService<T> {
 	
 	public boolean edit(T object) throws ConnectionException;
 	
-	public boolean delete(T object);
+	public boolean delete(T object) throws ConnectionException;
 
 }

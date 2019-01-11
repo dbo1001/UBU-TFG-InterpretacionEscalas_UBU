@@ -100,7 +100,7 @@ public class EditClassroomViewController extends SelectorController<Profesor> {
 
 			try {
 				if (Main.getClassroomService().edit(cla)) {
-					Alert alert = new Alert(AlertType.INFORMATION, "La nueva aula se ha creado correctamente",
+					Alert alert = new Alert(AlertType.INFORMATION, "El aula se ha editado correctamente",
 							ButtonType.OK);
 					alert.showAndWait();
 					Main.setModifiedData(false);

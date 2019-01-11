@@ -12,9 +12,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -141,7 +143,9 @@ public class ClassroomManageViewController extends Controller {
 					try {
 						Main.showEditClassroomView(cla);
 					} catch (IOException e1) {
-						System.err.println("Error, archivo EditClassroomView.fxml no encontrado en la carpeta view.");
+						Alert alert = new Alert(AlertType.ERROR,
+								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+						alert.showAndWait();
 						e1.printStackTrace();
 					}
 				};
@@ -162,7 +166,9 @@ public class ClassroomManageViewController extends Controller {
 					try {
 						Main.deleteClassroom(cla);
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
+						Alert alert = new Alert(AlertType.ERROR,
+								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+						alert.showAndWait();
 						e1.printStackTrace();
 					}
 				}

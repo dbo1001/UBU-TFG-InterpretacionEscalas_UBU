@@ -38,7 +38,7 @@ public class Profesor implements Serializable {
 	private Boolean permisos;
 
 	//bi-directional many-to-many association to Aula
-	@ManyToMany(mappedBy="profesors")
+	@ManyToMany(mappedBy="profesors", fetch= FetchType.EAGER)
 	private List<Aula> aulas;
 
 	public Profesor() {
@@ -114,6 +114,15 @@ public class Profesor implements Serializable {
 
 	public void setAulas(List<Aula> aulas) {
 		this.aulas = aulas;
+	}
+	
+	@Override
+	public boolean equals(Object tea) {
+		if(tea instanceof Profesor && this.id == ((Profesor) tea).getId()) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 }
