@@ -67,6 +67,10 @@ public class TeacherServiceImpl extends ServiceImpl implements ManageService<Pro
 					throw new ConnectionException(ConnectionError.TEACHER_ALREADY_EXISTS);
 				}
 				em.persist(tea);
+				for (Aula cla : tea.getAulas()) {
+					cla.getProfesors().add(tea);
+					em.merge(cla);
+				}
 				em.getTransaction().commit();
 			} catch (Exception ex) {
 
@@ -97,6 +101,20 @@ public class TeacherServiceImpl extends ServiceImpl implements ManageService<Pro
 				} else if (tea.getId() == 1 && tea.getPermisos() == false) {
 					throw new ConnectionException(ConnectionError.WRONG_ADMIN_RIGHTS);
 				}
+				Profesor oldTeacher = em.createNamedQuery("Profesor.findById", Profesor.class).setParameter("id", tea.getId())
+						.getSingleResult();
+				for(Aula cla: oldTeacher.getAulas()) {
+					if(!tea.getAulas().contains(cla) && cla.getProfesors().contains(oldTeacher)){
+						cla.getProfesors().remove(oldTeacher);
+						em.merge(cla);
+					}
+				}
+				for(Aula cla: tea.getAulas()) {
+					if(!oldTeacher.getAulas().contains(cla) && !cla.getProfesors().contains(oldTeacher)) {
+						cla.getProfesors().add(tea);
+						em.merge(cla);
+					}
+				}
 				em.merge(tea);
 				em.getTransaction().commit();
 			} catch (Exception ex) {
@@ -121,6 +139,11 @@ public class TeacherServiceImpl extends ServiceImpl implements ManageService<Pro
 			em.getTransaction().begin();
 			if(tea.getId() == 1) {
 				throw new ConnectionException(ConnectionError.CANT_DELETE_ADMIN);
+			}
+			em.merge(tea);
+			for(Aula cla: tea.getAulas()) {
+				cla.getProfesors().remove(tea);
+				em.merge(cla);
 			}
 			em.remove(em.contains(tea) ? tea : em.merge(tea));
 			em.getTransaction().commit();

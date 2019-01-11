@@ -14,7 +14,8 @@ import java.util.List;
 @Table(name="AULA", schema="public")
 @NamedQueries({ 
 	@NamedQuery(name="Aula.findAll", query="SELECT a FROM Aula a"),
-	@NamedQuery(name="Aula.findByName", query="SELECT a FROM Aula a WHERE a.nombre = :name")
+	@NamedQuery(name="Aula.findByName", query="SELECT a FROM Aula a WHERE a.nombre = :name"),
+	@NamedQuery(name="Aula.findById", query="SELECT a FROM Aula a WHERE a.id = :id")
 })
 public class Aula implements Serializable {
 	private static final long serialVersionUID = 1L;

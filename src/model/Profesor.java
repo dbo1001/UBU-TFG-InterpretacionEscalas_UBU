@@ -2,6 +2,10 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.util.List;
 
 
@@ -13,7 +17,8 @@ import java.util.List;
 @Table(name="PROFESOR", schema="public")
 @NamedQueries({ 
 	@NamedQuery(name="Profesor.findAll", query="SELECT p FROM Profesor p"),
-	@NamedQuery(name="Profesor.findByNIF", query="SELECT p FROM Profesor p WHERE p.nif = :nif")
+	@NamedQuery(name="Profesor.findByNIF", query="SELECT p FROM Profesor p WHERE p.nif = :nif"),
+	@NamedQuery(name="Profesor.findById", query="SELECT p FROM Profesor p WHERE p.id = :id")
 })
 public class Profesor implements Serializable {
 	private static final long serialVersionUID = 1L;

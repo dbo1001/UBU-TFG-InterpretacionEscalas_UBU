@@ -96,7 +96,7 @@ public class EditTeacherViewController extends SelectorController<Aula> {
 		this.NIF.setText(tea.getNif());
 		this.description.setText(this.tea.getNotas());
 		this.rights.getSelectionModel().select(this.tea.getPermisos() == true ? "Sí" : "No");
-		this.password.setText(tea.getContrasena());
+		this.password.setText(tea.getContrasena().replaceAll("\\s", ""));
 		
 		
 		super.initialize(callback, this.listAllClassrooms, new SortClassroom());

@@ -14,6 +14,7 @@ import connection.ServiceImpl;
 import model.Alumno;
 import model.Aula;
 import model.Categorizacion;
+import model.Profesor;
 
 public class ClassroomServiceImpl extends ServiceImpl implements ManageService<Aula> {
 
@@ -72,6 +73,10 @@ public class ClassroomServiceImpl extends ServiceImpl implements ManageService<A
 					throw new ConnectionException(ConnectionError.CLASSROOM_ALREADY_EXISTS);
 				}
 				em.persist(cla);
+				for (Profesor tea : cla.getProfesors()) {
+					tea.getAulas().add(cla);
+					em.merge(tea);
+				}
 				em.getTransaction().commit();
 			} catch (Exception ex) {
 
@@ -100,6 +105,20 @@ public class ClassroomServiceImpl extends ServiceImpl implements ManageService<A
 				if (check.size() != 0 && check.get(0).getId() != cla.getId()) {
 					throw new ConnectionException(ConnectionError.CLASSROOM_ALREADY_EXISTS);
 				}
+				Aula oldClassroom = em.createNamedQuery("Aula.findById", Aula.class).setParameter("id", cla.getId())
+						.getSingleResult();
+				for(Profesor tea: oldClassroom.getProfesors()) {
+					if(!cla.getProfesors().contains(tea) && tea.getAulas().contains(oldClassroom)){
+						tea.getAulas().remove(oldClassroom);
+						em.merge(tea);
+					}
+				}
+				for(Profesor tea: cla.getProfesors()) {
+					if(!oldClassroom.getProfesors().contains(tea) && !tea.getAulas().contains(oldClassroom)) {
+						tea.getAulas().add(cla);
+						em.merge(tea);
+					}
+				}
 				em.merge(cla);
 				em.getTransaction().commit();
 			} catch (Exception ex) {
@@ -120,9 +139,13 @@ public class ClassroomServiceImpl extends ServiceImpl implements ManageService<A
 	public boolean delete(Aula cla) {
 
 		EntityManager em = this.getEntityManager();
-		
+
 		try {
 			em.getTransaction().begin();
+			for(Profesor tea: cla.getProfesors()) {
+				tea.getAulas().remove(cla);
+				em.merge(tea);
+			}
 			em.remove(em.contains(cla) ? cla : em.merge(cla));
 			em.getTransaction().commit();
 		} catch (Exception ex) {
