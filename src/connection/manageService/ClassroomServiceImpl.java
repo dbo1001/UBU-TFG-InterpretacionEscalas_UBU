@@ -18,18 +18,6 @@ import model.Profesor;
 
 public class ClassroomServiceImpl extends ServiceImpl implements ManageService<Aula> {
 
-	private static Aula aulaPruebas = new Aula();
-
-	public void setAulaPruebas() {
-		ClassroomServiceImpl.aulaPruebas.setId(6);
-		ClassroomServiceImpl.aulaPruebas.setNombre("Aula6");
-		ClassroomServiceImpl.aulaPruebas.setCapacidad(6);
-	}
-
-	public Aula getAulaPruebas() {
-		return ClassroomServiceImpl.aulaPruebas;
-	}
-
 	@Override
 	public List<Aula> getAll() {
 
@@ -136,12 +124,15 @@ public class ClassroomServiceImpl extends ServiceImpl implements ManageService<A
 	}
 
 	@Override
-	public boolean delete(Aula cla) {
+	public boolean delete(Aula cla) throws ConnectionException {
 
 		EntityManager em = this.getEntityManager();
 
 		try {
 			em.getTransaction().begin();
+			if(cla.getAlumnos().size() > 0) {
+				throw new ConnectionException(ConnectionError.CANT_DELETE_CLASSROOM);
+			}
 			for(Profesor tea: cla.getProfesors()) {
 				tea.getAulas().remove(cla);
 				em.merge(tea);

@@ -259,10 +259,10 @@
    <center>
       <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="nameColumn" editable="false" minWidth="100.0" prefWidth="-1.0" resizable="false" text="Nombre" />
-          <TableColumn fx:id="capacityColumn" editable="false" minWidth="100.0" prefWidth="-1.0" resizable="false" text="Capacidad" />
-            <TableColumn fx:id="editColumn" editable="false" minWidth="50.0" prefWidth="-1.0" resizable="false" sortable="false" />
-            <TableColumn fx:id="deleteColumn" editable="false" minWidth="50.0" prefWidth="-1.0" resizable="false" sortable="false" />
+          <TableColumn fx:id="nameColumn" editable="false" minWidth="150.0" prefWidth="-1.0" styleClass="mediumText" text="Nombre" />
+          <TableColumn fx:id="capacityColumn" editable="false" minWidth="150.0" prefWidth="-1.0" styleClass="mediumText" text="Capacidad" />
+            <TableColumn fx:id="editColumn" editable="false" minWidth="50.0" prefWidth="-1.0" sortable="false" styleClass="mediumText" />
+            <TableColumn fx:id="deleteColumn" editable="false" minWidth="50.0" prefWidth="-1.0" sortable="false" styleClass="mediumText" />
         </columns>
       </TableView>
    </center>

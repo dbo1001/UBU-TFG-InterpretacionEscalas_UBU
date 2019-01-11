@@ -490,13 +490,13 @@
    <center>
       <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="nameColumn" editable="false" minWidth="100.0" prefWidth="-1.0" resizable="false" text="Nombre" />
-          <TableColumn fx:id="surname1Column" editable="false" minWidth="100.0" prefWidth="-1.0" resizable="false" text="Primer apellido" />
-            <TableColumn fx:id="surname2Column" editable="false" minWidth="125.0" prefWidth="-1.0" resizable="false" text="Segundo apellido" />
-            <TableColumn fx:id="newEvaluationColumn" minWidth="150.0" prefWidth="-1.0" />
-            <TableColumn fx:id="editEvaluationColumn" minWidth="100.0" prefWidth="-1.0" />
-            <TableColumn fx:id="editColumn" editable="false" minWidth="50.0" prefWidth="-1.0" resizable="false" sortable="false" />
-            <TableColumn fx:id="deleteColumn" editable="false" minWidth="50.0" prefWidth="-1.0" resizable="false" sortable="false" />
+          <TableColumn fx:id="nameColumn" editable="false" minWidth="150.0" prefWidth="-1.0" styleClass="mediumText" text="Nombre" />
+          <TableColumn fx:id="surname1Column" editable="false" minWidth="150.0" prefWidth="-1.0" styleClass="mediumText" text="Primer apellido" />
+            <TableColumn fx:id="surname2Column" editable="false" minWidth="150.0" prefWidth="-1.0" styleClass="mediumText" text="Segundo apellido" />
+            <TableColumn fx:id="newEvaluationColumn" minWidth="175.0" prefWidth="-1.0" styleClass="mediumText" />
+            <TableColumn fx:id="editEvaluationColumn" minWidth="100.0" prefWidth="-1.0" styleClass="mediumText" />
+            <TableColumn fx:id="editColumn" editable="false" minWidth="50.0" prefWidth="-1.0" sortable="false" styleClass="mediumText" />
+            <TableColumn fx:id="deleteColumn" editable="false" minWidth="50.0" prefWidth="-1.0" sortable="false" styleClass="mediumText" />
         </columns>
       </TableView>
    </center>

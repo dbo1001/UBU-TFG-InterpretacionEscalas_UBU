@@ -100,7 +100,7 @@
             <TextField fx:id="name" maxWidth="200.0" prefWidth="200.0" promptText="Nombre" GridPane.columnIndex="1" />
             <TextField fx:id="surname1" maxWidth="200.0" prefWidth="200.0" promptText="Primer apellido" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="surname2" maxWidth="200.0" prefWidth="200.0" promptText="Segundo apellido" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="NIF" maxWidth="200.0" prefWidth="200.0" promptText="Código" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="code" maxWidth="200.0" prefWidth="200.0" promptText="Código" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <DatePicker fx:id="date" prefWidth="200.0" promptText="Selecciona una fecha" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="direction" maxWidth="200.0" prefWidth="200.0" promptText="Dirección" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <ChoiceBox fx:id="aulaCB" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />

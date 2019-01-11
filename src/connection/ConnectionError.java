@@ -11,11 +11,12 @@ public enum ConnectionError {
 	WRONG_ADMIN_RIGHTS("ERROR: No puedes quitarle los permisos de edición a la cuenta de administrador"),
 	WRONG_CODE("ERROR: La longitud del código debe ser inferior a 30 carácteres."),
 	CANT_DELETE_ADMIN("ERROR: No puedes eliminar la cuenta de administrador (ADMIN)."),
+	CANT_DELETE_CLASSROOM("ERROR: No puedes borrar este aula porque aún tiene alumnos asignados."),
 	NAME_TOO_LONG("ERROR: La longitud del nombre debe ser inferior a 50 carácteres."),
 	SURNAME_TOO_LONG("ERROR: La longitud de los apellidos debe ser inferior a 75 carácteres."),
 	DIRECTION_TOO_LONG("ERROR: La longitud de la dirección no puede ser superior a 150 carácteres."),
 	DESCRIPTION_TOO_LONG("ERROR: La longitud de la descripción no puede ser superior a 1000 carácteres."),
-	CLASSROOM_IS_FULL("ERROR: La clase a la que estas intentando añadir al alumno esta llena."),
+	CLASSROOM_IS_FULL("ERROR: La clase a la que estas intentando añadir el alumno esta llena."),
 	FIELD_IS_EMPTY("ERROR: Los campos marcados con * son obligatorios y no pueden quedar en blanco."),
 	CLASSROOM_ALREADY_EXISTS("ERROR: Ya existe un aula con el mismo nombre."),
 	TEACHER_ALREADY_EXISTS("ERROR: Ya existe un profesor con el mismo NIF.");

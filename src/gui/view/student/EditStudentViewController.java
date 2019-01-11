@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
+import connection.ConnectionException;
 import connection.manageService.ClassroomServiceImpl;
 import connection.manageService.ManageService;
 import gui.Main;
@@ -14,9 +15,13 @@ import gui.view.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.util.StringConverter;
 import model.Alumno;
 import model.Aula;
@@ -25,28 +30,30 @@ import model.Profesor;
 public class EditStudentViewController extends Controller {
 
 	@FXML
-	private TextField nombre;
+	TextField name;
 	@FXML
-	private TextField primerApellido;
+	TextField surname1;
 	@FXML
-	private TextField segundoApellido;
+	TextField surname2;
 	@FXML
-	private TextField codigo;
+	TextField code;
 	@FXML
-	private TextField direccion;
+	TextField direction;
 	@FXML
-	private DatePicker fechaNacimiento;
+	TextArea description;
+	@FXML
+	DatePicker date;
 	@FXML
 	private ChoiceBox<Aula> aulaCB;
-	
+
 	private List<Aula> listAllClassrooms;
 	private Alumno stu;
-	
+
 	@FXML
 	private void loadClassrooms() {
 		ObservableList<Aula> obsList = FXCollections.observableArrayList();
 		obsList.addAll(this.listAllClassrooms);
-		
+
 		aulaCB.setItems(obsList);
 		aulaCB.getSelectionModel().selectFirst();
 		aulaCB.setConverter(new StringConverter<Aula>() {
@@ -61,7 +68,7 @@ public class EditStudentViewController extends Controller {
 			public String toString(Aula object) {
 				return object.getNombre();
 			}
-			
+
 		});
 	}
 
@@ -73,20 +80,21 @@ public class EditStudentViewController extends Controller {
 
 	@FXML
 	private void fillFields() {
-		this.nombre.setText(stu.getNombre());
-		this.primerApellido.setText(stu.getApellido1());
-		this.segundoApellido.setText(stu.getApellido2());
-		this.codigo.setText(stu.getCodigo());
+		this.name.setText(stu.getNombre());
+		this.surname1.setText(stu.getApellido1());
+		this.surname2.setText(stu.getApellido2());
+		this.code.setText(stu.getCodigo());
+		this.direction.setText(stu.getDireccion());
+		this.description.setText(stu.getNotas());
 
 		Date fecha = stu.getFechaNacimiento();
 		if (fecha != null) {
-			this.fechaNacimiento
-					.setValue(Instant.ofEpochMilli(fecha.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+			this.date.setValue(Instant.ofEpochMilli(fecha.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
 		}
-		
+
 		this.loadClassrooms();
 		Aula aula = stu.getAula();
-		if(aula != null) {
+		if (aula != null) {
 			this.aulaCB.getSelectionModel().clearSelection();
 			this.aulaCB.getSelectionModel().select(aula);
 		}
@@ -101,8 +109,34 @@ public class EditStudentViewController extends Controller {
 	}
 
 	@FXML
-	private void acept() {
-		System.out.println("Aceptar y sobreescibir los cambios del profesor.");
+	private void acept() throws IOException {
+		LocalDate localDate = this.date.getValue();
+		Date date = null;
+		if (localDate != null) {
+			date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
+		}
+		
+		stu.setCodigo(this.code.getText());
+		stu.setNombre(this.name.getText());
+		stu.setApellido1(this.surname1.getText());
+		stu.setApellido2(this.surname2.getText());
+		stu.setFechaNacimiento(date);
+		stu.setDireccion(this.direction.getText());
+		stu.setNotas(this.description.getText());
+		stu.setAula(this.aulaCB.getSelectionModel().getSelectedItem());
+		
+		try {
+			if (Main.getStudentService().edit(stu)) {
+				Alert alert = new Alert(AlertType.INFORMATION, "El alumno se ha modificado correctamente",
+						ButtonType.OK);
+				alert.showAndWait();
+				Main.setModifiedData(false);
+				Main.showManageView();
+			}
+		} catch (ConnectionException cEx) {
+			Alert alert = new Alert(AlertType.ERROR, cEx.getError().getText(), ButtonType.OK);
+			alert.showAndWait();
+		}
 	}
 
 }

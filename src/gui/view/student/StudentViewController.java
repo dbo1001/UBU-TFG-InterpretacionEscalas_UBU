@@ -35,7 +35,7 @@ public class StudentViewController extends Controller {
 	@FXML
 	TextField surname2;
 	@FXML
-	TextField codigo;
+	TextField code;
 	@FXML
 	TextField direction;
 	@FXML
@@ -92,13 +92,14 @@ public class StudentViewController extends Controller {
 			date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
 		}
 		
-		stu.setCodigo(this.codigo.getText());
+		stu.setCodigo(this.code.getText());
 		stu.setNombre(this.name.getText());
 		stu.setApellido1(this.surname1.getText());
 		stu.setApellido2(this.surname2.getText());
 		stu.setFechaNacimiento(date);
 		stu.setDireccion(this.direction.getText());
 		stu.setNotas(this.description.getText());
+		stu.setAula(this.aulaCB.getSelectionModel().getSelectedItem());
 		
 		try {
 			if (Main.getStudentService().add(stu)) {
