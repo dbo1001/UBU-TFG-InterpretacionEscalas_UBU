@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name="ITEM", schema="public")
 @NamedQuery(name="Item.findAll", query="SELECT i FROM Item i")
-public class Item implements Serializable {
+public class Item implements Serializable,Comparable<Item> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -90,6 +90,11 @@ public class Item implements Serializable {
 		puntuacion.setItem(null);
 
 		return puntuacion;
+	}
+
+	@Override
+	public int compareTo(Item it) {
+		return Long.compare(this.numero, it.getNumero());
 	}
 
 }

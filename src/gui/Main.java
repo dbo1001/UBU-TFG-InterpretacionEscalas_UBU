@@ -19,6 +19,8 @@ import gui.view.MainViewController;
 import gui.view.classroom.ClassroomManageViewController;
 import gui.view.classroom.ClassroomViewController;
 import gui.view.classroom.EditClassroomViewController;
+import gui.view.evaluation.EditEvaluationViewController;
+import gui.view.evaluation.EvaluationManageViewController;
 import gui.view.evaluation.EvaluationViewController;
 import gui.view.student.EditStudentViewController;
 import gui.view.student.StudentManageViewController;
@@ -58,7 +60,7 @@ public class Main extends Application {
 	private static ManageService<Alumno> studentService = new StudentServiceImpl();
 	private static ManageService<Aula> classroomService = new ClassroomServiceImpl();
 	private static ManageService<Profesor> teacherService = new TeacherServiceImpl();
-	private static ManageService<Evaluacion> evaluationService= new EvaluationServiceImpl();
+	private static ManageService<Evaluacion> evaluationService = new EvaluationServiceImpl();
 	private static UtilService utilService = new UtilServiceImpl();
 	private static boolean modifiedData = false;
 	// TODO borrar esta variable
@@ -140,6 +142,18 @@ public class Main extends Application {
 
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(teacherView);
+	}
+
+	public static void showEvaluationManageView(Alumno stu) throws IOException {
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/evaluation/EvaluationManageView.fxml"));
+		BorderPane evaluationManageView = loader.load();
+		
+		EvaluationManageViewController eMVC = loader.getController();
+		eMVC.setStudent(stu);
+
+		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
+		Main.mainLayout.setCenter(evaluationManageView);
+		
 	}
 
 	public static void showClassroomView() throws IOException {
@@ -251,6 +265,19 @@ public class Main extends Application {
 
 	}
 
+	public static void showEditEvaluationView(Evaluacion eva) throws IOException {
+		Main.modifiedData = true;
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/evaluation/EditEvaluationView.fxml"));
+		BorderPane editEvaluationView = loader.load();
+		EditEvaluationViewController editEvaluationController = loader.getController();
+		editEvaluationController.setData(eva, Main.utilService.getAllFunctionalAreas(),
+				Main.getUtilService().getAllCategories(), Main.getUtilService().getAllItems());
+
+		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
+		Main.mainLayout.setCenter(editEvaluationView);
+
+	}
+
 	public static void deleteStudent(Alumno stu) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION,
 				"¿Estás seguro de que quieres borrar el alumno/a: " + stu.getNombre() + " " + stu.getApellido1() + " "
@@ -352,7 +379,7 @@ public class Main extends Application {
 	public static ManageService<Profesor> getTeacherService() {
 		return teacherService;
 	}
-	
+
 	public static ManageService<Evaluacion> getEvaluationService() {
 		return evaluationService;
 	}

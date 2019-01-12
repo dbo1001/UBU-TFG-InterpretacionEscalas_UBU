@@ -2,22 +2,18 @@ package gui.view.evaluation;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import javax.swing.GroupLayout.Alignment;
+import java.util.Map;
+import java.util.TreeMap;
 
 import connection.ConnectionException;
 import gui.Main;
 import gui.view.Controller;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.geometry.NodeOrientation;
-import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
@@ -26,13 +22,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import model.Alumno;
@@ -42,18 +33,23 @@ import model.Evaluacion;
 import model.Item;
 import model.Puntuacion;
 
-public class EvaluationViewController extends Controller {
-
+public class EditEvaluationViewController extends Controller {
 	@FXML
-	private TabPane tabPane;
+	TabPane tabPane;
 
 	private List<Areafuncional> allFunctionalAreas;
 	private List<Categorizacion> allCategories;
 	private List<Item> allItems;
 	private List<ToggleGroup> rbGroups = new ArrayList<ToggleGroup>();
 	private Alumno stu;
+	private Evaluacion eva;
+	private Map<Item,Integer> scores = new TreeMap<Item,Integer>();
 
 	private void loadData() {
+		
+		for(Puntuacion pun : this.eva.getPuntuacions()) {
+			scores.put(pun.getItem(), pun.getValoracion());
+		}
 
 		for (Areafuncional aF : this.allFunctionalAreas) {
 			int i = 0;
@@ -129,6 +125,10 @@ public class EvaluationViewController extends Controller {
 								rB.setToggleGroup(toggle);
 								rbHBox.getChildren().add(rB);
 							}
+							if(this.scores.containsKey(item)) {
+								toggle.getToggles().get(this.scores.get(item)-1).setSelected(true);
+								toggle.selectToggle(toggle.getToggles().get(this.scores.get(item)-1));
+							}
 							this.rbGroups.add(toggle);
 							buttonsVBox.getChildren().add(rbHBox);
 						}
@@ -140,9 +140,10 @@ public class EvaluationViewController extends Controller {
 		}
 	}
 
-	public void setData(Alumno stu, List<Areafuncional> allFunctionalAreas, List<Categorizacion> allCategories,
+	public void setData(Evaluacion eva, List<Areafuncional> allFunctionalAreas, List<Categorizacion> allCategories,
 			List<Item> allItems) {
-		this.stu = stu;
+		this.stu = eva.getAlumno();
+		this.eva = eva;
 		this.allFunctionalAreas = allFunctionalAreas;
 		this.allCategories = allCategories;
 		this.allItems = allItems;
@@ -158,7 +159,6 @@ public class EvaluationViewController extends Controller {
 	
 	@FXML
 	private void acept() throws IOException {
-		//System.out.println("Transaccion no implementada, los rbs seleccionados son:");
 		Evaluacion eva = new Evaluacion();
 		Calendar cal = Calendar.getInstance();
 		Date date = cal.getTime();
@@ -172,7 +172,6 @@ public class EvaluationViewController extends Controller {
 				pun.setItem((Item) toggle.getUserData());
 				pun.setValoracion((int) toggle.getSelectedToggle().getUserData());
 				eva.getPuntuacions().add(pun);
-				//System.out.println("El item " + toggle.getUserData() + " tiene una nota de " + toggle.getSelectedToggle().getUserData());
 			}
 		}
 		try {
@@ -198,7 +197,4 @@ public class EvaluationViewController extends Controller {
 	private void previous() {
 		this.tabPane.getSelectionModel().selectPrevious();
 	}
-	
-	
-
 }

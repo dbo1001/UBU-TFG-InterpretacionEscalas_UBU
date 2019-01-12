@@ -27,11 +27,11 @@ import model.Evaluacion;
 public class EvaluationSelectionViewController extends Controller {
 
 	@FXML
-	DatePicker from;
+	private DatePicker from;
 	@FXML
-	DatePicker to;
+	private DatePicker to;
 	@FXML
-	ListView<Evaluacion> evaluationLV;
+	private ListView<Evaluacion> evaluationLV;
 
 	private List<Alumno> students;
 	private List<Evaluacion> evaluations = new ArrayList<Evaluacion>();

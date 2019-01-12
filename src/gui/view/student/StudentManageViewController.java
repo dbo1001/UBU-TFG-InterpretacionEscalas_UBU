@@ -33,9 +33,7 @@ public class StudentManageViewController extends Controller {
 	@FXML
 	private TableColumn<CeldaAlumno, String> surname2Column;
 	@FXML
-	private TableColumn<CeldaAlumno, Label> newEvaluationColumn;
-	@FXML
-	private TableColumn<CeldaAlumno, Label> editEvaluationColumn;
+	private TableColumn<CeldaAlumno, Label> showEvaluationColumn;
 	@FXML
 	private TableColumn<CeldaAlumno, Label> editColumn;
 	@FXML
@@ -57,8 +55,7 @@ public class StudentManageViewController extends Controller {
 		nameColumn.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, String>("nombre"));
 		surname1Column.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, String>("apellido1"));
 		surname2Column.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, String>("apellido2"));
-		newEvaluationColumn.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, Label>("newEvaluation"));
-		editEvaluationColumn.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, Label>("editEvaluation"));
+		showEvaluationColumn.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, Label>("showEvaluation"));
 		editColumn.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, Label>("edit"));
 		deleteColumn.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, Label>("delete"));
 		table.setPlaceholder(new Label("No se han encontrado alumnos. Revisa los filtros aplicados."));
@@ -151,52 +148,32 @@ public class StudentManageViewController extends Controller {
 	protected class CeldaAlumno {
 
 		private Alumno stu;
-		private Label newEvaluation;
+		private Label showEvaluation;
 		private Label edit;
 		private Label delete;
-		private Label editEvaluation;
-		private final EventHandler<MouseEvent> mouseOver = new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				Main.handCursor();
-			}
-		};
-		private final EventHandler<MouseEvent> mouseLeft = new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				Main.defaultCursor();
-			}
-		};
 
 		public CeldaAlumno(Alumno stu) {
 			this.stu = stu;
 
-			newEvaluation = new Label("Crear nueva evaluacion");
-			// edit.setFont(new Font(18));
-			newEvaluation.setTextFill(Color.web("3366bb"));
-			newEvaluation.getStyleClass().add("controlLabel");
-			newEvaluation.setUnderline(true);
-			newEvaluation.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			showEvaluation = new Label("Ver evaluaciones");
+			showEvaluation.getStyleClass().add("controlLabel");
+			showEvaluation.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 				@Override
 				public void handle(MouseEvent e) {
 					try {
-						Main.showEvaluationView(stu);
+						Main.showEvaluationManageView(stu);
 					} catch (IOException e1) {
-						System.err.println(
-								"Error, archivo EvaluationtView.fxml no encontrado en la carpeta gui/view/evaluation.");
+						Alert alert = new Alert(AlertType.ERROR,
+								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+						alert.showAndWait();
 						e1.printStackTrace();
 					}
 				};
 
 			});
-			newEvaluation.setOnMouseEntered(mouseOver);
-			newEvaluation.setOnMouseExited(mouseLeft);
 
 			edit = new Label("Editar");
-			// edit.setFont(new Font(18));
-			edit.setTextFill(Color.web("3366bb"));
-			edit.setUnderline(true);
 			edit.getStyleClass().add("controlLabel");
 			edit.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -213,13 +190,8 @@ public class StudentManageViewController extends Controller {
 				};
 
 			});
-			edit.setOnMouseEntered(mouseOver);
-			edit.setOnMouseExited(mouseLeft);
 
 			delete = new Label("Borrar");
-			// delete.setFont(new Font(18));
-			delete.setTextFill(Color.web("3366bb"));
-			delete.setUnderline(true);
 			delete.getStyleClass().add("controlLabel");
 			delete.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -236,8 +208,6 @@ public class StudentManageViewController extends Controller {
 				}
 
 			});
-			delete.setOnMouseEntered(mouseOver);
-			delete.setOnMouseExited(mouseLeft);
 		}
 
 		public String getNombre() {
@@ -251,6 +221,10 @@ public class StudentManageViewController extends Controller {
 		public String getApellido2() {
 			return this.stu.getApellido2();
 		}
+		
+		public Label getShowEvaluation() {
+			return showEvaluation;
+		}
 
 		public Label getEdit() {
 			return edit;
@@ -258,14 +232,6 @@ public class StudentManageViewController extends Controller {
 
 		public Label getDelete() {
 			return delete;
-		}
-
-		public Label getNewEvaluation() {
-			return newEvaluation;
-		}
-
-		public Label getEditEvaluation() {
-			return editEvaluation;
 		}
 	}
 
