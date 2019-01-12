@@ -1,9 +1,6 @@
 package connection.manageService;
 
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,8 +9,6 @@ import connection.ConnectionError;
 import connection.ConnectionException;
 import connection.ServiceImpl;
 import model.Alumno;
-import model.Categorizacion;
-import model.Profesor;
 
 public class StudentServiceImpl extends ServiceImpl implements ManageService<Alumno> {
 

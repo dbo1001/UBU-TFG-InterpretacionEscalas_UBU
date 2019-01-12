@@ -2,34 +2,32 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
-
 
 /**
  * The persistent class for the puntuacion database table.
  * 
  */
 @Entity
-@Table(name="PUNTUACION", schema="public")
-@NamedQuery(name="Puntuacion.findAll", query="SELECT p FROM Puntuacion p")
+@Table(name = "PUNTUACION", schema = "public")
+@NamedQuery(name = "Puntuacion.findAll", query = "SELECT p FROM Puntuacion p")
 public class Puntuacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="PUNTUACION_ID_GENERATOR", sequenceName="SEQ_PUNTUACION", allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PUNTUACION_ID_GENERATOR")
+	@SequenceGenerator(name = "PUNTUACION_ID_GENERATOR", sequenceName = "SEQ_PUNTUACION", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PUNTUACION_ID_GENERATOR")
 	private long id;
 
 	private int valoracion;
 
-	//bi-directional many-to-one association to Evaluacion
+	// bi-directional many-to-one association to Evaluacion
 	@ManyToOne
-	@JoinColumn(name="id_evaluacion")
+	@JoinColumn(name = "id_evaluacion")
 	private Evaluacion evaluacion;
 
-	//bi-directional many-to-one association to Item
+	// bi-directional many-to-one association to Item
 	@ManyToOne
-	@JoinColumn(name="id_item")
+	@JoinColumn(name = "id_item")
 	private Item item;
 
 	public Puntuacion() {
@@ -65,6 +63,16 @@ public class Puntuacion implements Serializable {
 
 	public void setItem(Item item) {
 		this.item = item;
+	}
+
+	@Override
+	public boolean equals(Object pun) {
+		if (pun instanceof Puntuacion && ((Puntuacion) pun).getItem().getNumero() == this.item.getNumero()
+				&& ((Puntuacion) pun).getEvaluacion().getId() == this.evaluacion.getId()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

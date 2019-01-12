@@ -3,9 +3,7 @@ package gui.view;
 import java.io.IOException;
 
 import gui.Main;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import model.Profesor;
 

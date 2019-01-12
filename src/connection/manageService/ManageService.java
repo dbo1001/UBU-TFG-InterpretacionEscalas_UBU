@@ -3,9 +3,6 @@ package connection.manageService;
 import java.util.List;
 
 import connection.ConnectionException;
-import model.Alumno;
-import model.Aula;
-import model.Profesor;
 
 public interface ManageService<T> {
 	

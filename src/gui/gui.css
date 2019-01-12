@@ -25,6 +25,7 @@
  
 .button:hover{
 	-fx-cursor:hand ;
+	-fx-text-alignment: center ;
 }
 
 

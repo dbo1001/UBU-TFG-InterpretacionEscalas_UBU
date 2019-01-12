@@ -21,7 +21,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import model.Alumno;
-import model.Aula;
 import model.Evaluacion;
 
 public class EvaluationSelectionViewController extends Controller {

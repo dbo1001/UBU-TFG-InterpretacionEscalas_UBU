@@ -3,9 +3,6 @@ package model;
 import java.io.Serializable;
 import javax.persistence.*;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import java.util.List;
 
 

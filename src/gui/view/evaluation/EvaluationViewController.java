@@ -2,22 +2,16 @@ package gui.view.evaluation;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import javax.swing.GroupLayout.Alignment;
 
 import connection.ConnectionException;
 import gui.Main;
 import gui.view.Controller;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.geometry.NodeOrientation;
-import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
@@ -26,13 +20,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import model.Alumno;
@@ -172,7 +161,6 @@ public class EvaluationViewController extends Controller {
 				pun.setItem((Item) toggle.getUserData());
 				pun.setValoracion((int) toggle.getSelectedToggle().getUserData());
 				eva.getPuntuacions().add(pun);
-				//System.out.println("El item " + toggle.getUserData() + " tiene una nota de " + toggle.getSelectedToggle().getUserData());
 			}
 		}
 		try {

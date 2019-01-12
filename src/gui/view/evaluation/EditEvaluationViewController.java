@@ -1,10 +1,7 @@
 package gui.view.evaluation;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -159,24 +156,27 @@ public class EditEvaluationViewController extends Controller {
 	
 	@FXML
 	private void acept() throws IOException {
-		Evaluacion eva = new Evaluacion();
-		Calendar cal = Calendar.getInstance();
-		Date date = cal.getTime();
-		Timestamp ts = new Timestamp(date.getTime());
-		eva.setAlumno(stu);
-		eva.setFecha(ts);
+		//Calendar cal = Calendar.getInstance();
+		//Date date = cal.getTime();
+		//Timestamp ts = new Timestamp(date.getTime());
+		//eva.setAlumno(stu);
+		//eva.setFecha(ts);
 		for(ToggleGroup toggle : this.rbGroups) {
 			if(toggle.getSelectedToggle() != null) {
 				Puntuacion pun = new Puntuacion();
 				pun.setEvaluacion(eva);
 				pun.setItem((Item) toggle.getUserData());
 				pun.setValoracion((int) toggle.getSelectedToggle().getUserData());
-				eva.getPuntuacions().add(pun);
+				if(eva.getPuntuacions().contains(pun)) {
+					eva.getPuntuacions().get(eva.getPuntuacions().indexOf(pun)).setValoracion(pun.getValoracion());
+				}else {
+					eva.getPuntuacions().add(pun);
+				}
 			}
 		}
 		try {
-			if (Main.getEvaluationService().add(eva)) {
-				Alert alert = new Alert(AlertType.INFORMATION, "La nueva evaluación se ha creado correctamente",
+			if (Main.getEvaluationService().edit(eva)) {
+				Alert alert = new Alert(AlertType.INFORMATION, "La evaluación se ha actualizado correctamente",
 						ButtonType.OK);
 				alert.showAndWait();
 				Main.setModifiedData(false);

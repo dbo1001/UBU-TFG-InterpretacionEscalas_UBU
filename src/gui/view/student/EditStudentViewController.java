@@ -8,8 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 import connection.ConnectionException;
-import connection.manageService.ClassroomServiceImpl;
-import connection.manageService.ManageService;
 import gui.Main;
 import gui.view.Controller;
 import javafx.collections.FXCollections;
@@ -25,7 +23,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.util.StringConverter;
 import model.Alumno;
 import model.Aula;
-import model.Profesor;
 
 public class EditStudentViewController extends Controller {
 

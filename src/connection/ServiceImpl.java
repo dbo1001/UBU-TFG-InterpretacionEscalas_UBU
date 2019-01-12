@@ -4,8 +4,6 @@ import java.util.regex.Pattern;
 
 import javax.persistence.EntityManager;
 
-import connection.manageService.ManageService;
-
 public abstract class ServiceImpl {
 
 	private EntityManager em;

@@ -1,11 +1,7 @@
 package gui.view.classroom;
 
 import java.io.IOException;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import connection.ConnectionError;
@@ -21,7 +17,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.util.Callback;
-import model.Alumno;
 import model.Aula;
 import model.Profesor;
 

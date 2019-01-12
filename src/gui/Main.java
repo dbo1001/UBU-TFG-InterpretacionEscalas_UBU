@@ -1,12 +1,8 @@
 package gui;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-
 import connection.ConnectionException;
 import connection.manageService.ClassroomServiceImpl;
 import connection.manageService.EvaluationServiceImpl;
@@ -147,13 +143,13 @@ public class Main extends Application {
 	public static void showEvaluationManageView(Alumno stu) throws IOException {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/evaluation/EvaluationManageView.fxml"));
 		BorderPane evaluationManageView = loader.load();
-		
+
 		EvaluationManageViewController eMVC = loader.getController();
 		eMVC.setStudent(stu);
 
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(evaluationManageView);
-		
+
 	}
 
 	public static void showClassroomView() throws IOException {
@@ -332,6 +328,31 @@ public class Main extends Application {
 			try {
 				if (Main.classroomService.delete(cla)) {
 					alert = new Alert(AlertType.INFORMATION, "El aula se ha borrado correctamente.");
+					alert.showAndWait();
+					Main.showManageView();
+				}
+			} catch (ConnectionException cEx) {
+				alert = new Alert(AlertType.ERROR, cEx.getError().getText());
+				alert.showAndWait();
+			}
+
+		}
+
+	}
+
+	public static void deleteEvaluation(Evaluacion eva) throws IOException {
+		Alert alert = new Alert(AlertType.CONFIRMATION,
+				"¿Estás seguro de que quieres borrar la evaluación con fecha " + eva.getFecha().toString().substring(0, 16)
+						+ " del alumno/a " + eva.getAlumno().getApellido1() + " " + eva.getAlumno().getApellido2() + ", "
+						+ eva.getAlumno().getNombre() + " ?\n" + "Los cambios serán definitivos.",
+				ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+		alert.showAndWait();
+
+		if (alert.getResult() == ButtonType.YES) {
+
+			try {
+				if (Main.evaluationService.delete(eva)) {
+					alert = new Alert(AlertType.INFORMATION, "La evaluación se ha borrado correctamente.");
 					alert.showAndWait();
 					Main.showManageView();
 				}

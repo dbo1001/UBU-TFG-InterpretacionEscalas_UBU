@@ -1,19 +1,12 @@
 package connection.manageService;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
-import javax.persistence.Query;
-
 import connection.ConnectionError;
 import connection.ConnectionException;
 import connection.ServiceImpl;
-import model.Alumno;
 import model.Aula;
-import model.Categorizacion;
 import model.Profesor;
 
 public class ClassroomServiceImpl extends ServiceImpl implements ManageService<Aula> {

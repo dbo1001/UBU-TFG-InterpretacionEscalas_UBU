@@ -7,17 +7,14 @@ import javax.persistence.EntityManager;
 import connection.ConnectionError;
 import connection.ConnectionException;
 import connection.ServiceImpl;
-import model.Aula;
 import model.Evaluacion;
-import model.Profesor;
 import model.Puntuacion;
 
 public class EvaluationServiceImpl extends ServiceImpl implements ManageService<Evaluacion> {
 
 	@Override
 	public List<Evaluacion> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return getEntityManager().createNamedQuery("Evaluacion.findAll", Evaluacion.class).getResultList();
 	}
 
 	@Override
@@ -28,7 +25,7 @@ public class EvaluationServiceImpl extends ServiceImpl implements ManageService<
 
 			try {
 				em.getTransaction().begin();
-				for(Puntuacion pun: eva.getPuntuacions()) {
+				for (Puntuacion pun : eva.getPuntuacions()) {
 					em.persist(pun);
 				}
 				em.persist(eva);
@@ -48,15 +45,66 @@ public class EvaluationServiceImpl extends ServiceImpl implements ManageService<
 	}
 
 	@Override
-	public boolean edit(Evaluacion object) throws ConnectionException {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean edit(Evaluacion eva) throws ConnectionException {
+		if (this.checkFields(eva)) {
+
+			EntityManager em = this.getEntityManager();
+
+			try {
+				em.getTransaction().begin();
+				Evaluacion oldEva = em.createNamedQuery("Evaluacion.findById", Evaluacion.class)
+						.setParameter("id", eva.getId()).getSingleResult();
+				for (Puntuacion pun : oldEva.getPuntuacions()) {
+					if(!eva.getPuntuacions().contains(pun)) {
+						em.remove(em.contains(pun) ? pun : em.merge(pun));
+					}
+				}
+				for(Puntuacion pun : eva.getPuntuacions()) {
+					if(oldEva.getPuntuacions().contains(pun)) {
+						em.merge(pun);
+					}else {
+						em.persist(pun);
+					}
+				}
+				em.merge(eva);
+				em.getTransaction().commit();
+			} catch (Exception ex) {
+
+				em.getTransaction().rollback();
+				throw ex;
+			} finally {
+				if (em.isOpen()) {
+					em.close();
+				}
+			}
+		}
+
+		return true;
 	}
 
 	@Override
-	public boolean delete(Evaluacion object) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean delete(Evaluacion eva) {
+
+		EntityManager em = this.getEntityManager();
+
+		try {
+			em.getTransaction().begin();
+			for (Puntuacion pun : eva.getPuntuacions()) {
+				em.remove(em.contains(pun) ? pun : em.merge(pun));
+			}
+			em.remove(em.contains(eva) ? eva : em.merge(eva));
+			em.getTransaction().commit();
+		} catch (Exception ex) {
+
+			em.getTransaction().rollback();
+			throw ex;
+		} finally {
+			if (em.isOpen()) {
+				em.close();
+			}
+		}
+
+		return true;
 	}
 
 	private boolean checkFields(Evaluacion eva) throws ConnectionException {

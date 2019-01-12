@@ -1,7 +1,6 @@
 package gui.view.evaluation;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 import gui.Main;
@@ -17,7 +16,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import model.Alumno;
 import model.Evaluacion;
 
@@ -101,9 +99,8 @@ public class EvaluationManageViewController extends Controller {
 				@Override
 				public void handle(MouseEvent e) {
 					try {
-						//TODO
-						Main.showEditEvaluationView(eva);
-						Main.deleteStudent(stu);
+						
+						Main.deleteEvaluation(eva);
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
 								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
