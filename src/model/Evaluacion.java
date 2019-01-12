@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,7 +31,7 @@ public class Evaluacion implements Serializable {
 
 	//bi-directional many-to-one association to Puntuacion
 	@OneToMany(mappedBy="evaluacion")
-	private List<Puntuacion> puntuacions;
+	private List<Puntuacion> puntuacions = new ArrayList<Puntuacion>();
 
 	public Evaluacion() {
 	}

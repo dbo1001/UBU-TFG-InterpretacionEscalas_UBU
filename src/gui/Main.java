@@ -9,6 +9,7 @@ import java.util.Queue;
 
 import connection.ConnectionException;
 import connection.manageService.ClassroomServiceImpl;
+import connection.manageService.EvaluationServiceImpl;
 import connection.manageService.ManageService;
 import connection.manageService.StudentServiceImpl;
 import connection.manageService.TeacherServiceImpl;
@@ -57,6 +58,7 @@ public class Main extends Application {
 	private static ManageService<Alumno> studentService = new StudentServiceImpl();
 	private static ManageService<Aula> classroomService = new ClassroomServiceImpl();
 	private static ManageService<Profesor> teacherService = new TeacherServiceImpl();
+	private static ManageService<Evaluacion> evaluationService= new EvaluationServiceImpl();
 	private static UtilService utilService = new UtilServiceImpl();
 	private static boolean modifiedData = false;
 	// TODO borrar esta variable
@@ -349,6 +351,10 @@ public class Main extends Application {
 
 	public static ManageService<Profesor> getTeacherService() {
 		return teacherService;
+	}
+	
+	public static ManageService<Evaluacion> getEvaluationService() {
+		return evaluationService;
 	}
 
 	public static UtilService getUtilService() {

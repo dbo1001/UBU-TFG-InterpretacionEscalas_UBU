@@ -32,6 +32,11 @@
 	-fx-cursor:wait ;
 }
 
+.controlLabel{
+	-fx-text-fill: #3366bb;
+	-fx-underline: true;
+}
+
 .controlLabel:hover{
 	-fx-cursor:hand ;
 }

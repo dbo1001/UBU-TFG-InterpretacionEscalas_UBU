@@ -10,6 +10,7 @@ public enum ConnectionError {
 	WRONG_PASSWORD_LENGTH("ERROR: La contraseña debe tener como mínimo 8 carácteres y hasta un máximo de 64."),
 	WRONG_ADMIN_RIGHTS("ERROR: No puedes quitarle los permisos de edición a la cuenta de administrador"),
 	WRONG_CODE("ERROR: La longitud del código debe ser inferior a 30 carácteres."),
+	THERE_IS_NO_PUNTUATIONS("ERROR: No puedes crear una evaluación sin poner por al menos una nota a un item."),
 	CANT_DELETE_ADMIN("ERROR: No puedes eliminar la cuenta de administrador (ADMIN)."),
 	CANT_DELETE_CLASSROOM("ERROR: No puedes borrar este aula porque aún tiene alumnos asignados."),
 	NAME_TOO_LONG("ERROR: La longitud del nombre debe ser inferior a 50 carácteres."),

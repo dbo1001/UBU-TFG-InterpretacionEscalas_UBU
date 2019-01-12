@@ -20,6 +20,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import model.Alumno;
 import model.Aula;
 
 public class ClassroomManageViewController extends Controller {
@@ -30,6 +31,8 @@ public class ClassroomManageViewController extends Controller {
 	private TableColumn<CeldaAula, String> nameColumn;
 	@FXML
 	private TableColumn<CeldaAula, String> capacityColumn;
+	@FXML
+	private TableColumn<CeldaAula, Label> studentsColumn;
 	@FXML
 	private TableColumn<CeldaAula, Label> editColumn;
 	@FXML
@@ -46,6 +49,7 @@ public class ClassroomManageViewController extends Controller {
 	private void initialize() {
 		nameColumn.setCellValueFactory(new PropertyValueFactory<CeldaAula, String>("nombre"));
 		capacityColumn.setCellValueFactory(new PropertyValueFactory<CeldaAula, String>("capacidad"));
+		studentsColumn.setCellValueFactory(new PropertyValueFactory<CeldaAula, Label>("checkStudents"));
 		editColumn.setCellValueFactory(new PropertyValueFactory<CeldaAula, Label>("edit"));
 		deleteColumn.setCellValueFactory(new PropertyValueFactory<CeldaAula, Label>("delete"));
 		table.setPlaceholder(new Label("No se han encontrado aulas. Revisa los filtros aplicados."));
@@ -84,15 +88,15 @@ public class ClassroomManageViewController extends Controller {
 	private void filter() {
 		this.loadCursor();
 		List<Aula> filteredClassrooms = new ArrayList<Aula>();
-			
-		if(this.currentNameFilter != null){
+
+		if (this.currentNameFilter != null) {
 			for (Aula cla : this.allClassrooms) {
-				if (cla.getNombre().toUpperCase().charAt(0) == this.currentNameFilter.getText().charAt(0)){
+				if (cla.getNombre().toUpperCase().charAt(0) == this.currentNameFilter.getText().charAt(0)) {
 					filteredClassrooms.add(cla);
 				}
 			}
 			this.loadClassrooms(filteredClassrooms);
-			
+
 		} else {
 			this.loadClassrooms(allClassrooms);
 		}
@@ -111,6 +115,7 @@ public class ClassroomManageViewController extends Controller {
 		private Aula cla;
 		private String nombre = "";
 		private String capacidad = "";
+		private Label checkStudents;
 		private Label edit;
 		private Label delete;
 		private final EventHandler<MouseEvent> mouseOver = new EventHandler<MouseEvent>() {
@@ -130,6 +135,28 @@ public class ClassroomManageViewController extends Controller {
 			this.nombre = cla.getNombre();
 			this.capacidad = "" + cla.getCapacidad();
 			this.cla = cla;
+
+			checkStudents = new Label("Consultar alumnos asignados");
+			checkStudents.getStyleClass().add("controlLabel");
+			checkStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+				@Override
+				public void handle(MouseEvent e) {
+
+					Alert alert = new Alert(AlertType.INFORMATION,
+							"Los siguiente alumnos pertenecen al aula " + cla.getNombre() + ":\n");
+					for (Alumno stu : cla.getAlumnos()) {
+						alert.setContentText(alert.getContentText() + "\n Nombre: " + stu.getApellido1() + " "
+								+ stu.getApellido2() + ", " + stu.getNombre() + " 		Código: " + stu.getCodigo());
+					}
+					alert.setContentText(alert.getContentText()+"\n");
+					alert.showAndWait();
+
+				};
+
+			});
+			checkStudents.setOnMouseEntered(mouseOver);
+			checkStudents.setOnMouseExited(mouseLeft);
 
 			edit = new Label("Editar");
 			// edit.setFont(new Font(18));
@@ -201,6 +228,13 @@ public class ClassroomManageViewController extends Controller {
 		public void setApellido1(String apellido1) {
 			this.capacidad = apellido1;
 		}
+		public Label getCheckStudents() {
+			return checkStudents;
+		}
+
+		public void setCheckStudents(Label checkStudents) {
+			this.checkStudents = checkStudents;
+		}
 
 		public Label getEdit() {
 			return edit;
@@ -219,7 +253,7 @@ public class ClassroomManageViewController extends Controller {
 		}
 
 	}
-	
+
 	private class SortClassroom implements Comparator<Aula> {
 		@Override
 		public int compare(Aula a1, Aula a2) {
