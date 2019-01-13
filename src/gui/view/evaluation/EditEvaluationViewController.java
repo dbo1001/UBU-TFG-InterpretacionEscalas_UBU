@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -32,7 +33,7 @@ import model.Puntuacion;
 
 public class EditEvaluationViewController extends Controller {
 	@FXML
-	TabPane tabPane;
+	private TabPane tabPane;
 
 	private List<Areafuncional> allFunctionalAreas;
 	private List<Categorizacion> allCategories;
@@ -40,11 +41,11 @@ public class EditEvaluationViewController extends Controller {
 	private List<ToggleGroup> rbGroups = new ArrayList<ToggleGroup>();
 	private Alumno stu;
 	private Evaluacion eva;
-	private Map<Item,Integer> scores = new TreeMap<Item,Integer>();
+	private Map<Item, Integer> scores = new TreeMap<Item, Integer>();
 
 	private void loadData() {
-		
-		for(Puntuacion pun : this.eva.getPuntuacions()) {
+
+		for (Puntuacion pun : this.eva.getPuntuacions()) {
 			scores.put(pun.getItem(), pun.getValoracion());
 		}
 
@@ -54,8 +55,8 @@ public class EditEvaluationViewController extends Controller {
 			ScrollPane scrollPane = new ScrollPane();
 			scrollPane.setPadding(new Insets(5, 20, 0, 20));
 			GridPane gridPane = new GridPane();
-			Text studentName = new Text("*Creando nueva evaluación para " + this.stu.getNombre() + " " + this.stu.getApellido1() + " "
-					+ this.stu.getApellido2());
+			Text studentName = new Text("*Creando nueva evaluación para " + this.stu.getNombre() + " "
+					+ this.stu.getApellido1() + " " + this.stu.getApellido2());
 			studentName.getStyleClass().add("littleText");
 			Text advise = new Text(
 					"**Se evaluará el grado de adquisición de la habilidad en una escala de tipo Likert de 1 a 5 donde 1 = nunca o nada 5 = todo o siempre.");
@@ -67,10 +68,11 @@ public class EditEvaluationViewController extends Controller {
 			 * anchorPane.getChildren().add(gridPane);
 			 */
 			VBox scrollPaneContent = new VBox(studentName, advise, gridPane);
-			//scrollPaneContent.setSpacing(15);
-			//scrollPaneContent.setAlignment(Pos.CENTER);
-			//gridPane.setAlignment(Pos.CENTER);
-			VBox.setMargin(advise, new Insets(0, 0, 15, 0));;
+			// scrollPaneContent.setSpacing(15);
+			// scrollPaneContent.setAlignment(Pos.CENTER);
+			// gridPane.setAlignment(Pos.CENTER);
+			VBox.setMargin(advise, new Insets(0, 0, 15, 0));
+			;
 			scrollPane.setContent(scrollPaneContent);
 			scrollPane.setFitToWidth(true);
 			// scrollPane.setPrefSize(ScrollPane.USE_COMPUTED_SIZE,
@@ -118,13 +120,13 @@ public class EditEvaluationViewController extends Controller {
 							toggle.setUserData(item);
 							for (int c = 0; c < 5; c++) {
 								RadioButton rB = new RadioButton();
-								rB.setUserData(c+1);
+								rB.setUserData(c + 1);
 								rB.setToggleGroup(toggle);
 								rbHBox.getChildren().add(rB);
 							}
-							if(this.scores.containsKey(item)) {
-								toggle.getToggles().get(this.scores.get(item)-1).setSelected(true);
-								toggle.selectToggle(toggle.getToggles().get(this.scores.get(item)-1));
+							if (this.scores.containsKey(item)) {
+								toggle.getToggles().get(this.scores.get(item) - 1).setSelected(true);
+								toggle.selectToggle(toggle.getToggles().get(this.scores.get(item) - 1));
 							}
 							this.rbGroups.add(toggle);
 							buttonsVBox.getChildren().add(rbHBox);
@@ -153,23 +155,23 @@ public class EditEvaluationViewController extends Controller {
 			super.goBack();
 		}
 	}
-	
+
 	@FXML
 	private void acept() throws IOException {
-		//Calendar cal = Calendar.getInstance();
-		//Date date = cal.getTime();
-		//Timestamp ts = new Timestamp(date.getTime());
-		//eva.setAlumno(stu);
-		//eva.setFecha(ts);
-		for(ToggleGroup toggle : this.rbGroups) {
-			if(toggle.getSelectedToggle() != null) {
+		// Calendar cal = Calendar.getInstance();
+		// Date date = cal.getTime();
+		// Timestamp ts = new Timestamp(date.getTime());
+		// eva.setAlumno(stu);
+		// eva.setFecha(ts);
+		for (ToggleGroup toggle : this.rbGroups) {
+			if (toggle.getSelectedToggle() != null) {
 				Puntuacion pun = new Puntuacion();
 				pun.setEvaluacion(eva);
 				pun.setItem((Item) toggle.getUserData());
 				pun.setValoracion((int) toggle.getSelectedToggle().getUserData());
-				if(eva.getPuntuacions().contains(pun)) {
+				if (eva.getPuntuacions().contains(pun)) {
 					eva.getPuntuacions().get(eva.getPuntuacions().indexOf(pun)).setValoracion(pun.getValoracion());
-				}else {
+				} else {
 					eva.getPuntuacions().add(pun);
 				}
 			}

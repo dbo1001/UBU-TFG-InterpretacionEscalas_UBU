@@ -9,6 +9,8 @@ import connection.ConnectionError;
 import connection.ConnectionException;
 import connection.ServiceImpl;
 import model.Alumno;
+import model.Evaluacion;
+import model.Puntuacion;
 
 public class StudentServiceImpl extends ServiceImpl implements ManageService<Alumno> {
 
@@ -74,6 +76,12 @@ public class StudentServiceImpl extends ServiceImpl implements ManageService<Alu
 
 		try {
 			em.getTransaction().begin();
+			for(Evaluacion eva : stu.getEvaluacions()) {
+				for(Puntuacion pun : eva.getPuntuacions()) {
+					em.remove(em.contains(pun) ? pun : em.merge(pun));
+				}
+				em.remove(em.contains(eva) ? eva : em.merge(eva));
+			}
 			em.remove(em.contains(stu) ? stu : em.merge(stu));
 			em.getTransaction().commit();
 		} catch (Exception ex) {

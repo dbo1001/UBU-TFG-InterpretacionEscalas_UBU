@@ -1,6 +1,11 @@
 package gui.view.evaluation;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import gui.Main;
@@ -10,12 +15,14 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import model.Alumno;
 import model.Evaluacion;
 
@@ -29,6 +36,12 @@ public class EvaluationManageViewController extends Controller {
 	private TableColumn<CeldaEvaluacion, Label> editColumn;
 	@FXML
 	private TableColumn<CeldaEvaluacion, Label> deleteColumn;
+	@FXML
+	private Text name;
+	@FXML
+	private DatePicker from;
+	@FXML
+	private DatePicker to;
 
 	private List<Evaluacion> allEvaluations;
 	private Alumno stu;
@@ -38,25 +51,59 @@ public class EvaluationManageViewController extends Controller {
 		dateColumn.setCellValueFactory(new PropertyValueFactory<CeldaEvaluacion, String>("Fecha"));
 		editColumn.setCellValueFactory(new PropertyValueFactory<CeldaEvaluacion, Label>("edit"));
 		deleteColumn.setCellValueFactory(new PropertyValueFactory<CeldaEvaluacion, Label>("delete"));
-		table.setPlaceholder(new Label("No se han encontrado evaluaciones. Agrega una nueva o revisa los filtros aplicados."));
+		table.setPlaceholder(
+				new Label("No se han encontrado evaluaciones. Agrega una nueva o revisa los filtros aplicados."));
 	}
 
 	@FXML
 	private void addNewEvaluation() throws IOException {
 		Main.showEvaluationView(stu);
 	}
-	
+
 	@FXML
 	private void clearFilters() {
-		//TODO
-		/*this.updateNameFilter(null);
-		this.updateSurnameFilter(null);
-		this.filter();*/
+		this.from.setValue(null);
+		this.to.setValue(null);
+		this.filter();
+	}
+
+	@FXML
+	private void filter() {
+		if (this.from.getValue() != null && this.to.getValue() != null) {
+			if (this.from.getValue().isAfter(this.to.getValue()) || this.from.getValue().equals(this.to.getValue())) {
+				Alert alert = new Alert(AlertType.ERROR,
+						"La fecha final debe ser posterior a la fecha inicial del filtro.");
+				alert.showAndWait();
+				this.from.setValue(null);
+				this.to.setValue(null);
+			} else {
+				LocalDate ldFrom = this.from.getValue();
+				LocalDate ldTo = this.to.getValue();
+				long millisFrom = ldFrom.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
+				long millisTo = ldTo.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
+				Timestamp tsFrom = new Timestamp(millisFrom);
+				Timestamp tsTo = new Timestamp(millisTo);
+				this.table.getItems().clear();
+				for (Evaluacion eva : this.allEvaluations) {
+					if (eva.getFecha().after(tsFrom) && eva.getFecha().before(tsTo)) {
+						this.table.getItems().add(new CeldaEvaluacion(eva));
+					}
+				}
+			}
+		}else {
+			ObservableList<CeldaEvaluacion> cellsList = FXCollections.observableArrayList();
+			for (Evaluacion eva : this.allEvaluations) {
+				cellsList.add(new CeldaEvaluacion(eva));
+			}
+			table.getItems().setAll(cellsList);
+		}
 	}
 
 	public void setStudent(Alumno stu) {
 		this.stu = stu;
 		this.allEvaluations = stu.getEvaluacions();
+		this.name.setText("Estas viendo las evaluaciones del alumno: " + this.stu.getApellido1() + " "
+				+ this.stu.getApellido2() + ", " + this.stu.getNombre());
 		ObservableList<CeldaEvaluacion> cellsList = FXCollections.observableArrayList();
 		for (Evaluacion eva : this.allEvaluations) {
 			cellsList.add(new CeldaEvaluacion(eva));
@@ -99,7 +146,7 @@ public class EvaluationManageViewController extends Controller {
 				@Override
 				public void handle(MouseEvent e) {
 					try {
-						
+
 						Main.deleteEvaluation(eva);
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
