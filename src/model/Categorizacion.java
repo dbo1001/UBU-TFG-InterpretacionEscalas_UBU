@@ -90,5 +90,14 @@ public class Categorizacion implements Serializable {
 
 		return item;
 	}
+	
+	@Override
+	public boolean equals(Object ca) {
+		if(ca instanceof Categorizacion && ((Categorizacion) ca).getId()==this.id) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 
 }

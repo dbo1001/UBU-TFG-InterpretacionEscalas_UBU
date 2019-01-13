@@ -15,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import model.Alumno;
 import model.Areafuncional;
 import model.Categorizacion;
+import model.Evaluacion;
 import model.Item;
 import model.Puntuacion;
 
@@ -22,22 +23,23 @@ public class GraphViewController extends Controller {
 
 	@FXML
 	BorderPane root;
-	private Map<String, Integer> datos = new LinkedHashMap<String, Integer>();
+	private Map<String, Integer> datos;
+	private Map<Evaluacion, Map<String, Integer>> dataMap;
 	private CategoryAxis xAxis;
 	private NumberAxis yAxis;
 	private LineChart<String, Number> chart;
-	Series<String, Number> series;
+	private Series<String, Number> series;
 
-	public void faChart(List<Alumno> students, List<Areafuncional> faList) {
-		for (Areafuncional fa : faList) {
-			datos.put(fa.getDescripcion(), 0);
-			for (Alumno stu : students) {
-				datos.replace(fa.getDescripcion(), datos.get(fa.getDescripcion()) + 10);
-				if (stu.getEvaluacions().size() > 0) {
-					for (Puntuacion pun : stu.getEvaluacions().get(0).getPuntuacions()) {
-						// datos.replace(fa.getDescripcion(), datos.get(fa.getDescripcion()) +
-						// pun.getValoracion());
-						System.out.print("evaluacion");
+	public void faChart(List<Evaluacion> evaluations, List<Areafuncional> faList) {
+		this.dataMap = new LinkedHashMap<Evaluacion, Map<String, Integer>>();
+		for (Evaluacion eva : evaluations) {
+			datos = new LinkedHashMap<String, Integer>();
+			this.dataMap.put(eva, datos);
+			for (Areafuncional fa : faList) {
+				datos.put(fa.getDescripcion(), 0);
+				for (Puntuacion pun : eva.getPuntuacions()) {
+					if (fa.equals(pun.getItem().getCategorizacion().getAreafuncional())) {
+						datos.replace(fa.getDescripcion(), datos.get(fa.getDescripcion()) + pun.getValoracion());
 					}
 				}
 			}
@@ -46,27 +48,37 @@ public class GraphViewController extends Controller {
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
 		xAxis.getStyleClass().add("xAxis");
-		//yAxis.setUpperBound(0.0);
+		// yAxis.setUpperBound(0.0);
 		chart = new LineChart<String, Number>(xAxis, yAxis);
 
 		series = new Series<String, Number>();
 		for (Areafuncional fa : faList) {
-			series.getData().add(new XYChart.Data<String, Number>(fa.getDescripcion(), fa.getPuntuacionMaxima()));
+			if(fa.getDescripcion().length()>=25) {
+				series.getData().add(new XYChart.Data<String, Number>(fa.getDescripcion().substring(0, 25)+"...", fa.getPuntuacionMaxima()));
+			}else {
+				series.getData().add(new XYChart.Data<String, Number>(fa.getDescripcion(), fa.getPuntuacionMaxima()));
+			}
 		}
 		series.setName("Puntuación máxima");
 		chart.getData().add(series);
-		
-		for (Alumno stu : students) {
+
+		for (Evaluacion eva : evaluations) {
 			series = new Series<String, Number>();
+			datos = this.dataMap.get(eva);
 			for (String faName : datos.keySet()) {
-				series.getData().add(new XYChart.Data<String, Number>(faName, datos.get(faName)));
-				series.setName(stu.getNombre() + " " + stu.getApellido1() + " " + stu.getApellido2());
+				if(faName.length()>=25) {
+					series.getData().add(new XYChart.Data<String, Number>(faName.substring(0,25)+"...", datos.get(faName)));	
+				}else {
+					series.getData().add(new XYChart.Data<String, Number>(faName, datos.get(faName)));
+				}
+				series.setName(eva.getAlumno().getNombre() + " " + eva.getAlumno().getApellido1() + " "
+						+ eva.getAlumno().getApellido2() + "(" + eva.getFecha().toString().substring(0, 10) + ")");
 			}
 			chart.getData().add(series);
 		}
 
-		xAxis.setTickLabelRotation(30);
-		chart.setTitle("Grafico generado");
+		xAxis.setTickLabelRotation(37);
+		chart.setTitle("Gráfico generado");
 
 		root.setCenter(chart);
 	}
@@ -89,7 +101,7 @@ public class GraphViewController extends Controller {
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
 		xAxis.getStyleClass().add("xAxis");
-		//yAxis.setUpperBound(0.0);
+		// yAxis.setUpperBound(0.0);
 		chart = new LineChart<String, Number>(xAxis, yAxis);
 
 		series = new Series<String, Number>();
@@ -98,7 +110,7 @@ public class GraphViewController extends Controller {
 		}
 		series.setName("Puntuación máxima");
 		chart.getData().add(series);
-		
+
 		for (Alumno stu : students) {
 			series = new Series<String, Number>();
 			for (String faName : datos.keySet()) {
@@ -131,17 +143,15 @@ public class GraphViewController extends Controller {
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
 		xAxis.getStyleClass().add("xAxis");
-		//yAxis.setUpperBound(0.0);
+		// yAxis.setUpperBound(0.0);
 		chart = new LineChart<String, Number>(xAxis, yAxis);
 
 		/*
-		series = new Series<String, Number>();
-		for (Item it : itList) {
-			series.getData().add(new XYChart.Data<String, Number>(it.getDescripcion(), 5));
-		}
-		series.setName("Puntuación máxima");
-		chart.getData().add(series);*/
-		
+		 * series = new Series<String, Number>(); for (Item it : itList) {
+		 * series.getData().add(new XYChart.Data<String, Number>(it.getDescripcion(),
+		 * 5)); } series.setName("Puntuación máxima"); chart.getData().add(series);
+		 */
+
 		for (Alumno stu : students) {
 			series = new Series<String, Number>();
 			for (String itName : datos.keySet()) {

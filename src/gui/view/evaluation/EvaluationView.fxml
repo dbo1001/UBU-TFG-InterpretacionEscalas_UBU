@@ -19,7 +19,7 @@
          <children>
             <HBox>
                <children>
-                  <Button mnemonicParsing="false" onAction="#acept" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" prefWidth="231.0" styleClass="bigText" text="Terminar y guardar" />
+                  <Button mnemonicParsing="false" onAction="#acept" prefWidth="231.0" styleClass="bigText" text="Terminar y guardar" />
                </children>
             </HBox>
             <HBox nodeOrientation="RIGHT_TO_LEFT" spacing="50.0" AnchorPane.rightAnchor="0.0">

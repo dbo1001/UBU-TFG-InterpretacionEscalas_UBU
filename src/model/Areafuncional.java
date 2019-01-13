@@ -77,5 +77,14 @@ public class Areafuncional implements Serializable {
 
 		return categorizacion;
 	}
+	
+	@Override
+	public boolean equals(Object fa) {
+		if(fa instanceof Areafuncional && ((Areafuncional) fa).getId()==this.id) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 
 }

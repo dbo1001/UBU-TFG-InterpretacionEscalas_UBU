@@ -70,8 +70,7 @@ public class Main extends Application {
 		Main.primaryStage.setTitle("Interpretación de escalas");
 
 		showMain();
-		// showManageView();
-		showStudentSelectionView();
+		showManageView();
 	}
 
 	private void showMain() throws IOException {
@@ -181,7 +180,7 @@ public class Main extends Application {
 		BorderPane studentSelectionView = loader.load();
 		StudentSelectionViewController ssVC = loader.getController();
 		// TODO adaptar al caso del ADMIN
-		ssVC.setClassrooms(Main.currentTeacher.getAulas());
+		ssVC.setClassrooms(Main.getClassroomService().getAll());
 
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(studentSelectionView);
@@ -212,12 +211,14 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/GraphView.fxml"));
 		BorderPane graphView = loader.load();
 		GraphViewController gVC = loader.getController();
-		/*
-		 * if(selectedCa.size() == 0 && selectedIt.size()==0) {
-		 * gVC.faChart(selectedEvaluations, selectedFa); }else if(selectedIt.size() ==
-		 * 0) { gVC.caChart(selectedEvaluations, selectedCa); }else {
-		 * gVC.itChart(selectedEvaluations, selectedIt); }
-		 */
+
+		if (selectedCa.size() == 0 && selectedIt.size() == 0) {
+			gVC.faChart(selectedEvaluations, selectedFa);
+		}/* else if (selectedIt.size() == 0) {
+			gVC.caChart(selectedEvaluations, selectedCa);
+		} else {
+			gVC.itChart(selectedEvaluations, selectedIt);
+		}*/
 
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(graphView);
@@ -342,9 +343,10 @@ public class Main extends Application {
 
 	public static void deleteEvaluation(Evaluacion eva) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION,
-				"¿Estás seguro de que quieres borrar la evaluación con fecha " + eva.getFecha().toString().substring(0, 16)
-						+ " del alumno/a " + eva.getAlumno().getApellido1() + " " + eva.getAlumno().getApellido2() + ", "
-						+ eva.getAlumno().getNombre() + " ?\n" + "Los cambios serán definitivos.",
+				"¿Estás seguro de que quieres borrar la evaluación con fecha "
+						+ eva.getFecha().toString().substring(0, 16) + " del alumno/a " + eva.getAlumno().getApellido1()
+						+ " " + eva.getAlumno().getApellido2() + ", " + eva.getAlumno().getNombre() + " ?\n"
+						+ "Los cambios serán definitivos.",
 				ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
 		alert.showAndWait();
 

@@ -62,8 +62,11 @@
 }
 
 .xAxis{
-	-fx-tick-label-font-size:0.0em ;
-	-fx-tick-label-rotate: 30;
+	-fx-tick-label-font-size:1em ;
+	-fx-tick-label-gap:0.0 ;
+	-fx-start-margin: 0.0 ;
+	-fx-end-margin:0.0 ;
+	-fx-tick-labels-visible: true;
 }
 
 .scrollPane{

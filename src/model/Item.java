@@ -90,6 +90,15 @@ public class Item implements Serializable,Comparable<Item> {
 
 		return puntuacion;
 	}
+	
+	@Override
+	public boolean equals(Object it) {
+		if(it instanceof Item && ((Item) it).getNumero()==this.numero) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 
 	@Override
 	public int compareTo(Item it) {
