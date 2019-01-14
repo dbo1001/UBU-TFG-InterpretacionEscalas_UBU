@@ -87,8 +87,11 @@ public class StudentSelectionViewController extends SelectorController<Alumno> {
 	
 	@FXML
 	private void switchDisplay() {
+		List<Alumno> students = new ArrayList<Alumno>();
+		students.addAll(this.classroom.getSelectionModel().getSelectedItem().getAlumnos());
+		students.removeAll(super.getSelectedObjects());
 		super.getDisplayedObjects().clear();
-		super.getDisplayedObjects().addAll(((Aula) this.classroom.getSelectionModel().getSelectedItem()).getAlumnos());
+		super.getDisplayedObjects().addAll(students);
 		super.sortObjects();
 	}
 	

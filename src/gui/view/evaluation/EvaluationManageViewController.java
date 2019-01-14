@@ -160,7 +160,7 @@ public class EvaluationManageViewController extends Controller {
 		}
 
 		public String getFecha() {
-			return this.eva.getFecha().toString();
+			return this.eva.getFecha().toString().substring(0, 16);
 		}
 
 		public Label getEdit() {

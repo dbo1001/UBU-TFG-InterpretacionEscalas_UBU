@@ -53,7 +53,6 @@ public abstract class SelectorController<T> extends Controller {
 	
 	protected List<T> getDisplayedObjects() {
 		return this.objectsDisplayed.getItems();
-	}
-	
+	}	
 	
 }

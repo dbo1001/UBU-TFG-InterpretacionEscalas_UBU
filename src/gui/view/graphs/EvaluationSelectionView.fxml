@@ -39,18 +39,30 @@
                            </VBox.margin>
                         </VBox>
                      </children>
+                     <HBox.margin>
+                        <Insets bottom="50.0" />
+                     </HBox.margin>
                   </VBox>
                   <VBox alignment="TOP_CENTER" spacing="7.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="mediumText" text="Estas son las evaluaciones seleccionadas:" />
-                        <ListView fx:id="evaluationLV" styleClass="mediumText" VBox.vgrow="ALWAYS" />
+                        <ListView fx:id="evaluationLV" styleClass="mediumText" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin></ListView>
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#delete" styleClass="bigText" text="Borrar">
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="smallText" text="(Clicka sobre una o varias evaluaciones  y usa el botón para borrarlas)" />
                      </children>
                   </VBox>
                </children>
             </HBox>
          </children>
          <BorderPane.margin>
-            <Insets bottom="100.0" left="30.0" right="30.0" top="30.0" />
+            <Insets bottom="50.0" left="30.0" right="30.0" top="30.0" />
          </BorderPane.margin>
       </VBox>
    </center>

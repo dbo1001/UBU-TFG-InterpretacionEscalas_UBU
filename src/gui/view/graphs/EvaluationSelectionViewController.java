@@ -44,7 +44,7 @@ public class EvaluationSelectionViewController extends Controller {
 					super.updateItem(eva, empty);
 					if (eva != null) {
 						setText(eva.getAlumno().getApellido1() + " " + eva.getAlumno().getApellido2() + ", "
-								+ eva.getAlumno().getNombre() + "  ->  " + eva.getFecha().toString());
+								+ eva.getAlumno().getNombre() + "  ->  " + eva.getFecha().toString().substring(0, 16));
 					} else {
 						setText("");
 					}
@@ -92,6 +92,11 @@ public class EvaluationSelectionViewController extends Controller {
 			alert.setHeaderText("");
 			alert.show();
 		}
+	}
+	
+	@FXML
+	private void delete() {
+		this.evaluationLV.getItems().removeAll(this.evaluationLV.getSelectionModel().getSelectedItems());
 	}
 	
 	private void sortEvaluations() {
