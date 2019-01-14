@@ -20,6 +20,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import model.Alumno;
 import model.Evaluacion;
 
@@ -57,6 +58,7 @@ public class EvaluationSelectionViewController extends Controller {
 	@FXML
 	private void initialize() {
 		this.evaluationLV.setCellFactory(callback);
+		this.evaluationLV.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	}
 
 	@FXML
