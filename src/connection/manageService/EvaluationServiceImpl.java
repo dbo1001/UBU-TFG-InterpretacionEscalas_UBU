@@ -10,11 +10,26 @@ import connection.ServiceImpl;
 import model.Evaluacion;
 import model.Puntuacion;
 
-public class EvaluationServiceImpl extends ServiceImpl implements ManageService<Evaluacion> {
+public class EvaluationServiceImpl extends ServiceImpl implements ManageService<Evaluacion, Integer> {
 
 	@Override
 	public List<Evaluacion> getAll() {
-		return getEntityManager().createNamedQuery("Evaluacion.findAll", Evaluacion.class).getResultList();
+		EntityManager em = super.getEntityManager();
+		List<Evaluacion> result = em.createNamedQuery("Evaluacion.findAll", Evaluacion.class).getResultList();
+		if(em.isOpen()) {
+			em.close();
+		}
+		return result;
+	}
+
+	@Override
+	public Evaluacion getOne(Integer id) {
+		EntityManager em = super.getEntityManager();
+		Evaluacion  result = getEntityManager().createNamedQuery("Evaluacion.findById", Evaluacion.class).setParameter("id", id).getSingleResult();
+		if(em.isOpen()) {
+			em.close();
+		}
+		return result;
 	}
 
 	@Override

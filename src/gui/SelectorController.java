@@ -1,8 +1,9 @@
-package gui.view;
+package gui;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;

@@ -1,9 +1,8 @@
-package gui.view;
+package gui;
 
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-import gui.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;

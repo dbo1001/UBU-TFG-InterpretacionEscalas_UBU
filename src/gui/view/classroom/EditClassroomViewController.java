@@ -8,7 +8,7 @@ import java.util.List;
 import connection.ConnectionError;
 import connection.ConnectionException;
 import gui.Main;
-import gui.view.SelectorController;
+import gui.SelectorController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;

@@ -4,9 +4,11 @@ import java.util.List;
 
 import connection.ConnectionException;
 
-public interface ManageService<T> {
+public interface ManageService<T, O> {
 	
 	public List<T> getAll();
+	
+	public T getOne(O object);
 	
 	public boolean add(T object) throws ConnectionException;
 	

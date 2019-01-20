@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import connection.ConnectionException;
+import gui.Controller;
 import gui.Main;
-import gui.view.Controller;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;

@@ -9,15 +9,30 @@ import connection.ConnectionError;
 import connection.ConnectionException;
 import connection.ServiceImpl;
 import model.Alumno;
+import model.Aula;
 import model.Evaluacion;
 import model.Puntuacion;
 
-public class StudentServiceImpl extends ServiceImpl implements ManageService<Alumno> {
+public class StudentServiceImpl extends ServiceImpl implements ManageService<Alumno, String> {
 
 	@Override
 	public List<Alumno> getAll() {
+		EntityManager em = super.getEntityManager();
+		List<Alumno> result = em.createNamedQuery("Alumno.findAll", Alumno.class).getResultList();
+		if(em.isOpen()) {
+			em.close();
+		}
+		return result;
+	}
 
-		return getEntityManager().createNamedQuery("Alumno.findAll", Alumno.class).getResultList();
+	@Override
+	public Alumno getOne(String code) {
+		EntityManager em = super.getEntityManager();
+		Alumno result = em.createNamedQuery("Alumno.findByCodigo", Alumno.class).setParameter("codigo", code).getSingleResult();
+		if(em.isOpen()) {
+			em.close();
+		}
+		return result;
 	}
 
 	@Override

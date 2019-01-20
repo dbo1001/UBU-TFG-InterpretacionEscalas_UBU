@@ -16,8 +16,8 @@
          <children>
             <HBox spacing="25.0">
                <children>
-                <Button mnemonicParsing="false" onAction="#checkDataIntegrity" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="Menu principal" />
-                  <Button mnemonicParsing="false" onAction="#goToStudentSelectionView" text="Generar gráfico" />
+                <Button fx:id="mainMenu" disable="true" mnemonicParsing="false" onAction="#checkDataIntegrity" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="Menu principal" />
+                  <Button fx:id="generateGraphic" disable="true" mnemonicParsing="false" onAction="#goToStudentSelectionView" text="Generar gráfico" />
                </children>
                <padding>
                   <Insets left="1.0" top="1.0" />

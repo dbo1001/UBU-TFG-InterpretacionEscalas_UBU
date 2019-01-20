@@ -2,11 +2,13 @@ package gui.view;
 
 import java.io.IOException;
 
+import gui.Controller;
 import gui.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import model.Profesor;
 
@@ -14,6 +16,10 @@ public class MainViewController extends Controller {
 	
 	@FXML
 	private Text teacherName;
+	@FXML
+	private Button mainMenu;
+	@FXML
+	private Button generateGraphic;
 	private Profesor currentTeacher;
 
 	@FXML
@@ -44,6 +50,8 @@ public class MainViewController extends Controller {
 	
 	public void setCurrentTeacher(Profesor tea) {
 		this.currentTeacher = tea;
+		this.mainMenu.setDisable(false);
+		this.generateGraphic.setDisable(false);
 		this.teacherName.setText(this.currentTeacher.getApellido1() + " " + this.currentTeacher.getApellido2() + ", " + this.currentTeacher.getNombre());
 	}
 

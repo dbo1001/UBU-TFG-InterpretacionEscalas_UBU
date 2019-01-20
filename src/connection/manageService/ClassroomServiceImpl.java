@@ -7,38 +7,29 @@ import connection.ConnectionError;
 import connection.ConnectionException;
 import connection.ServiceImpl;
 import model.Aula;
+import model.Evaluacion;
 import model.Profesor;
 
-public class ClassroomServiceImpl extends ServiceImpl implements ManageService<Aula> {
+public class ClassroomServiceImpl extends ServiceImpl implements ManageService<Aula, String> {
 
 	@Override
 	public List<Aula> getAll() {
+		EntityManager em = super.getEntityManager();
+		List<Aula> result = em.createNamedQuery("Aula.findAll", Aula.class).getResultList();
+		if(em.isOpen()) {
+			em.close();
+		}
+		return result;
+	}
 
-		return getEntityManager().createNamedQuery("Aula.findAll", Aula.class).getResultList();
-		/*
-		 * //Codigo de ejemplo usado para testear
-		 * 
-		 * List<Aula> resultado = new ArrayList<Aula>(); Aula aula1 = new Aula(); Aula
-		 * aula2 = new Aula(); Aula aula3 = new Aula(); Aula aula4 = new Aula(); Aula
-		 * aula5 = new Aula();
-		 * 
-		 * aula1.setId(1); aula1.setNombre("Aula1"); aula1.setCapacidad(1);
-		 * 
-		 * aula2.setId(2); aula2.setNombre("Aula2"); aula2.setCapacidad(2);
-		 * 
-		 * aula3.setId(3); aula3.setNombre("Aula3"); aula3.setCapacidad(3);
-		 * 
-		 * aula4.setId(4); aula4.setNombre("Aula4"); aula4.setCapacidad(4);
-		 * 
-		 * aula5.setId(5); aula5.setNombre("Aula5"); aula5.setCapacidad(5);
-		 * 
-		 * 
-		 * 
-		 * resultado.add(aula1); resultado.add(aula2); resultado.add(aula3);
-		 * resultado.add(aula4); resultado.add(aula5);
-		 * 
-		 * return resultado;
-		 */
+	@Override
+	public Aula getOne(String name) {
+		EntityManager em = super.getEntityManager();
+		Aula result = em.createNamedQuery("Aula.findByName", Aula.class).setParameter("name", name).getSingleResult();
+		if(em.isOpen()) {
+			em.close();
+		}
+		return result;
 	}
 
 	@Override

@@ -10,8 +10,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import gui.Controller;
 import gui.Main;
-import gui.view.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;

@@ -53,15 +53,14 @@ public class Main extends Application {
 
 	private static Stage primaryStage;
 	private static BorderPane mainLayout;
-	private static ManageService<Alumno> studentService = new StudentServiceImpl();
-	private static ManageService<Aula> classroomService = new ClassroomServiceImpl();
-	private static ManageService<Profesor> teacherService = new TeacherServiceImpl();
-	private static ManageService<Evaluacion> evaluationService = new EvaluationServiceImpl();
+	private static ManageService<Alumno, String> studentService = new StudentServiceImpl();
+	private static ManageService<Aula, String> classroomService = new ClassroomServiceImpl();
+	private static ManageService<Profesor, String> teacherService = new TeacherServiceImpl();
+	private static ManageService<Evaluacion, Integer> evaluationService = new EvaluationServiceImpl();
 	private static UtilService utilService = new UtilServiceImpl();
+	private static MainViewController mvC;
 	private static boolean modifiedData = false;
-	// TODO borrar esta variable
-	private static TeacherServiceImpl tS = new TeacherServiceImpl();
-	private static Profesor currentTeacher = tS.getCurrentteacher();
+	private static Profesor currentTeacher;
 	private static LinkedList<Node> previousNodeQueue = new LinkedList<Node>();
 
 	@Override
@@ -70,17 +69,34 @@ public class Main extends Application {
 		Main.primaryStage.setTitle("Interpretación de escalas");
 
 		showMain();
-		showManageView();
+		showLogInView();
 	}
 
 	private void showMain() throws IOException {
 		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/MainView.fxml"));
 		Main.mainLayout = loader.load();
-		MainViewController mVC = loader.getController();
-		mVC.setCurrentTeacher(currentTeacher);
+		this.mvC = loader.getController();
 		Scene scene = new Scene(mainLayout);
 		scene.getStylesheets().add(this.getClass().getResource("gui.css").toExternalForm());
 		Main.primaryStage.setScene(scene);
+		Main.primaryStage.show();
+	}
+	
+	public static void setCurrentTeacher(Profesor tea) throws IOException {
+		Main.currentTeacher = tea;
+		Main.mvC.setCurrentTeacher(Main.currentTeacher);
+		Main.showManageView();
+	}
+	
+	private void showLogInView() throws IOException {
+		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/LogInView.fxml"));
+		BorderPane logInView= loader.load();
+		
+		/*
+		MainViewController mVC = loader.getController();
+		mVC.setCurrentTeacher(currentTeacher);*/
+		
+		Main.mainLayout.setCenter(logInView);
 		Main.primaryStage.show();
 	}
 
@@ -391,19 +407,19 @@ public class Main extends Application {
 		return Main.modifiedData;
 	}
 
-	public static ManageService<Alumno> getStudentService() {
+	public static ManageService<Alumno, String> getStudentService() {
 		return studentService;
 	}
 
-	public static ManageService<Aula> getClassroomService() {
+	public static ManageService<Aula, String> getClassroomService() {
 		return classroomService;
 	}
 
-	public static ManageService<Profesor> getTeacherService() {
+	public static ManageService<Profesor, String> getTeacherService() {
 		return teacherService;
 	}
 
-	public static ManageService<Evaluacion> getEvaluationService() {
+	public static ManageService<Evaluacion, Integer> getEvaluationService() {
 		return evaluationService;
 	}
 

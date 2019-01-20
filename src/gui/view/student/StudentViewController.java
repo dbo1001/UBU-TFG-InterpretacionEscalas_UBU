@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 import connection.ConnectionException;
+import gui.Controller;
 import gui.Main;
-import gui.view.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
