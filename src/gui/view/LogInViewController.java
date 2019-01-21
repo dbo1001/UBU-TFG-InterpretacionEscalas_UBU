@@ -5,6 +5,7 @@ import java.io.IOException;
 import gui.Controller;
 import gui.Main;
 import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import model.Profesor;
@@ -14,7 +15,7 @@ public class LogInViewController extends Controller {
 	@FXML
 	private TextField Nif;
 	@FXML
-	private TextField password;
+	private PasswordField password;
 	@FXML
 	private Text error;
 	
