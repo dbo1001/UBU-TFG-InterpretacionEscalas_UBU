@@ -2,7 +2,10 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -31,7 +34,7 @@ public class Aula implements Serializable {
 	private String notas;
 
 	//bi-directional many-to-one association to Alumno
-	@OneToMany(mappedBy="aula")
+	@OneToMany(mappedBy="aula", fetch= FetchType.EAGER)
 	private List<Alumno> alumnos;
 
 	//bi-directional many-to-many association to Profesor
@@ -45,7 +48,7 @@ public class Aula implements Serializable {
 			@JoinColumn(name="id_profesor")
 			}
 		)
-	private List<Profesor> profesors;
+	private Set<Profesor> profesors = new HashSet<Profesor>();
 
 	public Aula() {
 	}
@@ -104,11 +107,11 @@ public class Aula implements Serializable {
 		return alumno;
 	}
 
-	public List<Profesor> getProfesors() {
+	public Set<Profesor> getProfesors() {
 		return this.profesors;
 	}
 
-	public void setProfesors(List<Profesor> profesors) {
+	public void setProfesors(Set<Profesor> profesors) {
 		this.profesors = profesors;
 	}
 	

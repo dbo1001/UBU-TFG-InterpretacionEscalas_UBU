@@ -46,7 +46,7 @@ public class Alumno implements Serializable {
 	private Aula aula;
 
 	//bi-directional many-to-one association to Evaluacion
-	@OneToMany(mappedBy="alumno")
+	@OneToMany(mappedBy="alumno", fetch= FetchType.EAGER)
 	private List<Evaluacion> evaluacions;
 
 	public Alumno() {

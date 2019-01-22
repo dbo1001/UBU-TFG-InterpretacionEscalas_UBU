@@ -6,7 +6,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import gui.Controller;
 import gui.Main;
@@ -43,7 +45,7 @@ public class EvaluationManageViewController extends Controller {
 	@FXML
 	private DatePicker to;
 
-	private List<Evaluacion> allEvaluations;
+	private Set<Evaluacion> allEvaluations;
 	private Alumno stu;
 
 	@FXML
@@ -101,7 +103,7 @@ public class EvaluationManageViewController extends Controller {
 
 	public void setStudent(Alumno stu) {
 		this.stu = stu;
-		this.allEvaluations = stu.getEvaluacions();
+		this.allEvaluations = new HashSet<Evaluacion>(stu.getEvaluacions());
 		this.name.setText("Estas viendo las evaluaciones del alumno: " + this.stu.getApellido1() + " "
 				+ this.stu.getApellido2() + ", " + this.stu.getNombre());
 		ObservableList<CeldaEvaluacion> cellsList = FXCollections.observableArrayList();

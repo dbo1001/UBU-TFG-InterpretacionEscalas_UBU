@@ -2,6 +2,7 @@ package gui.view.classroom;
 
 import java.io.IOException;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 
 import connection.ConnectionError;
@@ -63,7 +64,7 @@ public class ClassroomViewController extends SelectorController<Profesor> {
 			cla.setCapacidad(Integer.parseInt(this.capacity.getText()));
 			cla.setNombre(this.name.getText());
 			cla.setNotas(this.description.getText());
-			cla.setProfesors(super.getSelectedObjects());
+			cla.setProfesors(new HashSet<Profesor>(super.getSelectedObjects()));
 
 			try {
 				if (Main.getClassroomService().add(cla)) {
