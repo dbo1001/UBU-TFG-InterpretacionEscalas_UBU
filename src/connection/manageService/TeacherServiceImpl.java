@@ -179,6 +179,8 @@ public class TeacherServiceImpl extends ServiceImpl implements ManageService<Pro
 			throw new ConnectionException(ConnectionError.FIELD_IS_EMPTY);
 		} else if (tea.getContrasena().length() > 64 || tea.getContrasena().length() < 8) {
 			throw new ConnectionException(ConnectionError.WRONG_PASSWORD_LENGTH);
+		} else if(super.passPattern.matcher(tea.getContrasena()).find()) {
+			throw new ConnectionException(ConnectionError.WRONF_PASSWORD);
 		}
 
 		if (tea.getNotas().length() > 1000) {

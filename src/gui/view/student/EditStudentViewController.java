@@ -83,6 +83,10 @@ public class EditStudentViewController extends Controller {
 		this.code.setText(stu.getCodigo());
 		this.direction.setText(stu.getDireccion());
 		this.description.setText(stu.getNotas());
+		
+		if(!Main.getCurrentTeacher().getPermisos()) {
+			this.aulaCB.setDisable(true);
+		}
 
 		Date fecha = stu.getFechaNacimiento();
 		if (fecha != null) {

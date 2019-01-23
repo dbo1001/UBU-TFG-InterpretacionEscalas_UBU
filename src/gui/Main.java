@@ -1,6 +1,7 @@
 package gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import connection.ConnectionException;
@@ -24,6 +25,7 @@ import gui.view.student.StudentViewController;
 import gui.view.teacher.EditTeacherViewController;
 import gui.view.teacher.TeacherManageViewController;
 import gui.view.teacher.TeacherViewController;
+import io.csv.CSVControl;
 import gui.view.graphs.EvaluationSelectionViewController;
 import gui.view.graphs.GraphSelectionViewController;
 import gui.view.graphs.GraphViewController;
@@ -68,6 +70,8 @@ public class Main extends Application {
 		Main.primaryStage = primaryStage;
 		Main.primaryStage.setTitle("Interpretación de escalas");
 
+		CSVControl cc = new CSVControl();
+		cc.test();
 		showMain();
 		showLogInView();
 	}
@@ -75,27 +79,28 @@ public class Main extends Application {
 	private void showMain() throws IOException {
 		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/MainView.fxml"));
 		Main.mainLayout = loader.load();
-		this.mvC = loader.getController();
+		Main.mvC = loader.getController();
 		Scene scene = new Scene(mainLayout);
 		scene.getStylesheets().add(this.getClass().getResource("gui.css").toExternalForm());
 		Main.primaryStage.setScene(scene);
 		Main.primaryStage.show();
 	}
-	
+
 	public static void setCurrentTeacher(Profesor tea) throws IOException {
 		Main.currentTeacher = tea;
 		Main.mvC.setCurrentTeacher(Main.currentTeacher);
 		Main.showManageView();
 	}
-	
+
 	private void showLogInView() throws IOException {
 		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/LogInView.fxml"));
-		BorderPane logInView= loader.load();
-		
+		BorderPane logInView = loader.load();
+
 		/*
-		MainViewController mVC = loader.getController();
-		mVC.setCurrentTeacher(currentTeacher);*/
-		
+		 * MainViewController mVC = loader.getController();
+		 * mVC.setCurrentTeacher(currentTeacher);
+		 */
+
 		Main.mainLayout.setCenter(logInView);
 		Main.primaryStage.show();
 	}
@@ -104,8 +109,9 @@ public class Main extends Application {
 
 		Main.loadCursor();
 
-		// TODO esto deberia estar en el menu principal
 		Main.previousNodeQueue.clear();
+		
+		Main.currentTeacher = Main.teacherService.getOne(Main.currentTeacher.getNif());
 
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/ManageView.fxml"));
 		TabPane manageView = loader.load();
@@ -113,20 +119,38 @@ public class Main extends Application {
 		loader = new FXMLLoader(Main.class.getResource("view/student/StudentManageView.fxml"));
 		BorderPane studentManageView = loader.load();
 		StudentManageViewController sMVC = loader.getController();
-		sMVC.setAllStudents(studentService.getAll());
+		
+		List<Alumno> currentStudents = new ArrayList<Alumno>();
+		for(Aula cla: Main.currentTeacher.getAulas()) {
+			currentStudents.addAll(cla.getAlumnos());
+		}
+		sMVC.setAllStudents(currentStudents);
+		
 		((Tab) manageView.getTabs().get(0)).setContent(studentManageView);
 
-		loader = new FXMLLoader(Main.class.getResource("view/teacher/TeacherManageView.fxml"));
-		BorderPane teacherManageView = loader.load();
-		TeacherManageViewController tMVC = loader.getController();
-		tMVC.setAllTeachers(teacherService.getAll());
-		((Tab) manageView.getTabs().get(1)).setContent(teacherManageView);
+		if (Main.currentTeacher.getPermisos()) {
 
-		loader = new FXMLLoader(Main.class.getResource("view/classroom/ClassroomManageView.fxml"));
-		BorderPane classroomManageView = loader.load();
-		ClassroomManageViewController cMVC = loader.getController();
-		cMVC.setAllClassrooms(classroomService.getAll());
-		((Tab) manageView.getTabs().get(2)).setContent(classroomManageView);
+			loader = new FXMLLoader(Main.class.getResource("view/teacher/TeacherManageView.fxml"));
+			BorderPane teacherManageView = loader.load();
+			TeacherManageViewController tMVC = loader.getController();
+			tMVC.setAllTeachers(teacherService.getAll());
+			Tab tabTea = new Tab();
+			tabTea.setText("Profesores");
+			tabTea.setContent(teacherManageView);
+			tabTea.setClosable(false);
+			manageView.getTabs().add(tabTea);
+
+			loader = new FXMLLoader(Main.class.getResource("view/classroom/ClassroomManageView.fxml"));
+			BorderPane classroomManageView = loader.load();
+			ClassroomManageViewController cMVC = loader.getController();
+			cMVC.setAllClassrooms(classroomService.getAll());
+			Tab tabClass = new Tab();
+			tabClass.setText("Aulas");
+			tabClass.setContent(classroomManageView);
+			tabClass.setClosable(false);
+			manageView.getTabs().add(tabClass);
+
+		}
 
 		Main.mainLayout.setCenter(manageView);
 
@@ -425,6 +449,10 @@ public class Main extends Application {
 
 	public static UtilService getUtilService() {
 		return utilService;
+	}
+	
+	public static Profesor getCurrentTeacher() {
+		return Main.currentTeacher;
 	}
 
 	public static void main(String[] args) {
