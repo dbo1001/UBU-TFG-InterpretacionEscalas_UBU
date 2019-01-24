@@ -1,4 +1,4 @@
---Script simplificado para crear la BD del TFG Escalas
+--Script para crear la BD del TFG Escalas
 
 DROP TABLE IF EXISTS PUNTUACION; --CASCADE CONSTRAINTS;
 
@@ -12,22 +12,32 @@ DROP TABLE IF EXISTS AREAFUNCIONAL; --CASCADE CONSTRAINTS;
 
 DROP TABLE IF EXISTS ALUMNO; --CASCADE CONSTRAINTS;
 
+DROP TABLE IF EXISTS AULA_PROFESOR;
+
 DROP TABLE IF EXISTS PROFESOR;
 
 DROP TABLE IF EXISTS AULA;
 
+DROP TABLE IF EXISTS AULA_PROFESOR;
+
 DROP SEQUENCE IF EXISTS seq_areafuncional;
-
 DROP SEQUENCE IF EXISTS seq_categorizacion;
-
 DROP SEQUENCE IF EXISTS seq_item;
+DROP SEQUENCE IF EXISTS seq_aula;
+DROP SEQUENCE IF EXISTS seq_profesor;
+DROP SEQUENCE IF EXISTS seq_alumno;
+DROP SEQUENCE IF EXISTS seq_evaluacion;
+DROP SEQUENCE IF EXISTS seq_puntuacion;
 
 
 CREATE SEQUENCE seq_areafuncional;
-
 CREATE SEQUENCE seq_categorizacion;
-
 CREATE SEQUENCE seq_item;
+CREATE SEQUENCE seq_aula;
+CREATE SEQUENCE seq_profesor;
+CREATE SEQUENCE seq_alumno;
+CREATE SEQUENCE seq_evaluacion;
+CREATE SEQUENCE seq_puntuacion;
 
 CREATE TABLE AREAFUNCIONAL(
     ID NUMERIC PRIMARY KEY,
@@ -54,30 +64,40 @@ CREATE TABLE ITEM(
 
 CREATE TABLE AULA (
     ID NUMERIC PRIMARY KEY,
-    NOMBRE VARCHAR(10) UNIQUE NOT NULL,
-    CAPACIDAD NUMERIC NOT NULL  
+    NOMBRE VARCHAR(50) UNIQUE NOT NULL,
+    CAPACIDAD NUMERIC NOT NULL,
+	NOTAS VARCHAR(1000)
 );
 
 CREATE TABLE PROFESOR (
     ID NUMERIC PRIMARY KEY,
     NIF VARCHAR(10) UNIQUE NOT NULL,
-    FECHA_NACIMIENTO DATE NOT NULL,
     NOMBRE VARCHAR(50) NOT NULL,
     APELLIDO1 VARCHAR(75) NOT NULL,
     APELLIDO2 VARCHAR(75),
-	ID_AULA NUMERIC NOT NULL,
-	CONSTRAINT FK_AULA_PROFESOR FOREIGN KEY (ID_AULA) REFERENCES AULA
+	NOTAS VARCHAR(1000),
+	PERMISOS BOOLEAN NOT NULL,
+	CONTRASENA CHAR(64) NOT NULL
 	
 );
 
+CREATE TABLE AULA_PROFESOR (
+	ID_AULA NUMERIC,
+	ID_PROFESOR NUMERIC,
+	PRIMARY KEY (ID_AULA, ID_PROFESOR),
+	CONSTRAINT FK_AULA_AULAPROFESOR FOREIGN KEY (ID_AULA) REFERENCES AULA,
+	CONSTRAINT FK_PROFESOR_AULAPROFESOR FOREIGN KEY (ID_PROFESOR) REFERENCES PROFESOR
+);	
+
 CREATE TABLE ALUMNO (
     ID NUMERIC PRIMARY KEY,
-    NIF VARCHAR(10) UNIQUE NOT NULL,
+    CODIGO VARCHAR(30) UNIQUE NOT NULL,
     FECHA_NACIMIENTO DATE NOT NULL,
     NOMBRE VARCHAR(50) NOT NULL,
     APELLIDO1 VARCHAR(75) NOT NULL,
     APELLIDO2 VARCHAR(75),
     DIRECCION VARCHAR(150),
+	NOTAS VARCHAR(1000),
 	ID_AULA NUMERIC NOT NULL,
 	CONSTRAINT FK_AULA_ALUMNO FOREIGN KEY (ID_AULA) REFERENCES AULA
 );
@@ -94,14 +114,15 @@ CREATE TABLE PUNTUACION(
     ID NUMERIC PRIMARY KEY,
     VALORACION NUMERIC,
     ID_ITEM NUMERIC NOT NULL,
-    ID_EVALUACION NUMERIC,    
+    ID_EVALUACION NUMERIC,
+	UNIQUE(ID_ITEM, ID_EVALUACION),
     CONSTRAINT FK_ITEM FOREIGN KEY (ID_ITEM) REFERENCES ITEM,
     CONSTRAINT FK_EVALUACION FOREIGN KEY (ID_EVALUACION) REFERENCES EVALUACION    
 );
 
-
+INSERT INTO PROFESOR VALUES(nextval('public.seq_profesor'), '00000000A', 'ADMIN', 'ADMIN', '', '', true, '0000');
 ---------------------------------------------------------------------
-INSERT INTO AREAFUNCIONAL VALUES (nextval('public.seq_areafuncional'), 'Autonomía en la alimentación',10);
+INSERT INTO AREAFUNCIONAL VALUES (nextval('public.seq_areafuncional'), 'Autonomía en la alimentación',35);
 INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Textura en los alimentos', 5, currval('public.seq_areafuncional'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Come alimentos de todo tipo de consistencias', 0, currval('public.seq_categorizacion'));
 																											   
@@ -163,7 +184,7 @@ INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Se pone zapatos con velcro
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Se pone zapatos sin atar', 0, currval('public.seq_categorizacion'));
 																	
 -------------------------------------------------------------------------------------------------
-INSERT INTO AREAFUNCIONAL VALUES (nextval('public.seq_areafuncional'), 'Control esfinteres',35);
+INSERT INTO AREAFUNCIONAL VALUES (nextval('public.seq_areafuncional'), 'Control de esfinteres',35);
 INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Control de esfinteres', 35, currval('public.seq_areafuncional'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Avisa cuando hay que cambiarle el pañal', 0, currval('public.seq_categorizacion'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Avisa con tiempo de querer orinar (durante el día)', 0, currval('public.seq_categorizacion'));
@@ -191,7 +212,7 @@ INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Transfe
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Sentado en una silla controlla la cabeza', 0, currval('public.seq_categorizacion'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Se sienta y se levanta de una silla sin necesidad de ayudarse con las brazos', 0, currval('public.seq_categorizacion'));
 																	
-INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Movilidad y transferencias en la cama', 20, currval('public.seq_areafuncional'));
+INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Movilidad y transferencias en la cama', 15, currval('public.seq_areafuncional'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Desde la posición de tumbado puede sentarse sólo en la cama o cuna', 0, currval('public.seq_categorizacion'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Cambia de posición en la cama, de bocarriba a bocabajo y viceversa', 0, currval('public.seq_categorizacion'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Se tumba y levanta de la cama sin ayuda', 0, currval('public.seq_categorizacion'));
@@ -279,22 +300,22 @@ INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Ayuda en tareas doméstica
 
 -------------------------------------------------------------------------------------------------
 INSERT INTO AREAFUNCIONAL VALUES (nextval('public.seq_areafuncional'), 'Conducta adaptativa',45);
-INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Comportamiento autolesivo', 30, currval('public.seq_areafuncional'));
+INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Comportamiento autolesivo', 10, currval('public.seq_areafuncional'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Se autolesiona en situaciones contextuales habituales', 0, currval('public.seq_categorizacion'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Se autolesiona en situaciones de estrés o enfado para el niño', 0, currval('public.seq_categorizacion'));
 
-INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Heteroagresividad(daño a otros)', 30, currval('public.seq_areafuncional'));
+INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Heteroagresividad(daño a otros)', 15, currval('public.seq_areafuncional'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Causa daño a otros', 0, currval('public.seq_categorizacion'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'En una situación de estrés o enfado tiene conductas agresivas hacia el mismo o los otros', 0, currval('public.seq_categorizacion'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'No causa daño a familiares o profesionales en momentos de ayuda', 0, currval('public.seq_categorizacion'));
 
-INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Destrucción de objetos', 30, currval('public.seq_areafuncional'));
+INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Destrucción de objetos', 5, currval('public.seq_areafuncional'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Rompe intencionadamente objetos', 0, currval('public.seq_categorizacion'));
 
-INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Conduca disrruptiva(llorar, gritar, reirse sin motivo)', 30, currval('public.seq_areafuncional'));
+INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Conduca disrruptiva(llorar, gritar, reirse sin motivo)', 5, currval('public.seq_areafuncional'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Presenta conductas disfuncionales', 0, currval('public.seq_categorizacion'));
 
-INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Esteriotipias', 30, currval('public.seq_areafuncional'));
+INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Esteriotipias', 10, currval('public.seq_areafuncional'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Presenta esteriotipias que no interfieren en sus actividades', 0, currval('public.seq_categorizacion'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Presenta estereotipias que interfieren en su funcionamiento o desempeño de actividades', 0, currval('public.seq_categorizacion'));
 

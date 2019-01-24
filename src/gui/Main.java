@@ -70,11 +70,12 @@ public class Main extends Application {
 		Main.primaryStage = primaryStage;
 		Main.primaryStage.setTitle("Interpretación de escalas");
 
-		CSVControl cc = new CSVControl();
+		//TODO borrar
+		/*CSVControl cc = new CSVControl();
 		cc.exportStudents(Main.studentService.getAll());
 		cc.exportTeachers(Main.teacherService.getAll());
 		cc.exportClassroom(Main.classroomService.getAll());
-		cc.exportEvaluation(Main.evaluationService.getAll());
+		cc.exportEvaluation(Main.evaluationService.getAll());*/
 		showMain();
 		showLogInView();
 	}
