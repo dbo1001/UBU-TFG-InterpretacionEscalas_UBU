@@ -89,7 +89,7 @@ public class EditTeacherViewController extends SelectorController<Aula> {
 		
 		super.initialize(callback, this.listAllClassrooms, new SortClassroom());
 		super.getSelectedObjects().addAll(this.tea.getAulas());
-		super.getDisplayedObjects().removeAll(this.tea.getAulas());
+		super.getDisplayedObjects().removeAll(this.tea.getAulas());	
 		super.sortObjects();
 		
 	}

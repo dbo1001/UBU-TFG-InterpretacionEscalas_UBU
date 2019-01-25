@@ -70,12 +70,14 @@ public class Main extends Application {
 		Main.primaryStage = primaryStage;
 		Main.primaryStage.setTitle("Interpretación de escalas");
 
-		//TODO borrar
-		/*CSVControl cc = new CSVControl();
-		cc.exportStudents(Main.studentService.getAll());
-		cc.exportTeachers(Main.teacherService.getAll());
-		cc.exportClassroom(Main.classroomService.getAll());
-		cc.exportEvaluation(Main.evaluationService.getAll());*/
+		// TODO borrar
+		/*
+		 * CSVControl cc = new CSVControl();
+		 * cc.exportStudents(Main.studentService.getAll());
+		 * cc.exportTeachers(Main.teacherService.getAll());
+		 * cc.exportClassroom(Main.classroomService.getAll());
+		 * cc.exportEvaluation(Main.evaluationService.getAll());
+		 */
 		showMain();
 		showLogInView();
 	}
@@ -100,11 +102,6 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/LogInView.fxml"));
 		BorderPane logInView = loader.load();
 
-		/*
-		 * MainViewController mVC = loader.getController();
-		 * mVC.setCurrentTeacher(currentTeacher);
-		 */
-
 		Main.mainLayout.setCenter(logInView);
 		Main.primaryStage.show();
 	}
@@ -114,7 +111,7 @@ public class Main extends Application {
 		Main.loadCursor();
 
 		Main.previousNodeQueue.clear();
-		
+
 		Main.currentTeacher = Main.teacherService.getOne(Main.currentTeacher.getNif());
 
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/ManageView.fxml"));
@@ -123,13 +120,17 @@ public class Main extends Application {
 		loader = new FXMLLoader(Main.class.getResource("view/student/StudentManageView.fxml"));
 		BorderPane studentManageView = loader.load();
 		StudentManageViewController sMVC = loader.getController();
-		
-		List<Alumno> currentStudents = new ArrayList<Alumno>();
-		for(Aula cla: Main.currentTeacher.getAulas()) {
-			currentStudents.addAll(cla.getAlumnos());
+
+		if (!Main.currentTeacher.getPermisos()) {
+			List<Alumno> currentStudents = new ArrayList<Alumno>();
+			for (Aula cla : Main.currentTeacher.getAulas()) {
+				currentStudents.addAll(cla.getAlumnos());
+			}
+			sMVC.setAllStudents(currentStudents);
+		}else {
+			sMVC.setAllStudents(Main.studentService.getAll());
 		}
-		sMVC.setAllStudents(currentStudents);
-		
+
 		((Tab) manageView.getTabs().get(0)).setContent(studentManageView);
 
 		if (Main.currentTeacher.getPermisos()) {
@@ -223,8 +224,13 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/StudentSelectionView.fxml"));
 		BorderPane studentSelectionView = loader.load();
 		StudentSelectionViewController ssVC = loader.getController();
-		// TODO adaptar al caso del ADMIN
-		ssVC.setClassrooms(Main.getClassroomService().getAll());
+		
+		if(Main.currentTeacher.getPermisos()) {
+			ssVC.setClassrooms(Main.getClassroomService().getAll());
+		}else {
+			ssVC.setClassrooms(Main.currentTeacher.getAulas());
+		}
+		
 
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(studentSelectionView);
@@ -454,7 +460,7 @@ public class Main extends Application {
 	public static UtilService getUtilService() {
 		return utilService;
 	}
-	
+
 	public static Profesor getCurrentTeacher() {
 		return Main.currentTeacher;
 	}

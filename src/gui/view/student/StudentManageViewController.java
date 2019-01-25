@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -37,6 +38,8 @@ public class StudentManageViewController extends Controller {
 	private TableColumn<CeldaAlumno, Label> editColumn;
 	@FXML
 	private TableColumn<CeldaAlumno, Label> deleteColumn;
+	@FXML
+	private Button createStudent;
 
 	@FXML
 	private Label nA, nB, nC, nD, nE, nF, nG, nH, nI, nJ, nK, nL, nM, nN, n—, nO, nP, nQ, nR, nS, nT, nU, nV, nW, nX,
@@ -90,6 +93,11 @@ public class StudentManageViewController extends Controller {
 	public void setAllStudents(List<Alumno> students) {
 		this.allStudents = students;
 		Collections.sort(this.allStudents, new SortStudent());
+		
+		if(!Main.getCurrentTeacher().getPermisos()) {
+			this.createStudent.setDisable(true);
+		}
+		
 		this.loadStudents(students);
 	}
 
@@ -207,6 +215,11 @@ public class StudentManageViewController extends Controller {
 				}
 
 			});
+			
+			if(!Main.getCurrentTeacher().getPermisos()){
+				edit.setDisable(true);
+				delete.setDisable(true);
+			}
 		}
 
 		public String getNombre() {

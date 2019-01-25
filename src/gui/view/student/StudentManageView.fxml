@@ -21,7 +21,7 @@
          <children>
             <VBox nodeOrientation="RIGHT_TO_LEFT" spacing="2.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#addNewStudent" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" styleClass="bigText" text="Agregar nuevo alumno">
+                  <Button fx:id="createStudent" alignment="TOP_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#addNewStudent" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" styleClass="bigText" text="Agregar nuevo alumno">
                      <font>
                         <Font size="18.0" />
                      </font>

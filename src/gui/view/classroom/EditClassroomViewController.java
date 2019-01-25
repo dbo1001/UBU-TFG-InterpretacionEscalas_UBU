@@ -66,7 +66,7 @@ public class EditClassroomViewController extends SelectorController<Profesor> {
 		
 		super.initialize(callback, this.listAllTeachers, new SortTeacher());
 		super.getSelectedObjects().addAll(cla.getProfesors());
-		super.getDisplayedObjects().removeAll(cla.getProfesors());
+		super.getDisplayedObjects().removeAll(new ArrayList<Profesor>(cla.getProfesors()));
 		super.sortObjects();
 	}
 

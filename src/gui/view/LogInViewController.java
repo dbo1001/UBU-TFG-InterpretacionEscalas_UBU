@@ -28,7 +28,6 @@ public class LogInViewController extends Controller {
 		}else if (!tea.getContrasena().replaceAll("\\s", "").equals(this.password.getText())){
 			this.error.setText("Error, la contraseña es incorrecta.");
 			this.error.setVisible(true);
-			System.out.println(tea.getContrasena()+"a");
 		} else {
 			Main.setCurrentTeacher(tea);
 		}
