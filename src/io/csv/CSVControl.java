@@ -1,5 +1,6 @@
 package io.csv;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,19 +15,9 @@ import model.Evaluacion;
 import model.Profesor;
 import model.Puntuacion;
 
-public class CSVControl {
+public abstract class CSVControl {
 	
-	// TODO borrar
-	public void test () throws IOException {
-		String csvPath = "ioData/test.csv";
-		FileWriter writer = new FileWriter(csvPath);
-		
-		CSVUtil.writeLine(writer, Arrays.asList("aaa","bbb", "cc,c"));
-		writer.flush();
-		writer.close();
-	}
-	
-	public void exportStudents(List<Alumno> students) throws IOException {
+	public static void exportStudents(List<Alumno> students) throws IOException {
 		String csvPath = "ioData/alumnos.csv";
 		FileWriter writer = new FileWriter(csvPath);
 		for(Alumno stu: students) {
@@ -37,7 +28,7 @@ public class CSVControl {
 		writer.close();
 	}
 	
-	public void exportTeachers(List<Profesor> teachers) throws IOException {
+	public static void exportTeachers(List<Profesor> teachers) throws IOException {
 		String csvPath = "ioData/profesores.csv";
 		FileWriter writer = new FileWriter(csvPath);
 		for(Profesor tea: teachers) {
@@ -48,7 +39,7 @@ public class CSVControl {
 		writer.close();
 	}
 	
-	public void exportClassroom(List<Aula> classrooms) throws IOException {
+	public static void exportClassroom(List<Aula> classrooms) throws IOException {
 		String csvPath = "ioData/aulas.csv";
 		FileWriter writer = new FileWriter(csvPath);
 		for(Aula cla: classrooms) {
@@ -59,8 +50,8 @@ public class CSVControl {
 		writer.close();
 	}
 	
-	public void exportEvaluation(List<Evaluacion> evaluations) throws IOException {
-		String csvPath = "ioData/evaluaciones.csv";
+	public static void exportEvaluation(List<Evaluacion> evaluations, String path) throws IOException {
+		String csvPath = path + "evaluaciones.csv";
 		FileWriter writer = new FileWriter(csvPath);
 		Set<Puntuacion> puntuations = new HashSet<Puntuacion>();
 		for(Evaluacion eva: evaluations) {
@@ -70,11 +61,11 @@ public class CSVControl {
 		
 		writer.flush();
 		writer.close();
-		this.exportPuntuation(puntuations);
+		CSVControl.exportPuntuation(puntuations, path);
 	}
 	
-	private void exportPuntuation(Set<Puntuacion> puntuations) throws IOException {
-		String csvPath = "ioData/puntuaciones.csv";
+	private static void exportPuntuation(Set<Puntuacion> puntuations, String path) throws IOException {
+		String csvPath = path + "puntuaciones.csv";
 		FileWriter writer = new FileWriter(csvPath);
 		for(Puntuacion pun: puntuations) {
 			CSVUtil.writePuntuation(writer, pun);
@@ -82,6 +73,13 @@ public class CSVControl {
 		
 		writer.flush();
 		writer.close();
+	}
+	
+	public static void createClassroomFile (Aula cla) {
+		File sourceFile = new File("ioData/Evaluaciones");
+		File claFile = new File("iodata/Evaluaciones/"+cla.getNombre());
+		sourceFile.mkdir();
+		claFile.mkdir();
 	}
 
 }

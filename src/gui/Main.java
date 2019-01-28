@@ -25,6 +25,8 @@ import gui.view.student.StudentViewController;
 import gui.view.teacher.EditTeacherViewController;
 import gui.view.teacher.TeacherManageViewController;
 import gui.view.teacher.TeacherViewController;
+import io.IOControl;
+import io.IOControlImpl;
 import io.csv.CSVControl;
 import gui.view.graphs.EvaluationSelectionViewController;
 import gui.view.graphs.GraphSelectionViewController;
@@ -68,16 +70,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		Main.primaryStage = primaryStage;
-		Main.primaryStage.setTitle("Interpretación de escalas");
+		Main.primaryStage.setTitle("InterpretaciÃ³n de escalas");
 
-		// TODO borrar
-		/*
-		 * CSVControl cc = new CSVControl();
-		 * cc.exportStudents(Main.studentService.getAll());
-		 * cc.exportTeachers(Main.teacherService.getAll());
-		 * cc.exportClassroom(Main.classroomService.getAll());
-		 * cc.exportEvaluation(Main.evaluationService.getAll());
-		 */
 		showMain();
 		showLogInView();
 	}
@@ -108,6 +102,9 @@ public class Main extends Application {
 
 	public static void showManageView() throws IOException {
 
+		//TODO borrar
+		Main.generateFilesAndExportData();
+		
 		Main.loadCursor();
 
 		Main.previousNodeQueue.clear();
@@ -127,7 +124,7 @@ public class Main extends Application {
 				currentStudents.addAll(cla.getAlumnos());
 			}
 			sMVC.setAllStudents(currentStudents);
-		}else {
+		} else {
 			sMVC.setAllStudents(Main.studentService.getAll());
 		}
 
@@ -224,13 +221,12 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/StudentSelectionView.fxml"));
 		BorderPane studentSelectionView = loader.load();
 		StudentSelectionViewController ssVC = loader.getController();
-		
-		if(Main.currentTeacher.getPermisos()) {
+
+		if (Main.currentTeacher.getPermisos()) {
 			ssVC.setClassrooms(Main.getClassroomService().getAll());
-		}else {
+		} else {
 			ssVC.setClassrooms(Main.currentTeacher.getAulas());
 		}
-		
 
 		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
 		Main.mainLayout.setCenter(studentSelectionView);
@@ -327,8 +323,8 @@ public class Main extends Application {
 
 	public static void deleteStudent(Alumno stu) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION,
-				"¿Estás seguro de que quieres borrar el alumno/a: " + stu.getNombre() + " " + stu.getApellido1() + " "
-						+ stu.getApellido2() + "?\n" + "Los cambios serán definitivos.",
+				"ï¿½Estï¿½s seguro de que quieres borrar el alumno/a: " + stu.getNombre() + " " + stu.getApellido1() + " "
+						+ stu.getApellido2() + "?\n" + "Los cambios serï¿½n definitivos.",
 				ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
 		alert.showAndWait();
 
@@ -348,8 +344,8 @@ public class Main extends Application {
 
 	public static void deleteTeacher(Profesor tea) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION,
-				"¿Estás seguro de que quieres borrar el profesor/a: " + tea.getNombre() + " " + tea.getApellido1() + " "
-						+ tea.getApellido2() + "?\n" + "Los cambios serán definitivos.",
+				"ï¿½Estï¿½s seguro de que quieres borrar el profesor/a: " + tea.getNombre() + " " + tea.getApellido1() + " "
+						+ tea.getApellido2() + "?\n" + "Los cambios serï¿½n definitivos.",
 				ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
 		alert.showAndWait();
 
@@ -369,8 +365,8 @@ public class Main extends Application {
 	}
 
 	public static void deleteClassroom(Aula cla) throws IOException {
-		Alert alert = new Alert(AlertType.CONFIRMATION, "¿Estás seguro de que quieres borrar el aula: "
-				+ cla.getNombre() + " ?\n" + "Los cambios serán definitivos.", ButtonType.YES, ButtonType.NO,
+		Alert alert = new Alert(AlertType.CONFIRMATION, "ï¿½Estï¿½s seguro de que quieres borrar el aula: "
+				+ cla.getNombre() + " ?\n" + "Los cambios serï¿½n definitivos.", ButtonType.YES, ButtonType.NO,
 				ButtonType.CANCEL);
 		alert.showAndWait();
 
@@ -393,10 +389,10 @@ public class Main extends Application {
 
 	public static void deleteEvaluation(Evaluacion eva) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION,
-				"¿Estás seguro de que quieres borrar la evaluación con fecha "
+				"ï¿½Estï¿½s seguro de que quieres borrar la evaluaciï¿½n con fecha "
 						+ eva.getFecha().toString().substring(0, 16) + " del alumno/a " + eva.getAlumno().getApellido1()
 						+ " " + eva.getAlumno().getApellido2() + ", " + eva.getAlumno().getNombre() + " ?\n"
-						+ "Los cambios serán definitivos.",
+						+ "Los cambios serï¿½n definitivos.",
 				ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
 		alert.showAndWait();
 
@@ -404,7 +400,7 @@ public class Main extends Application {
 
 			try {
 				if (Main.evaluationService.delete(eva)) {
-					alert = new Alert(AlertType.INFORMATION, "La evaluación se ha borrado correctamente.");
+					alert = new Alert(AlertType.INFORMATION, "La evaluaciï¿½n se ha borrado correctamente.");
 					alert.showAndWait();
 					Main.showManageView();
 				}
@@ -467,6 +463,13 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
+	}
+
+	private static void generateFilesAndExportData() throws IOException {
+		IOControl io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
+				Main.classroomService.getAll(), Main.currentTeacher.getAulas());
+		io.generateCSV();
+		io.exportData();
 	}
 
 }

@@ -37,7 +37,7 @@ import io.oneDrive.response.RenewToken;
  * @author Raúl Marticorena
  * @since 1.0
  */
-public class OneDriveAPI {
+public abstract class OneDriveAPI {
 
 	/** Current access token. */
 	private static String ACCESS_TOKEN = null;

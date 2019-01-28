@@ -42,10 +42,10 @@ public class StudentManageViewController extends Controller {
 	private Button createStudent;
 
 	@FXML
-	private Label nA, nB, nC, nD, nE, nF, nG, nH, nI, nJ, nK, nL, nM, nN, nÑ, nO, nP, nQ, nR, nS, nT, nU, nV, nW, nX,
+	private Label nA, nB, nC, nD, nE, nF, nG, nH, nI, nJ, nK, nL, nM, nN, nÃ‘, nO, nP, nQ, nR, nS, nT, nU, nV, nW, nX,
 			nY, nZ;
 	@FXML
-	private Label sA, sB, sC, sD, sE, sF, sG, sH, sI, sJ, sK, sL, sM, sN, sÑ, sO, sP, sQ, sR, sS, sT, sU, sV, sW, sX,
+	private Label sA, sB, sC, sD, sE, sF, sG, sH, sI, sJ, sK, sL, sM, sN, sÃ‘, sO, sP, sQ, sR, sS, sT, sU, sV, sW, sX,
 			sY, sZ;
 
 	private Label currentNameFilter = null;
@@ -172,7 +172,7 @@ public class StudentManageViewController extends Controller {
 						Main.showEvaluationManageView(stu);
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
-								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+								"Ha ocurrido un error desconocido, porfavor reinicie la aplicaciï¿½n. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecuciï¿½n)");
 						alert.showAndWait();
 						e1.printStackTrace();
 					}
@@ -190,7 +190,7 @@ public class StudentManageViewController extends Controller {
 						Main.showEditStudentView(stu);
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
-								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+								"Ha ocurrido un error desconocido, porfavor reinicie la aplicaciï¿½n. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecuciï¿½n)");
 						alert.showAndWait();
 						e1.printStackTrace();
 					}
@@ -208,7 +208,7 @@ public class StudentManageViewController extends Controller {
 						Main.deleteStudent(stu);
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
-								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+								"Ha ocurrido un error desconocido, porfavor reinicie la aplicaciï¿½n. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecuciï¿½n)");
 						alert.showAndWait();
 						e1.printStackTrace();
 					}
@@ -328,8 +328,8 @@ public class StudentManageViewController extends Controller {
 	}
 
 	@FXML
-	private void filterNÑ() {
-		this.updateNameFilter(nÑ);
+	private void filterNÃ‘() {
+		this.updateNameFilter(nÃ‘);
 	}
 
 	@FXML
@@ -463,8 +463,8 @@ public class StudentManageViewController extends Controller {
 	}
 
 	@FXML
-	private void filterSÑ() {
-		this.updateSurnameFilter(sÑ);
+	private void filterSÃ‘() {
+		this.updateSurnameFilter(sÃ‘);
 	}
 
 	@FXML

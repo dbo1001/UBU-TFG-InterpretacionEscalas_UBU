@@ -26,7 +26,7 @@ public class LogInViewController extends Controller {
 			this.error.setText("Error, no se ha encontrado ningun usuario con el NIF introducido.");
 			this.error.setVisible(true);
 		}else if (!tea.getContrasena().replaceAll("\\s", "").equals(this.password.getText())){
-			this.error.setText("Error, la contraseña es incorrecta.");
+			this.error.setText("Error, la contraseÃ±a es incorrecta.");
 			this.error.setVisible(true);
 		} else {
 			Main.setCurrentTeacher(tea);

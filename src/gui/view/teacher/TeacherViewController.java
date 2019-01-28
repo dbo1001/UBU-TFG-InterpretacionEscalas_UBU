@@ -59,7 +59,7 @@ public class TeacherViewController extends SelectorController<Aula> {
 	@FXML
 	private void initialize() {
 		List<String> choices = new ArrayList<String>();
-		choices.add("Sí");
+		choices.add("SÃ­");
 		choices.add("No");
 		this.rights.getItems().addAll(choices);
 		this.rights.getSelectionModel().select("No");

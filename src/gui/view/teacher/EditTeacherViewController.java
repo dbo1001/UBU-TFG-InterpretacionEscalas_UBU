@@ -62,7 +62,7 @@ public class EditTeacherViewController extends SelectorController<Aula> {
 	@FXML
 	private void initialize() {
 		List<String> choices = new ArrayList<String>();
-		choices.add("Sí");
+		choices.add("SÃ­");
 		choices.add("No");
 		this.rights.getItems().addAll(choices);
 		this.rights.getSelectionModel().select("No");
@@ -83,7 +83,7 @@ public class EditTeacherViewController extends SelectorController<Aula> {
 		this.surname2.setText(tea.getApellido2());
 		this.NIF.setText(tea.getNif());
 		this.description.setText(this.tea.getNotas());
-		this.rights.getSelectionModel().select(this.tea.getPermisos() == true ? "Sí" : "No");
+		this.rights.getSelectionModel().select(this.tea.getPermisos() == true ? "Sï¿½" : "No");
 		this.password.setText(tea.getContrasena().replaceAll("\\s", ""));
 		
 		
