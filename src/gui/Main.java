@@ -468,8 +468,9 @@ public class Main extends Application {
 	private static void generateFilesAndExportData() throws IOException {
 		IOControl io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
 				Main.classroomService.getAll(), Main.currentTeacher.getAulas());
-		io.generateCSV();
-		io.exportData();
+		//io.generateCSV();
+		//io.exportData();
+		io.importData();
 	}
 
 }

@@ -9,10 +9,8 @@ import model.Profesor;
 
 public interface IOControl {
 
-	public boolean exportData();
+	public boolean exportData() throws IOException;
 
 	public boolean importData();
-
-	public void generateCSV() throws IOException;
 
 }

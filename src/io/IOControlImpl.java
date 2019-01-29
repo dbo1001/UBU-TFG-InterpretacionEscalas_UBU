@@ -41,10 +41,13 @@ public class IOControlImpl implements IOControl {
 	}
 
 	@Override
-	public boolean exportData() {
+	public boolean exportData() throws IOException {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		CloseableHttpResponse response = null;
 		boolean exito = false;
+		
+		this.generateCSV();
+		
 		try {
 			while (!exito) {
 				boolean conectado = OneDriveAPI.testCurrentAccessToken(httpClient);
@@ -103,6 +106,67 @@ public class IOControlImpl implements IOControl {
 					
 					System.out.println("Evaluaciones exportadas correctamente.");
 
+					exito = true;
+					
+				}
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (response != null)
+					response.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return exito;
+	}
+
+	@Override
+	public boolean importData() {
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		CloseableHttpResponse response = null;
+		boolean exito = false;
+		
+		for(Aula cla: currentTeacherClassrooms) {
+			CSVControl.createClassroomFile(cla);
+		}
+		
+		try {
+			while (!exito) {
+				boolean conectado = OneDriveAPI.testCurrentAccessToken(httpClient);
+				if (!conectado) {
+					System.out.println("Validación incorrecta, reintentado obtención de token...");
+					OneDriveAPI.renewAccessToken(httpClient);
+				} else {
+
+					System.out.printf("Descargado fichero: %s%s %n", PATH_SOURCE, PATH_LOCAL + "alumnos.csv");
+					OneDriveAPI.downloadFile(httpClient, PATH_SOURCE, PATH_LOCAL + "alumnos.csv");
+
+					System.out.printf("Descargado fichero: %s%s %n", PATH_SOURCE, PATH_LOCAL + "aulas.csv");
+					OneDriveAPI.downloadFile(httpClient, PATH_SOURCE, PATH_LOCAL + "aulas.csv");
+					
+					System.out.printf("Descargado fichero: %s%s %n", PATH_SOURCE, PATH_LOCAL + "profesores.csv");
+					OneDriveAPI.downloadFile(httpClient, PATH_SOURCE, PATH_LOCAL + "profesores.csv");
+					
+					for(Aula cla: this.currentTeacherClassrooms) {
+						System.out.printf("Descargado fichero: %s%s %n", PATH_SOURCE , PATH_EVALUATIONS + cla.getNombre() + "/evaluaciones.csv");
+						OneDriveAPI.downloadFile(httpClient, PATH_SOURCE ,  PATH_EVALUATIONS + cla.getNombre() + "/evaluaciones.csv");
+						
+						System.out.printf("Descargado fichero: %s%s %n", PATH_SOURCE , PATH_EVALUATIONS + cla.getNombre() + "/puntuaciones.csv");
+						OneDriveAPI.downloadFile(httpClient, PATH_SOURCE ,  PATH_EVALUATIONS + cla.getNombre() + "/puntuaciones.csv");
+					}
+					
+					exito = true;
+					
 					/*
 					System.out.printf("Borrando directorio previo: %s%n", PATH_TARGET);
 					OneDriveAPI.deleteFolder(httpClient, PATH_TARGET);
@@ -149,8 +213,6 @@ public class IOControlImpl implements IOControl {
 					System.out.println("Contenido del directorio ra�z al final de las operaciones...");
 					OneDriveAPI.listDriveItem(httpClient, "");
 					*/
-					exito = true;
-					//System.out.println("Finalizando test.");
 					
 				}
 			}
@@ -174,14 +236,7 @@ public class IOControlImpl implements IOControl {
 		return exito;
 	}
 
-	@Override
-	public boolean importData() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void generateCSV() throws IOException {
+	private void generateCSV() throws IOException {
 		
 		CSVControl.exportClassroom(allClassrooms);
 		CSVControl.exportStudents(allStudents);
