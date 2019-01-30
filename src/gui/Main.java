@@ -75,7 +75,10 @@ public class Main extends Application {
 		
 		//TODO borrar
 		//CSVControl.readStudentsCSV("ioData/alumnos.csv");
-		CSVControl.readTeachersCSV("ioData/profesores.csv");
+		//CSVControl.readTeachersCSV("ioData/profesores.csv");
+		//CSVControl.readClassroomsCSV("ioData/aulas.csv");
+		//CSVControl.readEvaluationsCSV("ioData/Evaluaciones/Aula1/evaluaciones.csv");
+		CSVControl.readPuntuationsCSV("ioData/Evaluaciones/Aula1/puntuaciones.csv");
 		//String test = "1999-01-01";
 		//System.out.println(test.substring(8,10));
 		showMain();

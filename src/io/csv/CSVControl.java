@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -15,6 +16,7 @@ import java.util.Set;
 import model.Alumno;
 import model.Aula;
 import model.Evaluacion;
+import model.Item;
 import model.Profesor;
 import model.Puntuacion;
 
@@ -118,7 +120,6 @@ public abstract class CSVControl {
 	
 	public static List<Profesor> readTeachersCSV(String path) throws FileNotFoundException {
 		List<Profesor> teachers = new ArrayList<Profesor>();
-		Calendar cal = Calendar.getInstance();
 		
 		for(List<String> line : CSVUtil.readCSVFile(path)) {
 			Profesor tea = new Profesor();
@@ -142,6 +143,65 @@ public abstract class CSVControl {
 		}
 		
 		return teachers;
+	}
+	
+	public static List<Aula> readClassroomsCSV(String path) throws FileNotFoundException {
+		List<Aula> classrooms = new ArrayList<Aula>();
+		
+		for(List<String> line : CSVUtil.readCSVFile(path)) {
+			Aula cla = new Aula();
+			Iterator<String> it = line.iterator();
+			cla.setId(Integer.parseInt(it.next()));
+			cla.setNombre(it.next());
+			cla.setCapacidad(Integer.parseInt(it.next()));
+			cla.setNotas(it.next());
+			
+			System.out.println(cla.getNombre());
+			
+		}
+		
+		return classrooms;
+	}
+	
+	public static List<Evaluacion> readEvaluationsCSV(String path) throws FileNotFoundException {
+		List<Evaluacion> evaluations = new ArrayList<Evaluacion>();
+		Calendar cal = Calendar.getInstance();
+		
+		for(List<String> line : CSVUtil.readCSVFile(path)) {
+			Evaluacion eva = new Evaluacion();
+			Iterator<String> it = line.iterator();
+			eva.setId(Integer.parseInt(it.next()));
+			String fecha = it.next();
+			//System.out.println(Integer.parseInt(fecha.substring(0, 4))+","+ Integer.parseInt(fecha.substring(5,7))+","+ Integer.parseInt(fecha.substring(8,10)));
+			cal.set(Integer.parseInt(fecha.substring(0, 4)), Integer.parseInt(fecha.substring(5,7)) - 1, Integer.parseInt(fecha.substring(8,10)));
+			eva.setFecha(new Timestamp(cal.getTime().getTime()));
+			Alumno stu = new Alumno();
+			stu.setId(Integer.parseInt(it.next()));
+			eva.setAlumno(stu);
+			
+		}
+		
+		return evaluations;
+	}
+	
+	public static List<Puntuacion> readPuntuationsCSV(String path) throws FileNotFoundException {
+		List<Puntuacion> puntuations = new ArrayList<Puntuacion>();
+		
+		for(List<String> line : CSVUtil.readCSVFile(path)) {
+			Puntuacion pun = new Puntuacion();
+			Iterator<String> it = line.iterator();
+			pun.setId(Integer.parseInt(it.next()));
+			pun.setValoracion(Integer.parseInt(it.next()));
+			Item item = new Item();
+			item.setNumero(Integer.parseInt(it.next()));
+			pun.setItem(item);
+			Evaluacion eva = new Evaluacion();
+			eva.setId(Integer.parseInt(it.next()));
+			pun.setEvaluacion(eva);
+			
+		}
+		
+		return puntuations;
 	}
 
 }
