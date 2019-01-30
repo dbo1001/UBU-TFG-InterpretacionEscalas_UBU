@@ -253,4 +253,28 @@ public class IOControlImpl implements IOControl {
 		}
 	}
 
+	@Override
+	public List<Alumno> readStudentsCSV(String path) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Profesor> readTeachersCSV(String path) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Aula> readClassroomsCSV(String path) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Evaluacion> readEvaluationsCSV(String path) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -28,6 +28,7 @@ import gui.view.teacher.TeacherViewController;
 import io.IOControl;
 import io.IOControlImpl;
 import io.csv.CSVControl;
+import io.csv.CSVUtil;
 import gui.view.graphs.EvaluationSelectionViewController;
 import gui.view.graphs.GraphSelectionViewController;
 import gui.view.graphs.GraphViewController;
@@ -71,7 +72,12 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws IOException {
 		Main.primaryStage = primaryStage;
 		Main.primaryStage.setTitle("Interpretación de escalas");
-
+		
+		//TODO borrar
+		//CSVControl.readStudentsCSV("ioData/alumnos.csv");
+		CSVControl.readTeachersCSV("ioData/profesores.csv");
+		//String test = "1999-01-01";
+		//System.out.println(test.substring(8,10));
 		showMain();
 		showLogInView();
 	}
@@ -103,7 +109,7 @@ public class Main extends Application {
 	public static void showManageView() throws IOException {
 
 		//TODO borrar
-		Main.generateFilesAndExportData();
+		//Main.generateFilesAndExportData();
 		
 		Main.loadCursor();
 
@@ -464,13 +470,20 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
+	private static boolean importCSVData() {
+		boolean result = false;
+		
+		
+		
+		return result;
+	}
 
 	private static void generateFilesAndExportData() throws IOException {
 		IOControl io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
 				Main.classroomService.getAll(), Main.currentTeacher.getAulas());
-		//io.generateCSV();
-		//io.exportData();
-		io.importData();
+		io.exportData();
+		//io.importData();
 	}
 
 }
