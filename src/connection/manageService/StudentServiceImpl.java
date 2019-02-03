@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import connection.ConnectionError;
 import connection.ConnectionException;
@@ -19,8 +20,25 @@ public class StudentServiceImpl extends ServiceImpl implements ManageService<Alu
 	public List<Alumno> getAll() {
 		EntityManager em = super.getEntityManager();
 		List<Alumno> result = em.createNamedQuery("Alumno.findAll", Alumno.class).getResultList();
-		if(em.isOpen()) {
+		if (em.isOpen()) {
 			em.close();
+		}
+		return result;
+	}
+
+	@Override
+	public Alumno getOneById(long id) {
+		EntityManager em = super.getEntityManager();
+		Alumno result;
+		try {
+			result = em.createNamedQuery("Alumno.findById", Alumno.class).setParameter("id", id)
+					.getSingleResult();
+		} catch (NoResultException nrE) {
+			return null;
+		} finally {
+			if (em.isOpen()) {
+				em.close();
+			}
 		}
 		return result;
 	}
@@ -28,9 +46,16 @@ public class StudentServiceImpl extends ServiceImpl implements ManageService<Alu
 	@Override
 	public Alumno getOne(String code) {
 		EntityManager em = super.getEntityManager();
-		Alumno result = em.createNamedQuery("Alumno.findByCodigo", Alumno.class).setParameter("codigo", code).getSingleResult();
-		if(em.isOpen()) {
-			em.close();
+		Alumno result;
+		try {
+			result = em.createNamedQuery("Alumno.findByCodigo", Alumno.class).setParameter("codigo", code)
+					.getSingleResult();
+		} catch (NoResultException nrE) {
+			return null;
+		} finally {
+			if (em.isOpen()) {
+				em.close();
+			}
 		}
 		return result;
 	}
@@ -91,8 +116,8 @@ public class StudentServiceImpl extends ServiceImpl implements ManageService<Alu
 
 		try {
 			em.getTransaction().begin();
-			for(Evaluacion eva : stu.getEvaluacions()) {
-				for(Puntuacion pun : eva.getPuntuacions()) {
+			for (Evaluacion eva : stu.getEvaluacions()) {
+				for (Puntuacion pun : eva.getPuntuacions()) {
 					em.remove(em.contains(pun) ? pun : em.merge(pun));
 				}
 				em.remove(em.contains(eva) ? eva : em.merge(eva));
@@ -113,7 +138,7 @@ public class StudentServiceImpl extends ServiceImpl implements ManageService<Alu
 	}
 
 	private boolean checkFields(Alumno stu) throws ConnectionException {
-		
+
 		if (stu.getNombre().equals("")) {
 			throw new ConnectionException(ConnectionError.FIELD_IS_EMPTY);
 		} else if (stu.getNombre().length() > 50) {
@@ -133,7 +158,7 @@ public class StudentServiceImpl extends ServiceImpl implements ManageService<Alu
 
 		if (stu.getCodigo().equals("")) {
 			throw new ConnectionException(ConnectionError.FIELD_IS_EMPTY);
-		}else if (stu.getCodigo().length() > 30) {
+		} else if (stu.getCodigo().length() > 30) {
 			throw new ConnectionException(ConnectionError.WRONG_CODE);
 		}
 
@@ -150,11 +175,11 @@ public class StudentServiceImpl extends ServiceImpl implements ManageService<Alu
 		if (stu.getNotas().length() > 1000) {
 			throw new ConnectionException(ConnectionError.DESCRIPTION_TOO_LONG);
 		}
-		
-		if(stu.getAula().getAlumnos().size() >= stu.getAula().getCapacidad()) {
+
+		if (stu.getAula().getAlumnos().size() >= stu.getAula().getCapacidad()) {
 			throw new ConnectionException(ConnectionError.CLASSROOM_IS_FULL);
 		}
-		
+
 		return true;
 	}
 

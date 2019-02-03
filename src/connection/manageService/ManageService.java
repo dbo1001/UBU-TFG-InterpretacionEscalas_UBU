@@ -8,6 +8,8 @@ public interface ManageService<T, O> {
 	
 	public List<T> getAll();
 	
+	public T getOneById(long l);
+	
 	public T getOne(O object);
 	
 	public boolean add(T object) throws ConnectionException;

@@ -19,8 +19,25 @@ public class TeacherServiceImpl extends ServiceImpl implements ManageService<Pro
 	public List<Profesor> getAll() {
 		EntityManager em = super.getEntityManager();
 		List<Profesor> result = em.createNamedQuery("Profesor.findAll", Profesor.class).getResultList();
-		if(em.isOpen()) {
+		if (em.isOpen()) {
 			em.close();
+		}
+		return result;
+	}
+
+	@Override
+	public Profesor getOneById(long id) {
+		EntityManager em = super.getEntityManager();
+		Profesor result;
+		try {
+			result = em.createNamedQuery("Profesor.findById", Profesor.class).setParameter("id", id)
+					.getSingleResult();
+		} catch (NoResultException nrE) {
+			return null;
+		} finally {
+			if (em.isOpen()) {
+				em.close();
+			}
 		}
 		return result;
 	}
@@ -30,15 +47,16 @@ public class TeacherServiceImpl extends ServiceImpl implements ManageService<Pro
 		EntityManager em = super.getEntityManager();
 		Profesor result;
 		try {
-			result = em.createNamedQuery("Profesor.findByNIF", Profesor.class).setParameter("nif", nif).getSingleResult();
-		} catch(NoResultException nrE) {
+			result = em.createNamedQuery("Profesor.findByNIF", Profesor.class).setParameter("nif", nif)
+					.getSingleResult();
+		} catch (NoResultException nrE) {
 			return null;
-		}finally {
-			if(em.isOpen()) {
+		} finally {
+			if (em.isOpen()) {
 				em.close();
 			}
 		}
-		
+
 		return result;
 	}
 
@@ -89,16 +107,16 @@ public class TeacherServiceImpl extends ServiceImpl implements ManageService<Pro
 				} else if (tea.getId() == 1 && tea.getPermisos() == false) {
 					throw new ConnectionException(ConnectionError.WRONG_ADMIN_RIGHTS);
 				}
-				Profesor oldTeacher = em.createNamedQuery("Profesor.findById", Profesor.class).setParameter("id", tea.getId())
-						.getSingleResult();
-				for(Aula cla: oldTeacher.getAulas()) {
-					if(!tea.getAulas().contains(cla) && cla.getProfesors().contains(oldTeacher)){
+				Profesor oldTeacher = em.createNamedQuery("Profesor.findById", Profesor.class)
+						.setParameter("id", tea.getId()).getSingleResult();
+				for (Aula cla : oldTeacher.getAulas()) {
+					if (!tea.getAulas().contains(cla) && cla.getProfesors().contains(oldTeacher)) {
 						cla.getProfesors().remove(oldTeacher);
 						em.merge(cla);
 					}
 				}
-				for(Aula cla: tea.getAulas()) {
-					if(!oldTeacher.getAulas().contains(cla) && !cla.getProfesors().contains(oldTeacher)) {
+				for (Aula cla : tea.getAulas()) {
+					if (!oldTeacher.getAulas().contains(cla) && !cla.getProfesors().contains(oldTeacher)) {
 						cla.getProfesors().add(tea);
 						em.merge(cla);
 					}
@@ -125,11 +143,11 @@ public class TeacherServiceImpl extends ServiceImpl implements ManageService<Pro
 
 		try {
 			em.getTransaction().begin();
-			if(tea.getId() == 1) {
+			if (tea.getId() == 1) {
 				throw new ConnectionException(ConnectionError.CANT_DELETE_ADMIN);
 			}
 			em.merge(tea);
-			for(Aula cla: tea.getAulas()) {
+			for (Aula cla : tea.getAulas()) {
 				cla.getProfesors().remove(tea);
 				em.merge(cla);
 			}
@@ -179,7 +197,7 @@ public class TeacherServiceImpl extends ServiceImpl implements ManageService<Pro
 			throw new ConnectionException(ConnectionError.FIELD_IS_EMPTY);
 		} else if (tea.getContrasena().length() > 64 || tea.getContrasena().length() < 8) {
 			throw new ConnectionException(ConnectionError.WRONG_PASSWORD_LENGTH);
-		} else if(super.passPattern.matcher(tea.getContrasena()).find()) {
+		} else if (super.passPattern.matcher(tea.getContrasena()).find()) {
 			throw new ConnectionException(ConnectionError.WRONF_PASSWORD);
 		}
 

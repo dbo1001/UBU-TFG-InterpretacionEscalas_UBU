@@ -3,10 +3,12 @@ package connection.manageService;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import connection.ConnectionError;
 import connection.ConnectionException;
 import connection.ServiceImpl;
+import model.Aula;
 import model.Evaluacion;
 import model.Puntuacion;
 
@@ -16,20 +18,32 @@ public class EvaluationServiceImpl extends ServiceImpl implements ManageService<
 	public List<Evaluacion> getAll() {
 		EntityManager em = super.getEntityManager();
 		List<Evaluacion> result = em.createNamedQuery("Evaluacion.findAll", Evaluacion.class).getResultList();
-		if(em.isOpen()) {
+		if (em.isOpen()) {
 			em.close();
 		}
 		return result;
 	}
 
 	@Override
-	public Evaluacion getOne(Integer id) {
+	public Evaluacion getOneById(long id) {
 		EntityManager em = super.getEntityManager();
-		Evaluacion  result = getEntityManager().createNamedQuery("Evaluacion.findById", Evaluacion.class).setParameter("id", id).getSingleResult();
-		if(em.isOpen()) {
-			em.close();
+		Evaluacion result;
+		try {
+			result = em.createNamedQuery("Evaluacion.findById", Evaluacion.class).setParameter("id", id)
+					.getSingleResult();
+		} catch (NoResultException nrE) {
+			return null;
+		} finally {
+			if (em.isOpen()) {
+				em.close();
+			}
 		}
 		return result;
+	}
+
+	@Override
+	public Evaluacion getOne(Integer id) {
+		return getOneById((long) id);
 	}
 
 	@Override
@@ -70,14 +84,14 @@ public class EvaluationServiceImpl extends ServiceImpl implements ManageService<
 				Evaluacion oldEva = em.createNamedQuery("Evaluacion.findById", Evaluacion.class)
 						.setParameter("id", eva.getId()).getSingleResult();
 				for (Puntuacion pun : oldEva.getPuntuacions()) {
-					if(!eva.getPuntuacions().contains(pun)) {
+					if (!eva.getPuntuacions().contains(pun)) {
 						em.remove(em.contains(pun) ? pun : em.merge(pun));
 					}
 				}
-				for(Puntuacion pun : eva.getPuntuacions()) {
-					if(oldEva.getPuntuacions().contains(pun)) {
+				for (Puntuacion pun : eva.getPuntuacions()) {
+					if (oldEva.getPuntuacions().contains(pun)) {
 						em.merge(pun);
-					}else {
+					} else {
 						em.persist(pun);
 					}
 				}

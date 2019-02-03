@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,7 +36,7 @@ public class Aula implements Serializable {
 
 	//bi-directional many-to-one association to Alumno
 	@OneToMany(mappedBy="aula", fetch= FetchType.EAGER)
-	private List<Alumno> alumnos;
+	private List<Alumno> alumnos = new ArrayList<Alumno>();
 
 	//bi-directional many-to-many association to Profesor
 	@ManyToMany(fetch = FetchType.EAGER)

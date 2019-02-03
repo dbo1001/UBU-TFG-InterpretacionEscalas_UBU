@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -53,6 +54,7 @@ import model.Categorizacion;
 import model.Evaluacion;
 import model.Item;
 import model.Profesor;
+import model.Puntuacion;
 
 public class Main extends Application {
 
@@ -67,6 +69,8 @@ public class Main extends Application {
 	private static boolean modifiedData = false;
 	private static Profesor currentTeacher;
 	private static LinkedList<Node> previousNodeQueue = new LinkedList<Node>();
+	private final static String PATH_LOCAL = "iodata/";
+	private final static String PATH_EVALUATIONS = "ioData/Evaluaciones/";
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -78,7 +82,7 @@ public class Main extends Application {
 		//CSVControl.readTeachersCSV("ioData/profesores.csv");
 		//CSVControl.readClassroomsCSV("ioData/aulas.csv");
 		//CSVControl.readEvaluationsCSV("ioData/Evaluaciones/Aula1/evaluaciones.csv");
-		CSVControl.readPuntuationsCSV("ioData/Evaluaciones/Aula1/puntuaciones.csv");
+		//CSVControl.readPuntuationsCSV("ioData/Evaluaciones/Aula1/puntuaciones.csv");
 		//String test = "1999-01-01";
 		//System.out.println(test.substring(8,10));
 		showMain();
@@ -112,7 +116,8 @@ public class Main extends Application {
 	public static void showManageView() throws IOException {
 
 		//TODO borrar
-		//Main.generateFilesAndExportData();
+		//Main.exportData();
+		Main.importData();
 		
 		Main.loadCursor();
 
@@ -474,15 +479,95 @@ public class Main extends Application {
 		launch(args);
 	}
 	
-	private static boolean importCSVData() {
+	private static boolean importData() {
 		boolean result = false;
+		List<Aula> currentCla;
+		Alert alert = new Alert(AlertType.INFORMATION);
+		IOControl io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
+				Main.classroomService.getAll(), Main.currentTeacher.getAulas());
+		if(Main.currentTeacher.getPermisos()) {
+			currentCla = Main.getClassroomService().getAll();
+		}else {
+			currentCla = Main.currentTeacher.getAulas();
+		}
+		
+		try {
+			alert.setTitle("Importando datos...");
+			alert.show();
+			alert.setContentText("Leyendo ficheros... ");
+			List<Alumno> newStu = io.readStudentsCSV(PATH_LOCAL+"alumnos.csv");
+			List<Profesor> newTea = io.readTeachersCSV(PATH_LOCAL+"profesores.csv");
+			List<Aula> newCla = io.readClassroomsCSV(PATH_LOCAL+"aulas.csv");
+			alert.close();
+			alert.setContentText(alert.getContentText() + "OK\nActualizando base de datos...\n\tImportando alumnos...");
+			alert.show();
+			
+			
+			for(Alumno stu : newStu) {
+				if(Main.studentService.getOneById(stu.getId()) != null) {
+					Main.studentService.edit(stu);
+				}else {
+					Main.studentService.add(stu);
+				}
+			}
+			
+			alert.close();
+			alert.setContentText(alert.getContentText() + "OK\n\t Importando profesores...");
+			alert.show();
+			/*
+			for(Profesor tea : newTea) {
+				if(Main.teacherService.getOneById(tea.getId()) != null) {
+					Main.teacherService.edit(tea);
+				}else {
+					Main.teacherService.add(tea);
+				}
+			}
+			
+			for(Aula cla : newCla) {
+				if(Main.classroomService.getOneById(cla.getId()) != null) {
+					Main.classroomService.edit(cla);
+				}else {
+					Main.classroomService.add(cla);
+				}
+			}
+			
+			for(Aula cla : currentCla) {
+				String PATH_CLA = PATH_EVALUATIONS + cla.getNombre() + "/";
+				List<Evaluacion> newEva = io.readEvaluationsCSV(PATH_CLA+"evaluaciones.csv");
+				List<Puntuacion> newPun = io.readPuntuationsCSV(PATH_CLA+"puntuaciones.csv");
+				
+				for(Evaluacion eva: newEva) {
+					for(Puntuacion pun : newPun) {
+						if(pun.getEvaluacion().equals(eva)) {
+							eva.getPuntuacions().add(pun);
+							pun.setEvaluacion(eva);
+							newPun.remove(pun);
+						}
+					}
+					
+					if(Main.evaluationService.getOneById(eva.getId()) != null) {
+						Main.evaluationService.edit(eva);
+					}else {
+						Main.evaluationService.add(eva);
+					}
+				}
+				
+			}*/
+			result = true;
+		}catch(FileNotFoundException ex) {
+			//TODO
+			System.out.println("filenotfound");
+		}catch(ConnectionException ex2) {
+			//TODO Problemas al conectar con la base de datos;
+			System.err.println(ex2);
+		}
 		
 		
 		
 		return result;
 	}
 
-	private static void generateFilesAndExportData() throws IOException {
+	private static void exportData() throws IOException {
 		IOControl io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
 				Main.classroomService.getAll(), Main.currentTeacher.getAulas());
 		io.exportData();

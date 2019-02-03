@@ -3,6 +3,8 @@ package connection.manageService;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+
 import connection.ConnectionError;
 import connection.ConnectionException;
 import connection.ServiceImpl;
@@ -16,8 +18,24 @@ public class ClassroomServiceImpl extends ServiceImpl implements ManageService<A
 	public List<Aula> getAll() {
 		EntityManager em = super.getEntityManager();
 		List<Aula> result = em.createNamedQuery("Aula.findAll", Aula.class).getResultList();
-		if(em.isOpen()) {
+		if (em.isOpen()) {
 			em.close();
+		}
+		return result;
+	}
+
+	@Override
+	public Aula getOneById(long id) {
+		EntityManager em = super.getEntityManager();
+		Aula result;
+		try {
+			result = em.createNamedQuery("Aula.findById", Aula.class).setParameter("id", id).getSingleResult();
+		} catch (NoResultException nrE) {
+			return null;
+		} finally {
+			if (em.isOpen()) {
+				em.close();
+			}
 		}
 		return result;
 	}
@@ -25,9 +43,15 @@ public class ClassroomServiceImpl extends ServiceImpl implements ManageService<A
 	@Override
 	public Aula getOne(String name) {
 		EntityManager em = super.getEntityManager();
-		Aula result = em.createNamedQuery("Aula.findByName", Aula.class).setParameter("name", name).getSingleResult();
-		if(em.isOpen()) {
-			em.close();
+		Aula result;
+		try {
+			result = em.createNamedQuery("Aula.findByName", Aula.class).setParameter("name", name).getSingleResult();
+		} catch (NoResultException nrE) {
+			return null;
+		} finally {
+			if (em.isOpen()) {
+				em.close();
+			}
 		}
 		return result;
 	}
@@ -79,14 +103,14 @@ public class ClassroomServiceImpl extends ServiceImpl implements ManageService<A
 				}
 				Aula oldClassroom = em.createNamedQuery("Aula.findById", Aula.class).setParameter("id", cla.getId())
 						.getSingleResult();
-				for(Profesor tea: oldClassroom.getProfesors()) {
-					if(!cla.getProfesors().contains(tea) && tea.getAulas().contains(oldClassroom)){
+				for (Profesor tea : oldClassroom.getProfesors()) {
+					if (!cla.getProfesors().contains(tea) && tea.getAulas().contains(oldClassroom)) {
 						tea.getAulas().remove(oldClassroom);
 						em.merge(tea);
 					}
 				}
-				for(Profesor tea: cla.getProfesors()) {
-					if(!oldClassroom.getProfesors().contains(tea) && !tea.getAulas().contains(oldClassroom)) {
+				for (Profesor tea : cla.getProfesors()) {
+					if (!oldClassroom.getProfesors().contains(tea) && !tea.getAulas().contains(oldClassroom)) {
 						tea.getAulas().add(cla);
 						em.merge(tea);
 					}
@@ -114,10 +138,10 @@ public class ClassroomServiceImpl extends ServiceImpl implements ManageService<A
 
 		try {
 			em.getTransaction().begin();
-			if(cla.getAlumnos().size() > 0) {
+			if (cla.getAlumnos().size() > 0) {
 				throw new ConnectionException(ConnectionError.CANT_DELETE_CLASSROOM);
 			}
-			for(Profesor tea: cla.getProfesors()) {
+			for (Profesor tea : cla.getProfesors()) {
 				tea.getAulas().remove(cla);
 				em.merge(tea);
 			}

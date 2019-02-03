@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -41,7 +42,7 @@ public class Profesor implements Serializable {
 
 	//bi-directional many-to-many association to Aula
 	@ManyToMany(mappedBy="profesors", fetch= FetchType.EAGER)
-	private List<Aula> aulas;
+	private List<Aula> aulas = new ArrayList<Aula>();
 
 	public Profesor() {
 	}

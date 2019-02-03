@@ -1,5 +1,6 @@
 package io;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import model.Alumno;
 import model.Aula;
 import model.Evaluacion;
 import model.Profesor;
+import model.Puntuacion;
 
 public class IOControlImpl implements IOControl {
 
@@ -254,27 +256,28 @@ public class IOControlImpl implements IOControl {
 	}
 
 	@Override
-	public List<Alumno> readStudentsCSV(String path) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Alumno> readStudentsCSV(String path) throws FileNotFoundException {
+		return CSVControl.readStudentsCSV(path);
 	}
 
 	@Override
-	public List<Profesor> readTeachersCSV(String path) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Profesor> readTeachersCSV(String path) throws FileNotFoundException {
+		return CSVControl.readTeachersCSV(path);
 	}
 
 	@Override
-	public List<Aula> readClassroomsCSV(String path) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Aula> readClassroomsCSV(String path) throws FileNotFoundException {
+		return CSVControl.readClassroomsCSV(path);
 	}
 
 	@Override
-	public List<Evaluacion> readEvaluationsCSV(String path) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Evaluacion> readEvaluationsCSV(String path) throws FileNotFoundException {
+		return CSVControl.readEvaluationsCSV(path);
+	}
+
+	@Override
+	public List<Puntuacion> readPuntuationsCSV(String path) throws FileNotFoundException {
+		return CSVControl.readPuntuationsCSV(path);
 	}
 
 }

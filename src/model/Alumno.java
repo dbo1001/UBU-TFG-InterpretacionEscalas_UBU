@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +16,8 @@ import java.util.List;
 @Table(name="ALUMNO", schema="public")
 @NamedQueries({ 
 	@NamedQuery(name = "Alumno.findAll", query = "SELECT a FROM Alumno a"),
-	@NamedQuery(name = "Alumno.findByCodigo", query = "SELECT a FROM Alumno a WHERE a.codigo = :codigo")
+	@NamedQuery(name = "Alumno.findByCodigo", query = "SELECT a FROM Alumno a WHERE a.codigo = :codigo"),
+	@NamedQuery(name="Alumno.findById", query="SELECT a FROM Alumno a WHERE a.id = :id")
 })
 public class Alumno implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -47,7 +50,7 @@ public class Alumno implements Serializable {
 
 	//bi-directional many-to-one association to Evaluacion
 	@OneToMany(mappedBy="alumno", fetch= FetchType.EAGER)
-	private List<Evaluacion> evaluacions;
+	private List<Evaluacion> evaluacions = new ArrayList<Evaluacion>();
 
 	public Alumno() {
 	}

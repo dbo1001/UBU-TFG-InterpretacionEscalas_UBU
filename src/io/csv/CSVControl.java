@@ -107,6 +107,7 @@ public abstract class CSVControl {
 			stu.setNotas(it.next());
 			Aula cla = new Aula();
 			cla.setId(Integer.parseInt(it.next()));
+			cla.setCapacidad(1);
 			stu.setAula(cla);
 			
 			stus.add(stu);
@@ -155,8 +156,6 @@ public abstract class CSVControl {
 			cla.setNombre(it.next());
 			cla.setCapacidad(Integer.parseInt(it.next()));
 			cla.setNotas(it.next());
-			
-			System.out.println(cla.getNombre());
 			
 		}
 		
