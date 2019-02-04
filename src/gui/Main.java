@@ -114,10 +114,6 @@ public class Main extends Application {
 	}
 
 	public static void showManageView() throws IOException {
-
-		//TODO borrar
-		//Main.exportData();
-		Main.importData();
 		
 		Main.loadCursor();
 
@@ -479,7 +475,7 @@ public class Main extends Application {
 		launch(args);
 	}
 	
-	private static boolean importData() {
+	public static boolean importData() {
 		boolean result = false;
 		List<Aula> currentCla;
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -504,10 +500,21 @@ public class Main extends Application {
 			
 			
 			for(Alumno stu : newStu) {
-				if(Main.studentService.getOneById(stu.getId()) != null) {
+				if(Main.studentService.getOne(stu.getCodigo()) != null) {
+					System.out.println(stu.getNombre() + " "+stu.getApellido1()+" "+stu.getApellido2());
 					Main.studentService.edit(stu);
 				}else {
-					Main.studentService.add(stu);
+					Alumno nuevoAlu = new Alumno();
+					nuevoAlu.setNombre(stu.getNombre());
+					nuevoAlu.setApellido1(stu.getApellido1());
+					nuevoAlu.setApellido2(stu.getApellido2());
+					nuevoAlu.setAula(stu.getAula());
+					nuevoAlu.setCodigo(stu.getCodigo());
+					nuevoAlu.setDireccion(stu.getDireccion());
+					nuevoAlu.setEvaluacions(stu.getEvaluacions());
+					nuevoAlu.setFechaNacimiento(stu.getFechaNacimiento());
+					nuevoAlu.setNotas(stu.getNotas());
+					Main.studentService.add(nuevoAlu);
 				}
 			}
 			
@@ -559,7 +566,7 @@ public class Main extends Application {
 			System.out.println("filenotfound");
 		}catch(ConnectionException ex2) {
 			//TODO Problemas al conectar con la base de datos;
-			System.err.println(ex2);
+			ex2.printStackTrace();
 		}
 		
 		
@@ -567,11 +574,17 @@ public class Main extends Application {
 		return result;
 	}
 
-	private static void exportData() throws IOException {
+	public static void exportData() throws IOException {
 		IOControl io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
 				Main.classroomService.getAll(), Main.currentTeacher.getAulas());
+		try {
 		io.exportData();
-		//io.importData();
+		}catch(IOException es) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Error al exportar los datos.");
+			error.setContentText("Ha ocurrido un error desconocido al exportar los datos.");
+			error.showAndWait();
+		}
 	}
 
 }

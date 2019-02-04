@@ -18,6 +18,8 @@
                <children>
                 <Button fx:id="mainMenu" disable="true" mnemonicParsing="false" onAction="#checkDataIntegrity" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="Menu principal" />
                   <Button fx:id="generateGraphic" disable="true" mnemonicParsing="false" onAction="#goToStudentSelectionView" text="Generar gráfico" />
+                  <Button mnemonicParsing="false" onAction="#exportData" text="Exportar" />
+                  <Button mnemonicParsing="false" onAction="#importData" text="Importar" />
                </children>
                <padding>
                   <Insets left="1.0" top="1.0" />

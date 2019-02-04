@@ -34,18 +34,30 @@ public class MainViewController extends Controller {
 	
 	@FXML
 	private void goToStudentSelectionView() throws IOException {
-		Alert alert = new Alert(AlertType.CONFIRMATION, "¿Quieres empezar a generar un nuevo gráfico?", ButtonType.YES, ButtonType.NO);
+		Alert alert = new Alert(AlertType.CONFIRMATION, "ï¿½Quieres empezar a generar un nuevo grï¿½fico?", ButtonType.YES, ButtonType.NO);
 		alert.showAndWait();
 		if(alert.getResult() == ButtonType.YES) {
 			try {
 				Main.showStudentSelectionView();
 			} catch (IOException e1) {
 				alert = new Alert(AlertType.ERROR,
-						"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+						"Ha ocurrido un error desconocido, porfavor reinicie la aplicaciï¿½n. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecuciï¿½n)");
 				alert.showAndWait();
 				e1.printStackTrace();
 			}
 		}
+	}
+	
+	@FXML
+	private void exportData() throws IOException {
+		Main.exportData();
+		Main.showManageView();
+	}
+	
+	@FXML
+	private void importData() throws IOException {
+		Main.importData();
+		Main.showManageView();
 	}
 	
 	public void setCurrentTeacher(Profesor tea) {

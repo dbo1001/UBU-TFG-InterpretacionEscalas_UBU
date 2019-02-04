@@ -57,7 +57,7 @@ public class IOControlImpl implements IOControl {
 					System.out.println("Validación incorrecta, reintentado obtención de token...");
 					OneDriveAPI.renewAccessToken(httpClient);
 				} else {
-
+					//TODO poner un contador de reintentos
 					System.out.println("Comprobando que existe el directorio raiz.");
 					while (!OneDriveAPI.checkDirectory(httpClient, PATH_SOURCE)) {
 						System.out.println("No existe el directorio, se procede a crearlo.");

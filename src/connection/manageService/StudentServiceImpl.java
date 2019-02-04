@@ -116,12 +116,18 @@ public class StudentServiceImpl extends ServiceImpl implements ManageService<Alu
 
 		try {
 			em.getTransaction().begin();
-			for (Evaluacion eva : stu.getEvaluacions()) {
+			/*for (Evaluacion eva : stu.getEvaluacions()) {
 				for (Puntuacion pun : eva.getPuntuacions()) {
-					em.remove(em.contains(pun) ? pun : em.merge(pun));
+					List<Puntuacion> check = em.createNamedQuery("Puntuacion.findById", Puntuacion.class).setParameter("id", pun.getId()).getResultList();
+					if(check.size() > 0) {
+						em.remove(check.get(0));
+					}
 				}
-				em.remove(em.contains(eva) ? eva : em.merge(eva));
-			}
+				List<Evaluacion> checkEva = em.createNamedQuery("Evaluacion.findById", Evaluacion.class).setParameter("id", eva.getId()).getResultList();
+				if(checkEva.size() > 0) {
+					em.remove(checkEva.get(0));
+				}
+			}*/
 			em.remove(em.contains(stu) ? stu : em.merge(stu));
 			em.getTransaction().commit();
 		} catch (Exception ex) {

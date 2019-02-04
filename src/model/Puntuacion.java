@@ -24,8 +24,8 @@ public class Puntuacion implements Serializable {
 	private int valoracion;
 
 	// bi-directional many-to-one association to Evaluacion
-	@ManyToOne
-	@JoinColumn(name = "id_evaluacion")
+	@ManyToOne(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "id_evaluacion") 
 	private Evaluacion evaluacion;
 
 	// bi-directional many-to-one association to Item

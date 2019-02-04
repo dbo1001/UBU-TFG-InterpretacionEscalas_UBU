@@ -1,7 +1,7 @@
 ---------------------------------- PROFESORES
-INSERT INTO PROFESOR VALUES(nextval('public.seq_profesor'), '12345678A', 'Profesor', 'A', '1', 'Datos de ejemplo', false, '123A');
-INSERT INTO PROFESOR VALUES(nextval('public.seq_profesor'), '12345678B', 'Profesor', 'B', '1', '', false, '123B');
-INSERT INTO PROFESOR VALUES(nextval('public.seq_profesor'), '12345678C', 'Profesor', 'C', '2', '', false, '123C');
+INSERT INTO PROFESOR VALUES(nextval('public.seq_profesor'), '12345678A', 'Profesor', 'A', 'PrimerAula', 'Datos de ejemplo', false, '12345678A');
+INSERT INTO PROFESOR VALUES(nextval('public.seq_profesor'), '12345678B', 'Profesor', 'B', 'PrimerAula', '', false, '12345678B');
+INSERT INTO PROFESOR VALUES(nextval('public.seq_profesor'), '12345678C', 'Profesor', 'C', 'SegundaAula', '', false, '12345678C');
 
 ---------------------------------- AULAS
 INSERT INTO AULA VALUES(nextval('public.seq_aula'), 'Aula1', '100', 'Datos de ejemplo');
@@ -14,9 +14,9 @@ INSERT INTO AULA_PROFESOR VALUES (1, 3);
 INSERT INTO AULA_PROFESOR VALUES (2, 4);
 
 ---------------------------------- ALUMNOS
-INSERT INTO ALUMNO VALUES (nextval('public.seq_alumno'), currval('public.seq_alumno'), '01-01-2019', 'Alumno', 'A', '1', '', '', '1');
-INSERT INTO ALUMNO VALUES (nextval('public.seq_alumno'), currval('public.seq_alumno'), '01-01-2019', 'Alumno', 'B', '1', '', '', '1');
-INSERT INTO ALUMNO VALUES (nextval('public.seq_alumno'), currval('public.seq_alumno'), '01-01-2019', 'Alumno', 'C', '2', '', '', '2');
+INSERT INTO ALUMNO VALUES (nextval('public.seq_alumno'), currval('public.seq_alumno'), '01-01-2019', 'Alumno', 'A', 'PrimerAula', '', '', '1');
+INSERT INTO ALUMNO VALUES (nextval('public.seq_alumno'), currval('public.seq_alumno'), '01-01-2019', 'Alumno', 'B', 'PrimerAula', '', '', '1');
+INSERT INTO ALUMNO VALUES (nextval('public.seq_alumno'), currval('public.seq_alumno'), '01-01-2019', 'Alumno', 'C', 'SegundoAula', '', '', '2');
 
 ---------------------------------- EVALUACION 1
 INSERT INTO EVALUACION VALUES (nextval('public.seq_evaluacion'), '01-01-2019', 1);
@@ -134,6 +134,13 @@ INSERT INTO PUNTUACION VALUES (nextval('public.seq_puntuacion'), (currval('publi
 INSERT INTO PUNTUACION VALUES (nextval('public.seq_puntuacion'), (currval('public.seq_puntuacion') % 5) + 1, (currval('public.seq_puntuacion') % 114) + 1, currval('public.seq_evaluacion'));
 INSERT INTO PUNTUACION VALUES (nextval('public.seq_puntuacion'), (currval('public.seq_puntuacion') % 5) + 1, (currval('public.seq_puntuacion') % 114) + 1, currval('public.seq_evaluacion'));
 INSERT INTO PUNTUACION VALUES (nextval('public.seq_puntuacion'), (currval('public.seq_puntuacion') % 5) + 1, (currval('public.seq_puntuacion') % 114) + 1, currval('public.seq_evaluacion'));
+
+
+
+
+
+
+
 
 ---------------------------------- EVALUCION 2
 INSERT INTO EVALUACION VALUES (nextval('public.seq_evaluacion'), '31-01-2019', 1);

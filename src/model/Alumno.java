@@ -49,7 +49,7 @@ public class Alumno implements Serializable {
 	private Aula aula;
 
 	//bi-directional many-to-one association to Evaluacion
-	@OneToMany(mappedBy="alumno", fetch= FetchType.EAGER)
+	@OneToMany(mappedBy="alumno", fetch= FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private List<Evaluacion> evaluacions = new ArrayList<Evaluacion>();
 
 	public Alumno() {
