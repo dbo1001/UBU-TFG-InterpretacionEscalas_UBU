@@ -68,7 +68,7 @@ public class CSVUtil {
 		stuToCsv.add(stu.getApellido2());
 		stuToCsv.add(stu.getDireccion());
 		stuToCsv.add(stu.getNotas());
-		stuToCsv.add(""+stu.getAula().getId());
+		stuToCsv.add(""+stu.getAula().getNombre());
 		CSVUtil.writeLine(writer, stuToCsv);
 
 	}
@@ -93,7 +93,7 @@ public class CSVUtil {
 		claToCsv.add(""+cla.getCapacidad());
 		claToCsv.add(cla.getNotas());
 		for(Profesor tea: cla.getProfesors()) {
-			claToCsv.add(""+tea.getId());
+			claToCsv.add(""+tea.getNif());
 		}
 		CSVUtil.writeLine(writer, claToCsv);
 	}

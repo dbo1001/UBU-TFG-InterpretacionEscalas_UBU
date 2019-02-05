@@ -495,21 +495,69 @@ public class Main extends Application {
 			List<Profesor> newTea = io.readTeachersCSV(PATH_LOCAL+"profesores.csv");
 			List<Aula> newCla = io.readClassroomsCSV(PATH_LOCAL+"aulas.csv");
 			alert.close();
-			alert.setContentText(alert.getContentText() + "OK\nActualizando base de datos...\n\tImportando alumnos...");
+			alert.setContentText(alert.getContentText() + "OK\nActualizando base de datos...\n\tImportando profesores...");
 			alert.show();
 			
+			for(Profesor tea : newTea) {
+				Profesor oldTea = Main.teacherService.getOne(tea.getNif());
+				if(oldTea != null) {
+					tea.setId(oldTea.getId());
+					Main.teacherService.edit(tea);
+				}else {
+					Profesor nuevoProfesor = new Profesor();
+					nuevoProfesor.setApellido1(tea.getApellido1());
+					nuevoProfesor.setApellido2(tea.getApellido2());
+					nuevoProfesor.setContrasena(tea.getContrasena());
+					nuevoProfesor.setNif(tea.getNif());
+					nuevoProfesor.setNombre(tea.getNombre());
+					nuevoProfesor.setNotas(tea.getNotas());
+					nuevoProfesor.setPermisos(tea.getPermisos());
+					Main.teacherService.add(nuevoProfesor);
+				}
+			}
+			
+			alert.close();
+			alert.setContentText(alert.getContentText() + "OK\n\tImportando aulas...");
+			alert.show();
+			
+			for(Aula cla : newCla) {
+				Aula oldCla = Main.getClassroomService().getOne(cla.getNombre());
+				List<Profesor> profesoresAsociados = new ArrayList<Profesor>();
+				for(Profesor tea: cla.getProfesors()) {
+					Profesor profesorAsociado = Main.getTeacherService().getOne(tea.getNif());
+					profesoresAsociados.add(profesorAsociado);	
+				}
+				if(oldCla != null) {
+					cla.setId(oldCla.getId());
+					cla.getProfesors().addAll(profesoresAsociados);
+					Main.classroomService.edit(cla);
+				}else {
+					Aula nuevaAula = new Aula();
+					nuevaAula.setCapacidad(cla.getCapacidad());
+					nuevaAula.setNombre(cla.getNombre());
+					nuevaAula.setNotas(cla.getNotas());
+					nuevaAula.getProfesors().addAll(profesoresAsociados);
+					Main.classroomService.add(cla);
+				}
+			}
+			
+			alert.close();
+			alert.setContentText(alert.getContentText() + "OK\n\tImportando alumnos...");
+			alert.show();
 			
 			for(Alumno stu : newStu) {
 				Alumno oldStu = Main.studentService.getOne(stu.getCodigo());
+				Aula aulaAsociada = Main.getClassroomService().getOne(stu.getAula().getNombre());
 				if(oldStu != null) {
 					stu.setId(oldStu.getId());
+					stu.setAula(aulaAsociada);
 					Main.studentService.edit(stu);
 				}else {
 					Alumno nuevoAlu = new Alumno();
 					nuevoAlu.setNombre(stu.getNombre());
 					nuevoAlu.setApellido1(stu.getApellido1());
 					nuevoAlu.setApellido2(stu.getApellido2());
-					nuevoAlu.setAula(stu.getAula());
+					nuevoAlu.setAula(aulaAsociada);
 					nuevoAlu.setCodigo(stu.getCodigo());
 					nuevoAlu.setDireccion(stu.getDireccion());
 					nuevoAlu.setEvaluacions(stu.getEvaluacions());
@@ -520,24 +568,9 @@ public class Main extends Application {
 			}
 			
 			alert.close();
-			alert.setContentText(alert.getContentText() + "OK\n\t Importando profesores...");
+			alert.setContentText(alert.getContentText() + "OK\n\t Importando evaluaciones...");
 			alert.show();
 			/*
-			for(Profesor tea : newTea) {
-				if(Main.teacherService.getOneById(tea.getId()) != null) {
-					Main.teacherService.edit(tea);
-				}else {
-					Main.teacherService.add(tea);
-				}
-			}
-			
-			for(Aula cla : newCla) {
-				if(Main.classroomService.getOneById(cla.getId()) != null) {
-					Main.classroomService.edit(cla);
-				}else {
-					Main.classroomService.add(cla);
-				}
-			}
 			
 			for(Aula cla : currentCla) {
 				String PATH_CLA = PATH_EVALUATIONS + cla.getNombre() + "/";

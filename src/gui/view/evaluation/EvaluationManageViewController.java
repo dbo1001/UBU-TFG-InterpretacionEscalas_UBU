@@ -133,14 +133,14 @@ public class EvaluationManageViewController extends Controller {
 						Main.showEditEvaluationView(eva);
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
-								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+								"Ha ocurrido un error desconocido, porfavor reinicie la aplicaciï¿½n. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecuciï¿½n)");
 						alert.showAndWait();
 						e1.printStackTrace();
 					}
 				};
 
 			});
-
+			/*
 			delete = new Label("Borrar");
 			delete.getStyleClass().add("controlLabel");
 			delete.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -152,13 +152,13 @@ public class EvaluationManageViewController extends Controller {
 						Main.deleteEvaluation(eva);
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
-								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+								"Ha ocurrido un error desconocido, porfavor reinicie la aplicaciï¿½n. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecuciï¿½n)");
 						alert.showAndWait();
 						e1.printStackTrace();
 					}
 				}
 
-			});
+			});*/
 		}
 
 		public String getFecha() {

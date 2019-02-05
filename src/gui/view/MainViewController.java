@@ -20,6 +20,10 @@ public class MainViewController extends Controller {
 	private Button mainMenu;
 	@FXML
 	private Button generateGraphic;
+	@FXML
+	private Button exportar;
+	@FXML
+	private Button importar;
 	private Profesor currentTeacher;
 
 	@FXML
@@ -64,6 +68,8 @@ public class MainViewController extends Controller {
 		this.currentTeacher = tea;
 		this.mainMenu.setDisable(false);
 		this.generateGraphic.setDisable(false);
+		this.exportar.setDisable(false);
+		this.importar.setDisable(false);
 		this.teacherName.setText(this.currentTeacher.getApellido1() + " " + this.currentTeacher.getApellido2() + ", " + this.currentTeacher.getNombre());
 	}
 
