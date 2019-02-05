@@ -500,8 +500,9 @@ public class Main extends Application {
 			
 			
 			for(Alumno stu : newStu) {
-				if(Main.studentService.getOne(stu.getCodigo()) != null) {
-					System.out.println(stu.getNombre() + " "+stu.getApellido1()+" "+stu.getApellido2());
+				Alumno oldStu = Main.studentService.getOne(stu.getCodigo());
+				if(oldStu != null) {
+					stu.setId(oldStu.getId());
 					Main.studentService.edit(stu);
 				}else {
 					Alumno nuevoAlu = new Alumno();
