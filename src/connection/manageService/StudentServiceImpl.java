@@ -182,7 +182,7 @@ public class StudentServiceImpl extends ServiceImpl implements ManageService<Alu
 			throw new ConnectionException(ConnectionError.DESCRIPTION_TOO_LONG);
 		}
 
-		if (stu.getAula().getAlumnos().size() >= stu.getAula().getCapacidad()) {
+		if (!stu.getAula().getAlumnos().contains(stu) && stu.getAula().getAlumnos().size() >= stu.getAula().getCapacidad()) {
 			throw new ConnectionException(ConnectionError.CLASSROOM_IS_FULL);
 		}
 

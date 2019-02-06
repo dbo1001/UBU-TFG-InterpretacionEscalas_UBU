@@ -161,6 +161,7 @@ public abstract class CSVControl {
 				cla.getProfesors().add(tea);
 			}
 			
+			classrooms.add(cla);
 		}
 		
 		return classrooms;

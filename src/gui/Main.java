@@ -525,10 +525,13 @@ public class Main extends Application {
 				List<Profesor> profesoresAsociados = new ArrayList<Profesor>();
 				for(Profesor tea: cla.getProfesors()) {
 					Profesor profesorAsociado = Main.getTeacherService().getOne(tea.getNif());
-					profesoresAsociados.add(profesorAsociado);	
+					if(profesorAsociado != null) {
+						profesoresAsociados.add(profesorAsociado);
+					}
 				}
 				if(oldCla != null) {
 					cla.setId(oldCla.getId());
+					cla.getProfesors().clear();
 					cla.getProfesors().addAll(profesoresAsociados);
 					Main.classroomService.edit(cla);
 				}else {
@@ -537,7 +540,7 @@ public class Main extends Application {
 					nuevaAula.setNombre(cla.getNombre());
 					nuevaAula.setNotas(cla.getNotas());
 					nuevaAula.getProfesors().addAll(profesoresAsociados);
-					Main.classroomService.add(cla);
+					Main.classroomService.add(nuevaAula);
 				}
 			}
 			
@@ -570,14 +573,21 @@ public class Main extends Application {
 			alert.close();
 			alert.setContentText(alert.getContentText() + "OK\n\t Importando evaluaciones...");
 			alert.show();
-			/*
 			
+			/*
 			for(Aula cla : currentCla) {
 				String PATH_CLA = PATH_EVALUATIONS + cla.getNombre() + "/";
 				List<Evaluacion> newEva = io.readEvaluationsCSV(PATH_CLA+"evaluaciones.csv");
 				List<Puntuacion> newPun = io.readPuntuationsCSV(PATH_CLA+"puntuaciones.csv");
 				
 				for(Evaluacion eva: newEva) {
+					Evaluacion oldEva = Main.getEvaluationService().getOneById(eva.getId());
+					Evaluacion nuevaEvaluacion = new Evaluacion();
+					if(oldEva != null) {
+						nuevaEvaluacion.setId(oldEva.getId());
+					}else {
+						nuevaEvaluacion.set
+					}
 					for(Puntuacion pun : newPun) {
 						if(pun.getEvaluacion().equals(eva)) {
 							eva.getPuntuacions().add(pun);

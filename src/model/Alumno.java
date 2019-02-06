@@ -148,5 +148,15 @@ public class Alumno implements Serializable {
 
 		return evaluacion;
 	}
+	
+	@Override
+	public boolean equals(Object stu) {
+		if(stu instanceof Alumno && this.id == ((Alumno) stu).getId()) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
 
 }
