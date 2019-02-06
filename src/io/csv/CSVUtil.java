@@ -62,7 +62,7 @@ public class CSVUtil {
 		List<String> stuToCsv = new ArrayList<String>();
 		stuToCsv.add(""+stu.getId());
 		stuToCsv.add(stu.getCodigo());
-		stuToCsv.add(stu.getFechaNacimiento().toString());
+		stuToCsv.add(""+stu.getFechaNacimiento().getTime());
 		stuToCsv.add(stu.getNombre());
 		stuToCsv.add(stu.getApellido1());
 		stuToCsv.add(stu.getApellido2());
@@ -103,14 +103,14 @@ public class CSVUtil {
 		punToCsv.add(""+pun.getId());
 		punToCsv.add(""+pun.getValoracion());
 		punToCsv.add(""+pun.getItem().getNumero());
-		punToCsv.add(""+pun.getEvaluacion().getId());
+		punToCsv.add(""+pun.getEvaluacion().getFecha().getTime());
 		CSVUtil.writeLine(writer, punToCsv);
 	}
 	
 	protected static void writeEvaluation(Writer writer, Evaluacion eva) throws IOException {
 		List<String> evaToCsv = new ArrayList<String>();
 		evaToCsv.add(""+eva.getId());
-		evaToCsv.add(eva.getFecha().toString());
+		evaToCsv.add(""+eva.getFecha().getTime());
 		evaToCsv.add(eva.getAlumno().getCodigo());
 		CSVUtil.writeLine(writer, evaToCsv);
 	}

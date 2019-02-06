@@ -71,7 +71,7 @@ public class Puntuacion implements Serializable {
 	@Override
 	public boolean equals(Object pun) {
 		if (pun instanceof Puntuacion && ((Puntuacion) pun).getItem().getNumero() == this.item.getNumero()
-				&& ((Puntuacion) pun).getEvaluacion().getId() == this.evaluacion.getId()) {
+				&& ((Puntuacion) pun).getEvaluacion().getFecha().getTime() == this.evaluacion.getFecha().getTime()) {
 			return true;
 		} else {
 			return false;

@@ -15,7 +15,8 @@ import java.util.List;
 @Table(name="EVALUACION", schema="public")
 @NamedQueries({ 
 	@NamedQuery(name="Evaluacion.findAll", query="SELECT e FROM Evaluacion e"),
-	@NamedQuery(name="Evaluacion.findById", query="SELECT e FROM Evaluacion e WHERE e.id = :id")
+	@NamedQuery(name="Evaluacion.findById", query="SELECT e FROM Evaluacion e WHERE e.id = :id"),
+	@NamedQuery(name="Evaluacion.findByFecha", query="SELECT e FROM Evaluacion e WHERE e.fecha = :fecha")
 })
 public class Evaluacion implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -83,6 +84,16 @@ public class Evaluacion implements Serializable {
 		puntuacion.setEvaluacion(null);
 
 		return puntuacion;
+	}
+	
+	@Override
+	public boolean equals(Object eva) {
+		if(eva instanceof Evaluacion && this.id == ((Evaluacion) eva).getId()) {
+			return true;
+		}else {
+			return false;
+		}
+		
 	}
 
 }

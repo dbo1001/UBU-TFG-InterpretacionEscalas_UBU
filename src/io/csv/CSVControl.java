@@ -89,17 +89,13 @@ public abstract class CSVControl {
 	
 	public static List<Alumno> readStudentsCSV(String path) throws FileNotFoundException {
 		List<Alumno> stus = new ArrayList<Alumno>();
-		Calendar cal = Calendar.getInstance();
 		
 		for(List<String> line : CSVUtil.readCSVFile(path)) {
 			Alumno stu = new Alumno();
 			Iterator<String> it = line.iterator();
 			stu.setId(Integer.parseInt(it.next()));
 			stu.setCodigo(it.next());
-			String fecha = it.next();
-			//System.out.println(Integer.parseInt(fecha.substring(0, 4))+","+ Integer.parseInt(fecha.substring(5,7))+","+ Integer.parseInt(fecha.substring(8,10)));
-			cal.set(Integer.parseInt(fecha.substring(0, 4)), Integer.parseInt(fecha.substring(5,7)) - 1, Integer.parseInt(fecha.substring(8,10)));
-			stu.setFechaNacimiento(cal.getTime());
+			stu.setFechaNacimiento(new Timestamp(Long.parseLong(it.next())));
 			stu.setNombre(it.next());
 			stu.setApellido1(it.next());
 			stu.setApellido2(it.next());
@@ -169,19 +165,17 @@ public abstract class CSVControl {
 	
 	public static List<Evaluacion> readEvaluationsCSV(String path) throws FileNotFoundException {
 		List<Evaluacion> evaluations = new ArrayList<Evaluacion>();
-		Calendar cal = Calendar.getInstance();
 		
 		for(List<String> line : CSVUtil.readCSVFile(path)) {
 			Evaluacion eva = new Evaluacion();
 			Iterator<String> it = line.iterator();
 			eva.setId(Integer.parseInt(it.next()));
-			String fecha = it.next();
-			//System.out.println(Integer.parseInt(fecha.substring(0, 4))+","+ Integer.parseInt(fecha.substring(5,7))+","+ Integer.parseInt(fecha.substring(8,10)));
-			cal.set(Integer.parseInt(fecha.substring(0, 4)), Integer.parseInt(fecha.substring(5,7)) - 1, Integer.parseInt(fecha.substring(8,10)));
-			eva.setFecha(new Timestamp(cal.getTime().getTime()));
+			eva.setFecha(new Timestamp(Long.parseLong(it.next())));
 			Alumno stu = new Alumno();
-			stu.setId(Integer.parseInt(it.next()));
+			stu.setCodigo(it.next());
 			eva.setAlumno(stu);
+			
+			evaluations.add(eva);
 			
 		}
 		
@@ -200,8 +194,10 @@ public abstract class CSVControl {
 			item.setNumero(Integer.parseInt(it.next()));
 			pun.setItem(item);
 			Evaluacion eva = new Evaluacion();
-			eva.setId(Integer.parseInt(it.next()));
+			eva.setFecha(new Timestamp(Long.parseLong(it.next())));;
 			pun.setEvaluacion(eva);
+			
+			puntuations.add(pun);
 			
 		}
 		

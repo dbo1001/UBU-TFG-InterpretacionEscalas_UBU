@@ -1,5 +1,6 @@
 package connection.manageService;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,7 +13,7 @@ import model.Aula;
 import model.Evaluacion;
 import model.Puntuacion;
 
-public class EvaluationServiceImpl extends ServiceImpl implements ManageService<Evaluacion, Integer> {
+public class EvaluationServiceImpl extends ServiceImpl implements ManageService<Evaluacion, Timestamp> {
 
 	@Override
 	public List<Evaluacion> getAll() {
@@ -42,8 +43,20 @@ public class EvaluationServiceImpl extends ServiceImpl implements ManageService<
 	}
 
 	@Override
-	public Evaluacion getOne(Integer id) {
-		return getOneById((long) id);
+	public Evaluacion getOne(Timestamp fecha) {
+		EntityManager em = super.getEntityManager();
+		Evaluacion result;
+		try {
+			result = em.createNamedQuery("Evaluacion.findByFecha", Evaluacion.class).setParameter("fecha", fecha)
+					.getSingleResult();
+		} catch (NoResultException nrE) {
+			return null;
+		} finally {
+			if (em.isOpen()) {
+				em.close();
+			}
+		}
+		return result;
 	}
 
 	@Override
@@ -90,6 +103,9 @@ public class EvaluationServiceImpl extends ServiceImpl implements ManageService<
 				}
 				for (Puntuacion pun : eva.getPuntuacions()) {
 					if (oldEva.getPuntuacions().contains(pun)) {
+						//TODO borrar
+						//System.out.println(oldEva.getPuntuacions().get(oldEva.getPuntuacions().indexOf(pun)).getId() +"/"+pun.getId());
+						//System.out.println("Item: "+pun.getItem().getNumero()+" Eva: "+pun.getEvaluacion().getId());
 						em.merge(pun);
 					} else {
 						em.persist(pun);
