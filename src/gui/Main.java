@@ -46,6 +46,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import model.Alumno;
@@ -480,17 +481,25 @@ public class Main extends Application {
 		boolean result = false;
 		List<Aula> currentCla;
 		Alert alert = new Alert(AlertType.INFORMATION);
-		IOControl io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
-				Main.classroomService.getAll(), Main.currentTeacher.getAulas());
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+		IOControl io;
 		if (Main.currentTeacher.getPermisos()) {
 			currentCla = Main.getClassroomService().getAll();
 		} else {
 			currentCla = Main.currentTeacher.getAulas();
 		}
+		
+		io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
+				Main.classroomService.getAll(), currentCla);
 
 		try {
 			alert.setTitle("Importando datos...");
 			alert.show();
+			
+			if(!io.importData()) {
+				return result;
+			}
+			
 			alert.setContentText("Leyendo ficheros... ");
 			List<Alumno> newStu = io.readStudentsCSV(PATH_LOCAL + "alumnos.csv");
 			List<Profesor> newTea = io.readTeachersCSV(PATH_LOCAL + "profesores.csv");
@@ -627,16 +636,22 @@ public class Main extends Application {
 				}
 
 			}
-
+			
 			alert.close();
 			alert.setContentText(alert.getContentText() + "OK\nTodos los datos han sido importados con EXITO.");
 			alert.show();
 			result = true;
 		} catch (FileNotFoundException ex) {
-			// TODO
-			System.out.println("filenotfound");
-		} catch (ConnectionException ex2) {
-			// TODO Problemas al conectar con la base de datos;
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Error, archivo no encontrado.");
+			error.setContentText("Alguno de los archivos no se han encontrado en el directorio \"/ioData\" dentro de la carpeta raiz de la aplicacion.\nEs posible que haya habído un error al descargar los archivos de la nube.");
+			error.showAndWait();
+			ex.printStackTrace();
+		} catch (Exception ex2) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Error desconocido.");
+			error.setContentText("Ha ocurrido un error desconocido al importar los datos.");
+			error.showAndWait();
 			ex2.printStackTrace();
 		}
 

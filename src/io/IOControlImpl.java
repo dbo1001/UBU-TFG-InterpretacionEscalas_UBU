@@ -13,6 +13,9 @@ import org.apache.http.impl.client.HttpClients;
 
 import io.csv.CSVControl;
 import io.oneDrive.util.OneDriveAPI;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.Region;
 import model.Alumno;
 import model.Aula;
 import model.Evaluacion;
@@ -33,8 +36,8 @@ public class IOControlImpl implements IOControl {
 	private List<Profesor> allTeachers;
 	private List<Alumno> allStudents;
 	private List<Aula> currentTeacherClassrooms;
-	
-	public IOControlImpl (List<Alumno> allStudents, List<Profesor> allTeachers, List<Aula> allClassrooms,
+
+	public IOControlImpl(List<Alumno> allStudents, List<Profesor> allTeachers, List<Aula> allClassrooms,
 			List<Aula> currentTeacherClassrooms) {
 		this.allClassrooms = allClassrooms;
 		this.allTeachers = allTeachers;
@@ -47,9 +50,9 @@ public class IOControlImpl implements IOControl {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		CloseableHttpResponse response = null;
 		boolean exito = false;
-		
+
 		this.generateCSV();
-		
+
 		try {
 			while (!exito) {
 				boolean conectado = OneDriveAPI.testCurrentAccessToken(httpClient);
@@ -57,59 +60,63 @@ public class IOControlImpl implements IOControl {
 					System.out.println("Validación incorrecta, reintentado obtención de token...");
 					OneDriveAPI.renewAccessToken(httpClient);
 				} else {
-					//TODO poner un contador de reintentos
+					// TODO poner un contador de reintentos
 					System.out.println("Comprobando que existe el directorio raiz.");
 					while (!OneDriveAPI.checkDirectory(httpClient, PATH_SOURCE)) {
 						System.out.println("No existe el directorio, se procede a crearlo.");
 						OneDriveAPI.createFolder(httpClient, "InterpretacionEscalas_2019_2020");
 						System.out.println(OneDriveAPI.checkDirectory(httpClient, PATH_SOURCE));
 					}
-					
+
 					System.out.println("Fichero raiz listo.");
-					
-					do{
+
+					do {
 						System.out.printf("Subiendo fichero de texto a nuevo directorio creado: %s%s%n", PATH_SOURCE,
 								PATH_LOCAL + STUDENTS_FN);
 						OneDriveAPI.uploadTextFile(httpClient, PATH_SOURCE, PATH_LOCAL + STUDENTS_FN);
-					}while(!OneDriveAPI.checkFile(httpClient, PATH_SOURCE, PATH_LOCAL + STUDENTS_FN));
-					
+					} while (!OneDriveAPI.checkFile(httpClient, PATH_SOURCE, PATH_LOCAL + STUDENTS_FN));
+
 					System.out.println("Alumnos exportados correctamente.");
-					
-					do{
+
+					do {
 						System.out.printf("Subiendo fichero de texto a nuevo directorio creado: %s%s%n", PATH_SOURCE,
 								PATH_LOCAL + TEACHERS_FN);
 						OneDriveAPI.uploadTextFile(httpClient, PATH_SOURCE, PATH_LOCAL + TEACHERS_FN);
-					}while(!OneDriveAPI.checkFile(httpClient, PATH_SOURCE, PATH_LOCAL + TEACHERS_FN));
-					
+					} while (!OneDriveAPI.checkFile(httpClient, PATH_SOURCE, PATH_LOCAL + TEACHERS_FN));
+
 					System.out.println("Profesores exportados correctamente.");
-					
-					do{
+
+					do {
 						System.out.printf("Subiendo fichero de texto a nuevo directorio creado: %s%s%n", PATH_SOURCE,
 								PATH_LOCAL + CLASSROOMS_FN);
 						OneDriveAPI.uploadTextFile(httpClient, PATH_SOURCE, PATH_LOCAL + CLASSROOMS_FN);
-					}while(!OneDriveAPI.checkFile(httpClient, PATH_SOURCE, PATH_LOCAL + CLASSROOMS_FN));
-					
+					} while (!OneDriveAPI.checkFile(httpClient, PATH_SOURCE, PATH_LOCAL + CLASSROOMS_FN));
+
 					System.out.println("Aulas exportados correctamente.");
-					
-					for(Aula cla : this.currentTeacherClassrooms) {
+
+					for (Aula cla : this.currentTeacherClassrooms) {
 						String PATH_CLASSROOM = cla.getNombre() + "/";
-						do{
-							System.out.printf("Subiendo fichero de texto a nuevo directorio creado: %s%s%n", PATH_SOURCE + PATH_LOCAL,
+						do {
+							System.out.printf("Subiendo fichero de texto a nuevo directorio creado: %s%s%n",
+									PATH_SOURCE + PATH_LOCAL, PATH_EVALUATIONS + PATH_CLASSROOM + EVALUATIONS_FN);
+							OneDriveAPI.uploadTextFile(httpClient, PATH_SOURCE,
 									PATH_EVALUATIONS + PATH_CLASSROOM + EVALUATIONS_FN);
-							OneDriveAPI.uploadTextFile(httpClient, PATH_SOURCE, PATH_EVALUATIONS + PATH_CLASSROOM + EVALUATIONS_FN);
-						}while(!OneDriveAPI.checkFile(httpClient, PATH_SOURCE, PATH_EVALUATIONS + PATH_CLASSROOM + EVALUATIONS_FN));
-						
-						do{
-							System.out.printf("Subiendo fichero de texto a nuevo directorio creado: %s%s%n", PATH_SOURCE + PATH_LOCAL,
+						} while (!OneDriveAPI.checkFile(httpClient, PATH_SOURCE,
+								PATH_EVALUATIONS + PATH_CLASSROOM + EVALUATIONS_FN));
+
+						do {
+							System.out.printf("Subiendo fichero de texto a nuevo directorio creado: %s%s%n",
+									PATH_SOURCE + PATH_LOCAL, PATH_EVALUATIONS + PATH_CLASSROOM + PUNTUATIONS_FN);
+							OneDriveAPI.uploadTextFile(httpClient, PATH_SOURCE,
 									PATH_EVALUATIONS + PATH_CLASSROOM + PUNTUATIONS_FN);
-							OneDriveAPI.uploadTextFile(httpClient, PATH_SOURCE, PATH_EVALUATIONS + PATH_CLASSROOM + PUNTUATIONS_FN);
-						}while(!OneDriveAPI.checkFile(httpClient, PATH_SOURCE, PATH_EVALUATIONS + PATH_CLASSROOM + PUNTUATIONS_FN));
+						} while (!OneDriveAPI.checkFile(httpClient, PATH_SOURCE,
+								PATH_EVALUATIONS + PATH_CLASSROOM + PUNTUATIONS_FN));
 					}
-					
+
 					System.out.println("Evaluaciones exportadas correctamente.");
 
 					exito = true;
-					
+
 				}
 			}
 		} catch (ClientProtocolException e) {
@@ -137,11 +144,11 @@ public class IOControlImpl implements IOControl {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		CloseableHttpResponse response = null;
 		boolean exito = false;
-		
-		for(Aula cla: currentTeacherClassrooms) {
+
+		for (Aula cla : currentTeacherClassrooms) {
 			CSVControl.createClassroomFile(cla);
 		}
-		
+
 		try {
 			while (!exito) {
 				boolean conectado = OneDriveAPI.testCurrentAccessToken(httpClient);
@@ -149,78 +156,71 @@ public class IOControlImpl implements IOControl {
 					System.out.println("Validación incorrecta, reintentado obtención de token...");
 					OneDriveAPI.renewAccessToken(httpClient);
 				} else {
+					Alert info = new Alert(AlertType.INFORMATION);
+					info.setTitle("Descargando archivos...");
+					info.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+
+					info.setContentText("Descargado fichero: " + PATH_SOURCE + PATH_LOCAL + "alumnos.csv\n");
+					info.show();
 
 					System.out.printf("Descargado fichero: %s%s %n", PATH_SOURCE, PATH_LOCAL + "alumnos.csv");
 					OneDriveAPI.downloadFile(httpClient, PATH_SOURCE, PATH_LOCAL + "alumnos.csv");
 
+					info.close();
+					info.setContentText(
+							info.getContentText() + "Descargado fichero: " + PATH_SOURCE + PATH_LOCAL + "aulas.csv\n");
+					info.show();
+
 					System.out.printf("Descargado fichero: %s%s %n", PATH_SOURCE, PATH_LOCAL + "aulas.csv");
 					OneDriveAPI.downloadFile(httpClient, PATH_SOURCE, PATH_LOCAL + "aulas.csv");
-					
+
+					info.close();
+					info.setContentText(info.getContentText() + "Descargado fichero: " + PATH_SOURCE + PATH_LOCAL
+							+ "profesores.csv\n");
+					info.show();
+
 					System.out.printf("Descargado fichero: %s%s %n", PATH_SOURCE, PATH_LOCAL + "profesores.csv");
 					OneDriveAPI.downloadFile(httpClient, PATH_SOURCE, PATH_LOCAL + "profesores.csv");
-					
-					for(Aula cla: this.currentTeacherClassrooms) {
-						System.out.printf("Descargado fichero: %s%s %n", PATH_SOURCE , PATH_EVALUATIONS + cla.getNombre() + "/evaluaciones.csv");
-						OneDriveAPI.downloadFile(httpClient, PATH_SOURCE ,  PATH_EVALUATIONS + cla.getNombre() + "/evaluaciones.csv");
-						
-						System.out.printf("Descargado fichero: %s%s %n", PATH_SOURCE , PATH_EVALUATIONS + cla.getNombre() + "/puntuaciones.csv");
-						OneDriveAPI.downloadFile(httpClient, PATH_SOURCE ,  PATH_EVALUATIONS + cla.getNombre() + "/puntuaciones.csv");
+
+					for (Aula cla : this.currentTeacherClassrooms) {
+
+						info.close();
+						info.setContentText(info.getContentText() + "Descargado ficheros dentro de: " + PATH_SOURCE
+								+ PATH_EVALUATIONS + cla.getNombre() + "/\n");
+						info.show();
+
+						System.out.printf("Descargado fichero: %s%s %n", PATH_SOURCE,
+								PATH_EVALUATIONS + cla.getNombre() + "/evaluaciones.csv");
+						OneDriveAPI.downloadFile(httpClient, PATH_SOURCE,
+								PATH_EVALUATIONS + cla.getNombre() + "/evaluaciones.csv");
+
+						System.out.printf("Descargado fichero: %s%s %n", PATH_SOURCE,
+								PATH_EVALUATIONS + cla.getNombre() + "/puntuaciones.csv");
+						OneDriveAPI.downloadFile(httpClient, PATH_SOURCE,
+								PATH_EVALUATIONS + cla.getNombre() + "/puntuaciones.csv");
 					}
-					
+
+					info.close();
+					info.setContentText(info.getContentText()
+							+ "Los ficheros han sido descargados con EXITO\nSe procedera a importar los datos a la base de datos...");
+					info.show();
+
+					Thread.sleep(3000);
+
+					info.close();
+
 					exito = true;
-					
-					/*
-					System.out.printf("Borrando directorio previo: %s%n", PATH_TARGET);
-					OneDriveAPI.deleteFolder(httpClient, PATH_TARGET);
 
-					System.out.printf("Descargado fichero: %s%s %n", PATH_SOURCE, FILENAME_TEXT);
-					OneDriveAPI.downloadFile(httpClient, PATH_SOURCE, FILENAME_TEXT);
-
-					System.out.printf("Creando nuevo directorio: %s%n", "New_Folder");
-					OneDriveAPI.createFolder(httpClient, "New_Folder");
-
-					System.out.printf("Subiendo fichero de texto a nuevo directorio creado: %s%s%n", PATH_TARGET,
-							FILENAME_TEXT);
-					OneDriveAPI.uploadTextFile(httpClient, PATH_TARGET, FILENAME_TEXT);
-
-					System.out.printf("Comprobando que existe el fichero recien subido: %s%s%n", PATH_TARGET,
-							FILENAME_TEXT);
-					OneDriveAPI.checkFile(httpClient, PATH_TARGET, FILENAME_TEXT);
-
-					System.out.printf("Borrarmos el fichero que acabamos de subir: %s%s%n", PATH_TARGET, FILENAME_TEXT);
-					OneDriveAPI.deleteFile(httpClient, PATH_TARGET, FILENAME_TEXT);
-
-					System.out.printf(
-							"Debe generar error (OK) al comprobar que NO existe el fichero recien borrado: %s%s%n",
-							PATH_TARGET, FILENAME_TEXT);
-					OneDriveAPI.checkFile(httpClient, PATH_TARGET, FILENAME_TEXT); // "/New_Folder/prueba.txt");
-
-					System.out.printf(
-							"Debe generar error (OK) al comprobar que NO existe un directorio que nunca se ha creado: %s%n",
-							"/New_Folder2/");
-					OneDriveAPI.checkDirectory(httpClient, "/New_Folder2/");
-
-					System.out.printf("Borrarmos el fichero binario que vamos a subir: %s%s%n", PATH_SOURCE,
-							FILENAME_BINARY);
-					OneDriveAPI.deleteFile(httpClient, PATH_SOURCE, FILENAME_BINARY);
-
-					System.out.printf("Subiendo fichero binario imagen a directorio inicial: %s%s%n", PATH_SOURCE,
-							FILENAME_BINARY);
-					OneDriveAPI.uploadBinaryFile(httpClient, PATH_SOURCE, FILENAME_BINARY);
-
-					System.out.printf("Comprobando que existe el fichero binario recien subido: %s%s%n", PATH_SOURCE,
-							FILENAME_BINARY);
-					OneDriveAPI.checkFile(httpClient, PATH_SOURCE, FILENAME_BINARY);
-
-					System.out.println("Contenido del directorio ra�z al final de las operaciones...");
-					OneDriveAPI.listDriveItem(httpClient, "");
-					*/
-					
 				}
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Error desconocido al descargar los archivos.");
+			error.setContentText(
+					"Ha ocurrido un error desconocido al descargar los archivos.\nAlgunas de las posibles causas son las siguientes\n\t1. Hay un problema con la conexión de red.\n\t2. Tienes abierto un archivo \".csv\" hubicado dentro de la carpeta raíz de la aplicación y no es posible sobreescribirlo.");
+			error.showAndWait();
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
@@ -239,16 +239,16 @@ public class IOControlImpl implements IOControl {
 	}
 
 	private void generateCSV() throws IOException {
-		
+
 		CSVControl.exportClassroom(allClassrooms);
 		CSVControl.exportStudents(allStudents);
 		CSVControl.exportTeachers(allTeachers);
-		
-		for(Aula cla: currentTeacherClassrooms) {
+
+		for (Aula cla : currentTeacherClassrooms) {
 			CSVControl.createClassroomFile(cla);
 			String PATH_CLASSROOM = cla.getNombre() + "/";
 			List<Evaluacion> evas = new ArrayList<Evaluacion>();
-			for(Alumno stu: cla.getAlumnos()) {
+			for (Alumno stu : cla.getAlumnos()) {
 				evas.addAll(stu.getEvaluacions());
 			}
 			CSVControl.exportEvaluation(evas, PATH_EVALUATIONS + PATH_CLASSROOM);
