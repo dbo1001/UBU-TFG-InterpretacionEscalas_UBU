@@ -658,7 +658,7 @@ public class Main extends Application {
 		return result;
 	}
 
-	public static void exportData() throws IOException {
+	public static void exportData() {
 		IOControl io;
 		if (!Main.currentTeacher.getPermisos()) {
 			io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
@@ -667,14 +667,9 @@ public class Main extends Application {
 			io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
 					Main.classroomService.getAll(), Main.getClassroomService().getAll());
 		}
-		try {
-			io.exportData();
-		} catch (IOException es) {
-			Alert error = new Alert(AlertType.ERROR);
-			error.setTitle("Error al exportar los datos.");
-			error.setContentText("Ha ocurrido un error desconocido al exportar los datos.");
-			error.showAndWait();
-		}
+		
+		io.exportData();
+		
 	}
 
 }

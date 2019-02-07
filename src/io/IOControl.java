@@ -12,7 +12,7 @@ import model.Puntuacion;
 
 public interface IOControl {
 
-	public boolean exportData() throws IOException;
+	public boolean exportData();
 
 	public boolean importData();
 	
