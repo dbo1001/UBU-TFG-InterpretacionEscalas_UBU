@@ -1,6 +1,5 @@
 package connection.manageService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,7 +8,6 @@ import javax.persistence.NoResultException;
 import connection.ConnectionError;
 import connection.ConnectionException;
 import connection.ServiceImpl;
-import model.Alumno;
 import model.Aula;
 import model.Profesor;
 
@@ -191,14 +189,6 @@ public class TeacherServiceImpl extends ServiceImpl implements ManageService<Pro
 				|| super.noNumberPattern.matcher(tea.getNif().substring(0, 7)).find()
 				|| super.noCapsLetterPattern.matcher(tea.getNif().substring(8, 8)).find()) {
 			throw new ConnectionException(ConnectionError.WRONG_NIF);
-		}
-
-		if (tea.getContrasena().equals("")) {
-			throw new ConnectionException(ConnectionError.FIELD_IS_EMPTY);
-		} else if (tea.getContrasena().length() > 64 || tea.getContrasena().length() < 8) {
-			throw new ConnectionException(ConnectionError.WRONG_PASSWORD_LENGTH);
-		} else if (super.passPattern.matcher(tea.getContrasena()).find()) {
-			throw new ConnectionException(ConnectionError.WRONF_PASSWORD);
 		}
 
 		if (tea.getNotas().length() > 1000) {

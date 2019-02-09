@@ -9,7 +9,6 @@ import javax.persistence.NoResultException;
 import connection.ConnectionError;
 import connection.ConnectionException;
 import connection.ServiceImpl;
-import model.Aula;
 import model.Evaluacion;
 import model.Puntuacion;
 

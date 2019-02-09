@@ -181,12 +181,12 @@ public class IOControlImpl implements IOControl {
 
 						retrys = 0;
 
-						info.close();
-						info.setContentText(info.getContentText() + "OK\nSubiendo el archivo los archivos evaluaciones.csv y puntuaciones.csv ...");
-						info.show();
-
 						System.out.println("Aulas exportados correctamente.");
 					}
+					
+					info.close();
+					info.setContentText(info.getContentText() + "OK\nSubiendo el archivo los archivos evaluaciones.csv y puntuaciones.csv ...");
+					info.show();
 
 					for (Aula cla : this.currentTeacherClassrooms) {
 						String PATH_CLASSROOM = cla.getNombre() + "/";

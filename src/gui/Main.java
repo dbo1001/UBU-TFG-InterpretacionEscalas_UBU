@@ -29,8 +29,6 @@ import gui.view.teacher.TeacherManageViewController;
 import gui.view.teacher.TeacherViewController;
 import io.IOControl;
 import io.IOControlImpl;
-import io.csv.CSVControl;
-import io.csv.CSVUtil;
 import gui.view.graphs.EvaluationSelectionViewController;
 import gui.view.graphs.GraphSelectionViewController;
 import gui.view.graphs.GraphViewController;
@@ -428,18 +426,18 @@ public class Main extends Application {
 		} else {
 			currentCla = Main.currentTeacher.getAulas();
 		}
-		
+
 		io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
 				Main.classroomService.getAll(), currentCla);
-	
+
 		try {
 			alert.setTitle("Importando datos...");
 			alert.show();
-			
-			if(!io.importData()) {
+
+			if (!io.importData()) {
 				return result;
 			}
-			
+
 			alert.setContentText("Leyendo ficheros... ");
 			List<Alumno> newStu = io.readStudentsCSV(PATH_LOCAL + "alumnos.csv");
 			List<Profesor> newTea = io.readTeachersCSV(PATH_LOCAL + "profesores.csv");
@@ -448,7 +446,7 @@ public class Main extends Application {
 			alert.setContentText(
 					alert.getContentText() + "OK\nActualizando base de datos...\n\tImportando profesores...");
 			alert.show();
-	
+
 			for (Profesor tea : newTea) {
 				Profesor oldTea = Main.teacherService.getOne(tea.getNif());
 				if (oldTea != null) {
@@ -466,11 +464,11 @@ public class Main extends Application {
 					Main.teacherService.add(nuevoProfesor);
 				}
 			}
-	
+
 			alert.close();
 			alert.setContentText(alert.getContentText() + "OK\n\tImportando aulas...");
 			alert.show();
-	
+
 			for (Aula cla : newCla) {
 				Aula oldCla = Main.getClassroomService().getOne(cla.getNombre());
 				List<Profesor> profesoresAsociados = new ArrayList<Profesor>();
@@ -494,11 +492,11 @@ public class Main extends Application {
 					Main.classroomService.add(nuevaAula);
 				}
 			}
-	
+
 			alert.close();
 			alert.setContentText(alert.getContentText() + "OK\n\tImportando alumnos...");
 			alert.show();
-	
+
 			for (Alumno stu : newStu) {
 				Alumno oldStu = Main.studentService.getOne(stu.getCodigo());
 				Aula aulaAsociada = Main.getClassroomService().getOne(stu.getAula().getNombre());
@@ -520,23 +518,23 @@ public class Main extends Application {
 					Main.studentService.add(nuevoAlu);
 				}
 			}
-	
+
 			alert.close();
 			alert.setContentText(alert.getContentText() + "OK\n\tImportando evaluaciones...");
 			alert.show();
-	
+
 			for (Aula cla : currentCla) {
 				String PATH_CLA = PATH_EVALUATIONS + cla.getNombre() + "/";
 				List<Evaluacion> newEva = io.readEvaluationsCSV(PATH_CLA + "evaluaciones.csv");
 				List<Puntuacion> newPun = io.readPuntuationsCSV(PATH_CLA + "puntuaciones.csv");
 				List<Puntuacion> puntuacionesClasificadas = new ArrayList<Puntuacion>();
-				
+
 				for (Evaluacion eva : newEva) {
 					Evaluacion oldEva = Main.getEvaluationService().getOne(eva.getFecha());
 					Evaluacion nuevaEvaluacion = new Evaluacion();
 					Alumno alumnoAsociado = Main.getStudentService().getOne(eva.getAlumno().getCodigo());
 					eva.setAlumno(alumnoAsociado);
-					
+
 					if (oldEva != null) {
 						nuevaEvaluacion = eva;
 						nuevaEvaluacion.getPuntuacions().clear();
@@ -545,9 +543,9 @@ public class Main extends Application {
 						nuevaEvaluacion.setFecha(eva.getFecha());
 						nuevaEvaluacion.setAlumno(eva.getAlumno());
 					}
-		
+
 					for (Puntuacion pun : newPun) {
-						if (pun.getEvaluacion().getFecha().getTime() ==eva.getFecha().getTime()) {
+						if (pun.getEvaluacion().getFecha().getTime() == eva.getFecha().getTime()) {
 							if (oldEva != null && oldEva.getPuntuacions().contains(pun)) {
 								Puntuacion oldPun = oldEva.getPuntuacions().get(oldEva.getPuntuacions().indexOf(pun));
 								oldPun.setValoracion(pun.getValoracion());
@@ -560,23 +558,23 @@ public class Main extends Application {
 								nuevaEvaluacion.getPuntuacions().add(nuevaPuntuacion);
 								pun.setEvaluacion(nuevaEvaluacion);
 							}
-							
+
 							puntuacionesClasificadas.add(pun);
 						}
 					}
-	
+
 					newPun.removeAll(puntuacionesClasificadas);
 					puntuacionesClasificadas.clear();
-	
+
 					if (oldEva != null) {
 						Main.evaluationService.edit(nuevaEvaluacion);
 					} else {
 						Main.evaluationService.add(nuevaEvaluacion);
 					}
 				}
-	
+
 			}
-			
+
 			alert.close();
 			alert.setContentText(alert.getContentText() + "OK\nTodos los datos han sido importados con EXITO.");
 			alert.show();
@@ -584,7 +582,8 @@ public class Main extends Application {
 		} catch (FileNotFoundException ex) {
 			Alert error = new Alert(AlertType.ERROR);
 			error.setTitle("Error, archivo no encontrado.");
-			error.setContentText("Alguno de los archivos no se han encontrado en el directorio \"/ioData\" dentro de la carpeta raiz de la aplicacion.\nEs posible que haya habído un error al descargar los archivos de la nube.");
+			error.setContentText(
+					"Alguno de los archivos no se han encontrado en el directorio \"/ioData\" dentro de la carpeta raiz de la aplicacion.\nEs posible que haya habído un error al descargar los archivos de la nube.");
 			error.showAndWait();
 			ex.printStackTrace();
 		} catch (Exception ex2) {
@@ -594,22 +593,18 @@ public class Main extends Application {
 			error.showAndWait();
 			ex2.printStackTrace();
 		}
-	
+
 		return result;
 	}
 
 	public static void exportData() {
 		IOControl io;
-		if (!Main.currentTeacher.getPermisos()) {
-			io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
-					Main.classroomService.getAll(), Main.currentTeacher.getAulas());
-		}else {
-			io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
-					Main.classroomService.getAll(), Main.getClassroomService().getAll());
-		}
-		
+
+		io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
+				Main.classroomService.getAll(), Main.currentTeacher.getAulas());
+
 		io.exportData();
-		
+
 	}
 
 	public static void goBack() {

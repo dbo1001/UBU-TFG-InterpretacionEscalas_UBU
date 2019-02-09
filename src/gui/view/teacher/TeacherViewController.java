@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import connection.ConnectionError;
 import connection.ConnectionException;
+import gui.Controller;
 import gui.Main;
 import gui.SelectorController;
 import javafx.fxml.FXML;
@@ -82,11 +84,19 @@ public class TeacherViewController extends SelectorController<Aula> {
 		tea.setApellido2(this.surname2.getText());
 		tea.setNif(this.NIF.getText());
 		tea.setNotas(this.description.getText());
-		tea.setContrasena(this.password.getText());
 		tea.setPermisos(this.rights.getSelectionModel().getSelectedItem().equals("No") ? false : true);
 		tea.setAulas(super.getSelectedObjects());
 
 		try {
+			if (this.password.getText().equals("")) {
+				throw new ConnectionException(ConnectionError.FIELD_IS_EMPTY);
+			}else if(super.passPattern.matcher(this.password.getText()).find()) {
+				throw new ConnectionException(ConnectionError.WRONF_PASSWORD);
+			}else if(this.password.getText().length() < 8){
+				throw new ConnectionException(ConnectionError.WRONG_PASSWORD_LENGTH);
+			}else {
+				tea.setContrasena(Controller.encryptPassword(this.password.getText()));
+			}
 			if (Main.getTeacherService().add(tea)) {
 				Alert alert = new Alert(AlertType.INFORMATION, "El nuevo profesor se ha creado correctamente",
 						ButtonType.OK);

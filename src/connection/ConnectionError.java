@@ -11,6 +11,7 @@ public enum ConnectionError {
 	WRONG_ADMIN_RIGHTS("ERROR: No puedes quitarle los permisos de edición a la cuenta de administrador"),
 	WRONG_CODE("ERROR: La longitud del código debe ser inferior a 30 carácteres."),
 	WRONF_PASSWORD("ERROR: La contraseña no puede contener ninguno de los carácteres que hay entre los paréntesis ( , ; . : \" \' ), los paréntesis sí pueden usarse."),
+	THERE_ARE_NO_CLASSROOMS("ERROR: No hay ninguna aula a la que puedas añadir el alumno. Crea un aula primero y vuelve a intentarlo."),
 	THERE_IS_NO_PUNTUATIONS("ERROR: No puedes crear una evaluación sin poner por al menos una nota a un item."),
 	CANT_DELETE_ADMIN("ERROR: No puedes eliminar la cuenta de administrador (ADMIN)."),
 	CANT_DELETE_CLASSROOM("ERROR: No puedes borrar este aula porque aún tiene alumnos asignados."),

@@ -213,6 +213,9 @@ public class TeacherManageViewController extends Controller {
 			});
 			delete.setOnMouseEntered(mouseOver);
 			delete.setOnMouseExited(mouseLeft);
+			if(this.teacher.getNif().equals("00000000A")) {
+				delete.setDisable(true);
+			}
 		}
 
 		public String getNombre() {

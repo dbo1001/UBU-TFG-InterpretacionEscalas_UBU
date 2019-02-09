@@ -10,9 +10,6 @@ import connection.ConnectionError;
 import connection.ConnectionException;
 import connection.ServiceImpl;
 import model.Alumno;
-import model.Aula;
-import model.Evaluacion;
-import model.Puntuacion;
 
 public class StudentServiceImpl extends ServiceImpl implements ManageService<Alumno, String> {
 
@@ -144,6 +141,12 @@ public class StudentServiceImpl extends ServiceImpl implements ManageService<Alu
 	}
 
 	private boolean checkFields(Alumno stu) throws ConnectionException {
+		
+		if (stu.getAula() == null) {
+			throw new ConnectionException(ConnectionError.THERE_ARE_NO_CLASSROOMS);
+		}else if (!stu.getAula().getAlumnos().contains(stu) && stu.getAula().getAlumnos().size() >= stu.getAula().getCapacidad()) {
+			throw new ConnectionException(ConnectionError.CLASSROOM_IS_FULL);
+		}
 
 		if (stu.getNombre().equals("")) {
 			throw new ConnectionException(ConnectionError.FIELD_IS_EMPTY);
@@ -180,10 +183,6 @@ public class StudentServiceImpl extends ServiceImpl implements ManageService<Alu
 
 		if (stu.getNotas().length() > 1000) {
 			throw new ConnectionException(ConnectionError.DESCRIPTION_TOO_LONG);
-		}
-
-		if (!stu.getAula().getAlumnos().contains(stu) && stu.getAula().getAlumnos().size() >= stu.getAula().getCapacidad()) {
-			throw new ConnectionException(ConnectionError.CLASSROOM_IS_FULL);
 		}
 
 		return true;

@@ -12,7 +12,6 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.layout.BorderPane;
-import model.Alumno;
 import model.Areafuncional;
 import model.Categorizacion;
 import model.Evaluacion;

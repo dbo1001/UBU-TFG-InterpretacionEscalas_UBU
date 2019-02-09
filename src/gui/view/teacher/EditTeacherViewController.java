@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import connection.ConnectionError;
 import connection.ConnectionException;
+import gui.Controller;
 import gui.Main;
 import gui.SelectorController;
 import javafx.fxml.FXML;
@@ -83,8 +85,7 @@ public class EditTeacherViewController extends SelectorController<Aula> {
 		this.surname2.setText(tea.getApellido2());
 		this.NIF.setText(tea.getNif());
 		this.description.setText(this.tea.getNotas());
-		this.rights.getSelectionModel().select(this.tea.getPermisos() == true ? "S�" : "No");
-		this.password.setText(tea.getContrasena().replaceAll("\\s", ""));
+		this.rights.getSelectionModel().select(this.tea.getPermisos() == true ? "Sí" : "No");
 		
 		
 		super.initialize(callback, this.listAllClassrooms, new SortClassroom());
@@ -109,11 +110,20 @@ public class EditTeacherViewController extends SelectorController<Aula> {
 		tea.setApellido2(this.surname2.getText());
 		tea.setNif(this.NIF.getText());
 		tea.setNotas(this.description.getText());
-		tea.setContrasena(this.password.getText());
 		tea.setPermisos(this.rights.getSelectionModel().getSelectedItem().equals("No") ? false : true);
 		tea.setAulas(super.getSelectedObjects());
 
 		try {
+			if(!this.password.getText().equals("")) {
+				if(super.passPattern.matcher(this.password.getText()).find()) {
+					throw new ConnectionException(ConnectionError.WRONF_PASSWORD);
+				}else if(this.password.getText().length() < 8){
+					throw new ConnectionException(ConnectionError.WRONG_PASSWORD_LENGTH);
+				}else {
+					tea.setContrasena(Controller.encryptPassword(this.password.getText()));
+				}
+				
+			}
 			if (Main.getTeacherService().edit(tea)) {
 				Alert alert = new Alert(AlertType.INFORMATION, "El profesor se ha modificado correctamente",
 						ButtonType.OK);

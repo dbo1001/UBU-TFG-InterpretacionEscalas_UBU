@@ -9,7 +9,6 @@ import connection.ConnectionError;
 import connection.ConnectionException;
 import connection.ServiceImpl;
 import model.Aula;
-import model.Evaluacion;
 import model.Profesor;
 
 public class ClassroomServiceImpl extends ServiceImpl implements ManageService<Aula, String> {
