@@ -147,7 +147,7 @@ public class ClassroomManageViewController extends Controller {
 							"Los siguiente alumnos pertenecen al aula " + cla.getNombre() + ":\n");
 					for (Alumno stu : cla.getAlumnos()) {
 						alert.setContentText(alert.getContentText() + "\n Nombre: " + stu.getApellido1() + " "
-								+ stu.getApellido2() + ", " + stu.getNombre() + " 		C�digo: " + stu.getCodigo());
+								+ stu.getApellido2() + ", " + stu.getNombre() + " 		Código: " + stu.getCodigo());
 					}
 					alert.setContentText(alert.getContentText()+"\n");
 					alert.showAndWait();
@@ -171,7 +171,7 @@ public class ClassroomManageViewController extends Controller {
 						Main.showEditClassroomView(cla);
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
-								"Ha ocurrido un error desconocido, porfavor reinicie la aplicaci�n. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecuci�n)");
+								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
 						alert.showAndWait();
 						e1.printStackTrace();
 					}
@@ -194,7 +194,7 @@ public class ClassroomManageViewController extends Controller {
 						Main.deleteClassroom(cla);
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
-								"Ha ocurrido un error desconocido, porfavor reinicie la aplicaci�n. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecuci�n)");
+								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
 						alert.showAndWait();
 						e1.printStackTrace();
 					}

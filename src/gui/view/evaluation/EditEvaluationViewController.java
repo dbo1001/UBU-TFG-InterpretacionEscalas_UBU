@@ -55,11 +55,11 @@ public class EditEvaluationViewController extends Controller {
 			ScrollPane scrollPane = new ScrollPane();
 			scrollPane.setPadding(new Insets(5, 20, 0, 20));
 			GridPane gridPane = new GridPane();
-			Text studentName = new Text("*Creando nueva evaluación para " + this.stu.getNombre() + " "
+			Text studentName = new Text("*Editando evaluaciÃ³n del dÃ­a " + this.eva.getFecha().toString().substring(0, 19)+" perteneciente al alumno/a: " + this.stu.getNombre() + " "
 					+ this.stu.getApellido1() + " " + this.stu.getApellido2());
 			studentName.getStyleClass().add("littleText");
 			Text advise = new Text(
-					"**Se evaluará el grado de adquisición de la habilidad en una escala de tipo Likert de 1 a 5 donde 1 = nunca o nada 5 = todo o siempre.");
+					"**Se evaluarÃ¡ el grado de adquisiciÃ³n de la habilidad en una escala de tipo Likert de 1 a 5 donde 1 = nunca o nada 5 = todo o siempre.");
 			advise.getStyleClass().add("littleText");
 			/*
 			 * AnchorPane anchorPane = new AnchorPane(); AnchorPane.setRightAnchor(gridPane,
@@ -178,7 +178,7 @@ public class EditEvaluationViewController extends Controller {
 		}
 		try {
 			if (Main.getEvaluationService().edit(eva)) {
-				Alert alert = new Alert(AlertType.INFORMATION, "La evaluación se ha actualizado correctamente",
+				Alert alert = new Alert(AlertType.INFORMATION, "La evaluaciï¿½n se ha actualizado correctamente",
 						ButtonType.OK);
 				alert.showAndWait();
 				Main.setModifiedData(false);

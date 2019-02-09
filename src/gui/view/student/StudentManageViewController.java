@@ -172,7 +172,7 @@ public class StudentManageViewController extends Controller {
 						Main.showEvaluationManageView(stu);
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
-								"Ha ocurrido un error desconocido, porfavor reinicie la aplicaci�n. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecuci�n)");
+								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
 						alert.showAndWait();
 						e1.printStackTrace();
 					}
@@ -190,7 +190,7 @@ public class StudentManageViewController extends Controller {
 						Main.showEditStudentView(stu);
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
-								"Ha ocurrido un error desconocido, porfavor reinicie la aplicaci�n. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecuci�n)");
+								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
 						alert.showAndWait();
 						e1.printStackTrace();
 					}
@@ -208,7 +208,7 @@ public class StudentManageViewController extends Controller {
 						Main.deleteStudent(stu);
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
-								"Ha ocurrido un error desconocido, porfavor reinicie la aplicaci�n. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecuci�n)");
+								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
 						alert.showAndWait();
 						e1.printStackTrace();
 					}

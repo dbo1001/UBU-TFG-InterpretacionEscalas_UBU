@@ -335,8 +335,8 @@ public class Main extends Application {
 
 	public static void deleteStudent(Alumno stu) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION,
-				"�Est�s seguro de que quieres borrar el alumno/a: " + stu.getNombre() + " " + stu.getApellido1() + " "
-						+ stu.getApellido2() + "?\n" + "Los cambios ser�n definitivos.",
+				"¿Estás seguro de que quieres borrar el alumno/a: " + stu.getNombre() + " " + stu.getApellido1() + " "
+						+ stu.getApellido2() + "?\n" + "Los cambios serán definitivos.",
 				ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
 		alert.showAndWait();
 
@@ -356,8 +356,8 @@ public class Main extends Application {
 
 	public static void deleteTeacher(Profesor tea) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION,
-				"�Est�s seguro de que quieres borrar el profesor/a: " + tea.getNombre() + " " + tea.getApellido1() + " "
-						+ tea.getApellido2() + "?\n" + "Los cambios ser�n definitivos.",
+				"¿Estás seguro de que quieres borrar el profesor/a: " + tea.getNombre() + " " + tea.getApellido1() + " "
+						+ tea.getApellido2() + "?\n" + "Los cambios serán definitivos.",
 				ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
 		alert.showAndWait();
 
@@ -377,8 +377,8 @@ public class Main extends Application {
 	}
 
 	public static void deleteClassroom(Aula cla) throws IOException {
-		Alert alert = new Alert(AlertType.CONFIRMATION, "�Est�s seguro de que quieres borrar el aula: "
-				+ cla.getNombre() + " ?\n" + "Los cambios ser�n definitivos.", ButtonType.YES, ButtonType.NO,
+		Alert alert = new Alert(AlertType.CONFIRMATION, "¿Estás seguro de que quieres borrar el aula: "
+				+ cla.getNombre() + " ?\n" + "Los cambios serán definitivos.", ButtonType.YES, ButtonType.NO,
 				ButtonType.CANCEL);
 		alert.showAndWait();
 
@@ -401,10 +401,10 @@ public class Main extends Application {
 
 	public static void deleteEvaluation(Evaluacion eva) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION,
-				"�Est�s seguro de que quieres borrar la evaluaci�n con fecha "
-						+ eva.getFecha().toString().substring(0, 16) + " del alumno/a " + eva.getAlumno().getApellido1()
+				"¿Estás seguro de que quieres borrar la evaluación con fecha "
+						+ eva.getFecha().toString().substring(0, 19) + " del alumno/a " + eva.getAlumno().getApellido1()
 						+ " " + eva.getAlumno().getApellido2() + ", " + eva.getAlumno().getNombre() + " ?\n"
-						+ "Los cambios ser�n definitivos.",
+						+ "Los cambios serán definitivos.",
 				ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
 		alert.showAndWait();
 
@@ -412,7 +412,7 @@ public class Main extends Application {
 
 			try {
 				if (Main.evaluationService.delete(eva)) {
-					alert = new Alert(AlertType.INFORMATION, "La evaluaci�n se ha borrado correctamente.");
+					alert = new Alert(AlertType.INFORMATION, "La evaluación se ha borrado correctamente.");
 					alert.showAndWait();
 					Main.showManageView();
 				}
@@ -423,6 +423,201 @@ public class Main extends Application {
 
 		}
 
+	}
+
+	public static boolean importData() {
+		boolean result = false;
+		List<Aula> currentCla;
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+		IOControl io;
+		if (Main.currentTeacher.getPermisos()) {
+			currentCla = Main.getClassroomService().getAll();
+		} else {
+			currentCla = Main.currentTeacher.getAulas();
+		}
+		
+		io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
+				Main.classroomService.getAll(), currentCla);
+	
+		try {
+			alert.setTitle("Importando datos...");
+			alert.show();
+			
+			if(!io.importData()) {
+				return result;
+			}
+			
+			alert.setContentText("Leyendo ficheros... ");
+			List<Alumno> newStu = io.readStudentsCSV(PATH_LOCAL + "alumnos.csv");
+			List<Profesor> newTea = io.readTeachersCSV(PATH_LOCAL + "profesores.csv");
+			List<Aula> newCla = io.readClassroomsCSV(PATH_LOCAL + "aulas.csv");
+			alert.close();
+			alert.setContentText(
+					alert.getContentText() + "OK\nActualizando base de datos...\n\tImportando profesores...");
+			alert.show();
+	
+			for (Profesor tea : newTea) {
+				Profesor oldTea = Main.teacherService.getOne(tea.getNif());
+				if (oldTea != null) {
+					tea.setId(oldTea.getId());
+					Main.teacherService.edit(tea);
+				} else {
+					Profesor nuevoProfesor = new Profesor();
+					nuevoProfesor.setApellido1(tea.getApellido1());
+					nuevoProfesor.setApellido2(tea.getApellido2());
+					nuevoProfesor.setContrasena(tea.getContrasena());
+					nuevoProfesor.setNif(tea.getNif());
+					nuevoProfesor.setNombre(tea.getNombre());
+					nuevoProfesor.setNotas(tea.getNotas());
+					nuevoProfesor.setPermisos(tea.getPermisos());
+					Main.teacherService.add(nuevoProfesor);
+				}
+			}
+	
+			alert.close();
+			alert.setContentText(alert.getContentText() + "OK\n\tImportando aulas...");
+			alert.show();
+	
+			for (Aula cla : newCla) {
+				Aula oldCla = Main.getClassroomService().getOne(cla.getNombre());
+				List<Profesor> profesoresAsociados = new ArrayList<Profesor>();
+				for (Profesor tea : cla.getProfesors()) {
+					Profesor profesorAsociado = Main.getTeacherService().getOne(tea.getNif());
+					if (profesorAsociado != null) {
+						profesoresAsociados.add(profesorAsociado);
+					}
+				}
+				if (oldCla != null) {
+					cla.setId(oldCla.getId());
+					cla.getProfesors().clear();
+					cla.getProfesors().addAll(profesoresAsociados);
+					Main.classroomService.edit(cla);
+				} else {
+					Aula nuevaAula = new Aula();
+					nuevaAula.setCapacidad(cla.getCapacidad());
+					nuevaAula.setNombre(cla.getNombre());
+					nuevaAula.setNotas(cla.getNotas());
+					nuevaAula.getProfesors().addAll(profesoresAsociados);
+					Main.classroomService.add(nuevaAula);
+				}
+			}
+	
+			alert.close();
+			alert.setContentText(alert.getContentText() + "OK\n\tImportando alumnos...");
+			alert.show();
+	
+			for (Alumno stu : newStu) {
+				Alumno oldStu = Main.studentService.getOne(stu.getCodigo());
+				Aula aulaAsociada = Main.getClassroomService().getOne(stu.getAula().getNombre());
+				if (oldStu != null) {
+					stu.setId(oldStu.getId());
+					stu.setAula(aulaAsociada);
+					Main.studentService.edit(stu);
+				} else {
+					Alumno nuevoAlu = new Alumno();
+					nuevoAlu.setNombre(stu.getNombre());
+					nuevoAlu.setApellido1(stu.getApellido1());
+					nuevoAlu.setApellido2(stu.getApellido2());
+					nuevoAlu.setAula(aulaAsociada);
+					nuevoAlu.setCodigo(stu.getCodigo());
+					nuevoAlu.setDireccion(stu.getDireccion());
+					nuevoAlu.setEvaluacions(stu.getEvaluacions());
+					nuevoAlu.setFechaNacimiento(stu.getFechaNacimiento());
+					nuevoAlu.setNotas(stu.getNotas());
+					Main.studentService.add(nuevoAlu);
+				}
+			}
+	
+			alert.close();
+			alert.setContentText(alert.getContentText() + "OK\n\tImportando evaluaciones...");
+			alert.show();
+	
+			for (Aula cla : currentCla) {
+				String PATH_CLA = PATH_EVALUATIONS + cla.getNombre() + "/";
+				List<Evaluacion> newEva = io.readEvaluationsCSV(PATH_CLA + "evaluaciones.csv");
+				List<Puntuacion> newPun = io.readPuntuationsCSV(PATH_CLA + "puntuaciones.csv");
+				List<Puntuacion> puntuacionesClasificadas = new ArrayList<Puntuacion>();
+				
+				for (Evaluacion eva : newEva) {
+					Evaluacion oldEva = Main.getEvaluationService().getOne(eva.getFecha());
+					Evaluacion nuevaEvaluacion = new Evaluacion();
+					Alumno alumnoAsociado = Main.getStudentService().getOne(eva.getAlumno().getCodigo());
+					eva.setAlumno(alumnoAsociado);
+					
+					if (oldEva != null) {
+						nuevaEvaluacion = eva;
+						nuevaEvaluacion.getPuntuacions().clear();
+						nuevaEvaluacion.setId(oldEva.getId());
+					} else {
+						nuevaEvaluacion.setFecha(eva.getFecha());
+						nuevaEvaluacion.setAlumno(eva.getAlumno());
+					}
+		
+					for (Puntuacion pun : newPun) {
+						if (pun.getEvaluacion().getFecha().getTime() ==eva.getFecha().getTime()) {
+							if (oldEva != null && oldEva.getPuntuacions().contains(pun)) {
+								Puntuacion oldPun = oldEva.getPuntuacions().get(oldEva.getPuntuacions().indexOf(pun));
+								oldPun.setValoracion(pun.getValoracion());
+								nuevaEvaluacion.getPuntuacions().add(oldPun);
+							} else {
+								Puntuacion nuevaPuntuacion = new Puntuacion();
+								nuevaPuntuacion.setEvaluacion(nuevaEvaluacion);
+								nuevaPuntuacion.setItem(pun.getItem());
+								nuevaPuntuacion.setValoracion(pun.getValoracion());
+								nuevaEvaluacion.getPuntuacions().add(nuevaPuntuacion);
+								pun.setEvaluacion(nuevaEvaluacion);
+							}
+							
+							puntuacionesClasificadas.add(pun);
+						}
+					}
+	
+					newPun.removeAll(puntuacionesClasificadas);
+					puntuacionesClasificadas.clear();
+	
+					if (oldEva != null) {
+						Main.evaluationService.edit(nuevaEvaluacion);
+					} else {
+						Main.evaluationService.add(nuevaEvaluacion);
+					}
+				}
+	
+			}
+			
+			alert.close();
+			alert.setContentText(alert.getContentText() + "OK\nTodos los datos han sido importados con EXITO.");
+			alert.show();
+			result = true;
+		} catch (FileNotFoundException ex) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Error, archivo no encontrado.");
+			error.setContentText("Alguno de los archivos no se han encontrado en el directorio \"/ioData\" dentro de la carpeta raiz de la aplicacion.\nEs posible que haya habído un error al descargar los archivos de la nube.");
+			error.showAndWait();
+			ex.printStackTrace();
+		} catch (Exception ex2) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Error desconocido.");
+			error.setContentText("Ha ocurrido un error desconocido al importar los datos.");
+			error.showAndWait();
+			ex2.printStackTrace();
+		}
+	
+		return result;
+	}
+
+	public static void exportData() {
+		IOControl io;
+		if (!Main.currentTeacher.getPermisos()) {
+			io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
+					Main.classroomService.getAll(), Main.currentTeacher.getAulas());
+		}else {
+			io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
+					Main.classroomService.getAll(), Main.getClassroomService().getAll());
+		}
+		
+		io.exportData();
+		
 	}
 
 	public static void goBack() {
@@ -475,201 +670,6 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
-	}
-
-	public static boolean importData() {
-		boolean result = false;
-		List<Aula> currentCla;
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-		IOControl io;
-		if (Main.currentTeacher.getPermisos()) {
-			currentCla = Main.getClassroomService().getAll();
-		} else {
-			currentCla = Main.currentTeacher.getAulas();
-		}
-		
-		io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
-				Main.classroomService.getAll(), currentCla);
-
-		try {
-			alert.setTitle("Importando datos...");
-			alert.show();
-			
-			if(!io.importData()) {
-				return result;
-			}
-			
-			alert.setContentText("Leyendo ficheros... ");
-			List<Alumno> newStu = io.readStudentsCSV(PATH_LOCAL + "alumnos.csv");
-			List<Profesor> newTea = io.readTeachersCSV(PATH_LOCAL + "profesores.csv");
-			List<Aula> newCla = io.readClassroomsCSV(PATH_LOCAL + "aulas.csv");
-			alert.close();
-			alert.setContentText(
-					alert.getContentText() + "OK\nActualizando base de datos...\n\tImportando profesores...");
-			alert.show();
-
-			for (Profesor tea : newTea) {
-				Profesor oldTea = Main.teacherService.getOne(tea.getNif());
-				if (oldTea != null) {
-					tea.setId(oldTea.getId());
-					Main.teacherService.edit(tea);
-				} else {
-					Profesor nuevoProfesor = new Profesor();
-					nuevoProfesor.setApellido1(tea.getApellido1());
-					nuevoProfesor.setApellido2(tea.getApellido2());
-					nuevoProfesor.setContrasena(tea.getContrasena());
-					nuevoProfesor.setNif(tea.getNif());
-					nuevoProfesor.setNombre(tea.getNombre());
-					nuevoProfesor.setNotas(tea.getNotas());
-					nuevoProfesor.setPermisos(tea.getPermisos());
-					Main.teacherService.add(nuevoProfesor);
-				}
-			}
-
-			alert.close();
-			alert.setContentText(alert.getContentText() + "OK\n\tImportando aulas...");
-			alert.show();
-
-			for (Aula cla : newCla) {
-				Aula oldCla = Main.getClassroomService().getOne(cla.getNombre());
-				List<Profesor> profesoresAsociados = new ArrayList<Profesor>();
-				for (Profesor tea : cla.getProfesors()) {
-					Profesor profesorAsociado = Main.getTeacherService().getOne(tea.getNif());
-					if (profesorAsociado != null) {
-						profesoresAsociados.add(profesorAsociado);
-					}
-				}
-				if (oldCla != null) {
-					cla.setId(oldCla.getId());
-					cla.getProfesors().clear();
-					cla.getProfesors().addAll(profesoresAsociados);
-					Main.classroomService.edit(cla);
-				} else {
-					Aula nuevaAula = new Aula();
-					nuevaAula.setCapacidad(cla.getCapacidad());
-					nuevaAula.setNombre(cla.getNombre());
-					nuevaAula.setNotas(cla.getNotas());
-					nuevaAula.getProfesors().addAll(profesoresAsociados);
-					Main.classroomService.add(nuevaAula);
-				}
-			}
-
-			alert.close();
-			alert.setContentText(alert.getContentText() + "OK\n\tImportando alumnos...");
-			alert.show();
-
-			for (Alumno stu : newStu) {
-				Alumno oldStu = Main.studentService.getOne(stu.getCodigo());
-				Aula aulaAsociada = Main.getClassroomService().getOne(stu.getAula().getNombre());
-				if (oldStu != null) {
-					stu.setId(oldStu.getId());
-					stu.setAula(aulaAsociada);
-					Main.studentService.edit(stu);
-				} else {
-					Alumno nuevoAlu = new Alumno();
-					nuevoAlu.setNombre(stu.getNombre());
-					nuevoAlu.setApellido1(stu.getApellido1());
-					nuevoAlu.setApellido2(stu.getApellido2());
-					nuevoAlu.setAula(aulaAsociada);
-					nuevoAlu.setCodigo(stu.getCodigo());
-					nuevoAlu.setDireccion(stu.getDireccion());
-					nuevoAlu.setEvaluacions(stu.getEvaluacions());
-					nuevoAlu.setFechaNacimiento(stu.getFechaNacimiento());
-					nuevoAlu.setNotas(stu.getNotas());
-					Main.studentService.add(nuevoAlu);
-				}
-			}
-
-			alert.close();
-			alert.setContentText(alert.getContentText() + "OK\n\t Importando evaluaciones...");
-			alert.show();
-
-			for (Aula cla : currentCla) {
-				String PATH_CLA = PATH_EVALUATIONS + cla.getNombre() + "/";
-				List<Evaluacion> newEva = io.readEvaluationsCSV(PATH_CLA + "evaluaciones.csv");
-				List<Puntuacion> newPun = io.readPuntuationsCSV(PATH_CLA + "puntuaciones.csv");
-				List<Puntuacion> puntuacionesClasificadas = new ArrayList<Puntuacion>();
-				
-				for (Evaluacion eva : newEva) {
-					Evaluacion oldEva = Main.getEvaluationService().getOne(eva.getFecha());
-					Evaluacion nuevaEvaluacion = new Evaluacion();
-					Alumno alumnoAsociado = Main.getStudentService().getOne(eva.getAlumno().getCodigo());
-					eva.setAlumno(alumnoAsociado);
-					
-					if (oldEva != null) {
-						nuevaEvaluacion = eva;
-						nuevaEvaluacion.getPuntuacions().clear();
-						nuevaEvaluacion.setId(oldEva.getId());
-					} else {
-						nuevaEvaluacion.setFecha(eva.getFecha());
-						nuevaEvaluacion.setAlumno(eva.getAlumno());
-					}
-		
-					for (Puntuacion pun : newPun) {
-						if (pun.getEvaluacion().getFecha().getTime() ==eva.getFecha().getTime()) {
-							if (oldEva != null && oldEva.getPuntuacions().contains(pun)) {
-								Puntuacion oldPun = oldEva.getPuntuacions().get(oldEva.getPuntuacions().indexOf(pun));
-								oldPun.setValoracion(pun.getValoracion());
-								nuevaEvaluacion.getPuntuacions().add(oldPun);
-							} else {
-								Puntuacion nuevaPuntuacion = new Puntuacion();
-								nuevaPuntuacion.setEvaluacion(nuevaEvaluacion);
-								nuevaPuntuacion.setItem(pun.getItem());
-								nuevaPuntuacion.setValoracion(pun.getValoracion());
-								nuevaEvaluacion.getPuntuacions().add(nuevaPuntuacion);
-								pun.setEvaluacion(nuevaEvaluacion);
-							}
-							
-							puntuacionesClasificadas.add(pun);
-						}
-					}
-
-					newPun.removeAll(puntuacionesClasificadas);
-					puntuacionesClasificadas.clear();
-
-					if (oldEva != null) {
-						Main.evaluationService.edit(nuevaEvaluacion);
-					} else {
-						Main.evaluationService.add(nuevaEvaluacion);
-					}
-				}
-
-			}
-			
-			alert.close();
-			alert.setContentText(alert.getContentText() + "OK\nTodos los datos han sido importados con EXITO.");
-			alert.show();
-			result = true;
-		} catch (FileNotFoundException ex) {
-			Alert error = new Alert(AlertType.ERROR);
-			error.setTitle("Error, archivo no encontrado.");
-			error.setContentText("Alguno de los archivos no se han encontrado en el directorio \"/ioData\" dentro de la carpeta raiz de la aplicacion.\nEs posible que haya habído un error al descargar los archivos de la nube.");
-			error.showAndWait();
-			ex.printStackTrace();
-		} catch (Exception ex2) {
-			Alert error = new Alert(AlertType.ERROR);
-			error.setTitle("Error desconocido.");
-			error.setContentText("Ha ocurrido un error desconocido al importar los datos.");
-			error.showAndWait();
-			ex2.printStackTrace();
-		}
-
-		return result;
-	}
-
-	public static void exportData() {
-		IOControl io;
-		if (!Main.currentTeacher.getPermisos()) {
-			io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
-					Main.classroomService.getAll(), Main.currentTeacher.getAulas());
-		}else {
-			io = new IOControlImpl(Main.studentService.getAll(), Main.teacherService.getAll(),
-					Main.classroomService.getAll(), Main.getClassroomService().getAll());
-		}
-		
-		io.exportData();
-		
 	}
 
 }

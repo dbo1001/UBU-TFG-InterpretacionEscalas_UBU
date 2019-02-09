@@ -95,11 +95,6 @@ public class IOControlImpl implements IOControl {
 							Thread.sleep(5000);
 						}
 
-						info.close();
-						info.setContentText(
-								info.getContentText() + "\nDirectorio raíz no existe, se procede a crearlo...\n");
-						info.show();
-
 						System.out.println("No existe el directorio, se procede a crearlo.");
 						OneDriveAPI.createFolder(httpClient, "InterpretacionEscalas_2019_2020");
 						System.out.println(OneDriveAPI.checkDirectory(httpClient, PATH_SOURCE));
@@ -111,8 +106,7 @@ public class IOControlImpl implements IOControl {
 					if (Main.getCurrentTeacher().getPermisos()) {
 
 						info.close();
-						info.setContentText(info.getContentText() + "OK\nSubiendo el archivo: " + PATH_SOURCE
-								+ PATH_LOCAL + STUDENTS_FN + "...");
+						info.setContentText(info.getContentText() + "OK\nSubiendo el archivo: alumnos.csv ...");
 						info.show();
 
 						System.out.println("Fichero raiz listo.");
@@ -139,8 +133,7 @@ public class IOControlImpl implements IOControl {
 						System.out.println("Alumnos exportados correctamente.");
 
 						info.close();
-						info.setContentText(info.getContentText() + "OK\nSubiendo el archivo: " + PATH_SOURCE
-								+ PATH_LOCAL + TEACHERS_FN + "...");
+						info.setContentText(info.getContentText() + "OK\nSubiendo el archivo: profesores.csv ...");
 						info.show();
 
 						System.out.printf("Subiendo fichero de texto a nuevo directorio creado: %s%s%n", PATH_SOURCE,
@@ -163,8 +156,7 @@ public class IOControlImpl implements IOControl {
 						retrys = 0;
 
 						info.close();
-						info.setContentText(info.getContentText() + "OK\nSubiendo el archivo: " + PATH_SOURCE
-								+ PATH_LOCAL + CLASSROOMS_FN + "...");
+						info.setContentText(info.getContentText() + "OK\nSubiendo el archivo: aulas.csv ...");
 						info.show();
 
 						System.out.println("Profesores exportados correctamente.");
@@ -190,8 +182,7 @@ public class IOControlImpl implements IOControl {
 						retrys = 0;
 
 						info.close();
-						info.setContentText(info.getContentText() + "OK\nSubiendo el archivo: " + PATH_SOURCE
-								+ PATH_LOCAL + CLASSROOMS_FN + "...");
+						info.setContentText(info.getContentText() + "OK\nSubiendo el archivo los archivos evaluaciones.csv y puntuaciones.csv ...");
 						info.show();
 
 						System.out.println("Aulas exportados correctamente.");
@@ -199,11 +190,6 @@ public class IOControlImpl implements IOControl {
 
 					for (Aula cla : this.currentTeacherClassrooms) {
 						String PATH_CLASSROOM = cla.getNombre() + "/";
-
-						info.close();
-						info.setContentText(info.getContentText() + "OK\nSubiendo archivos a la carpeta: " + PATH_SOURCE
-								+ PATH_LOCAL + PATH_EVALUATIONS + PATH_CLASSROOM + "...");
-						info.show();
 
 						System.out.printf("Subiendo fichero de texto a nuevo directorio creado: %s%s%n",
 								PATH_SOURCE + PATH_LOCAL, PATH_EVALUATIONS + PATH_CLASSROOM + EVALUATIONS_FN);
@@ -355,13 +341,13 @@ public class IOControlImpl implements IOControl {
 					}
 
 					retrys = 0;
+					
+					info.close();
+					info.setContentText(info.getContentText() + "Descargado ficheros dentro de: " + PATH_SOURCE
+							+ PATH_EVALUATIONS);
+					info.show();
 
 					for (Aula cla : this.currentTeacherClassrooms) {
-
-						info.close();
-						info.setContentText(info.getContentText() + "Descargado ficheros dentro de: " + PATH_SOURCE
-								+ PATH_EVALUATIONS + cla.getNombre() + "/\n");
-						info.show();
 
 						System.out.printf("Descargado fichero: %s%s %n", PATH_SOURCE,
 								PATH_EVALUATIONS + cla.getNombre() + "/evaluaciones.csv");

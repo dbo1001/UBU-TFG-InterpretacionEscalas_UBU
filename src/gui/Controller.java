@@ -28,7 +28,7 @@ public abstract class Controller {
 	
 	@FXML
 	protected boolean cancelAlert() throws IOException {
-		Alert alert = new Alert(AlertType.CONFIRMATION, "¿Estás seguro de que quieres descartar los cambios y volver atrás?",
+		Alert alert = new Alert(AlertType.CONFIRMATION, "Â¿EstÃ¡s seguro de que quieres descartar los cambios y volver atrÃ¡s?",
 				ButtonType.NO, ButtonType.YES);
 		alert.showAndWait();
 		if(alert.getResult() == ButtonType.YES) {

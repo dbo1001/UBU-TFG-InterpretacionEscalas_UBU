@@ -1,4 +1,4 @@
 1,00000000A,ADMIN,ADMIN,,,true,00000000                                                        
 2,12345678A,Profesor,A,PrimerAula,Datos de ejemplo,false,12345678A                                                       
-3,12345678B,Profesor,B,PrimerAula,,false,12345678B                                                       
-4,12345678C,Profesor,C,SegundaAula,,false,12345678C                                                       
+6,12345678C,Profesor,C,SegundaAula,,false,12345678C                                                       
+7,12345678B,Profesor,B,PrimerAula,,false,12345678B                                                       

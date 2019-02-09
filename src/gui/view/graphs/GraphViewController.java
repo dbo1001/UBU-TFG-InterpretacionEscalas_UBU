@@ -60,7 +60,7 @@ public class GraphViewController extends Controller {
 				series.getData().add(new XYChart.Data<String, Number>(fa.getDescripcion(), fa.getPuntuacionMaxima()));
 			}
 		}
-		series.setName("Puntuación máxima");
+		series.setName("PuntuaciÃ³n mÃ¡xima");
 		chart.getData().add(series);
 
 		for (Evaluacion eva : evaluations) {
@@ -80,7 +80,7 @@ public class GraphViewController extends Controller {
 		}
 
 		//xAxis.setTickLabelRotation(37);
-		chart.setTitle("Gráfico generado");
+		chart.setTitle("GrÃ¡fico generado");
 
 		root.setCenter(chart);
 	}
@@ -115,7 +115,7 @@ public class GraphViewController extends Controller {
 				series.getData().add(new XYChart.Data<String, Number>(ca.getDescripcion(), ca.getPuntuacionMaxima()));
 			}
 		}
-		series.setName("Puntuación máxima");
+		series.setName("PuntuaciÃ³n mÃ¡xima");
 		chart.getData().add(series);
 
 		for (Evaluacion eva : evaluations) {
@@ -135,7 +135,7 @@ public class GraphViewController extends Controller {
 		}
 
 		//xAxis.setTickLabelRotation(37);
-		chart.setTitle("Gráfico generado");
+		chart.setTitle("GrÃ¡fico generado");
 
 		root.setCenter(chart);
 	}
@@ -170,7 +170,7 @@ public class GraphViewController extends Controller {
 				series.getData().add(new XYChart.Data<String, Number>(it.getDescripcion(), 5));
 			}
 		}
-		series.setName("Puntuación máxima");
+		series.setName("PuntuaciÃ³n mÃ¡xima");
 		chart.getData().add(series);
 
 		for (Evaluacion eva : evaluations) {
@@ -190,7 +190,7 @@ public class GraphViewController extends Controller {
 		}
 
 		//xAxis.setTickLabelRotation(37);
-		chart.setTitle("Gráfico generado");
+		chart.setTitle("GrÃ¡fico generado");
 
 		root.setCenter(chart);
 	}
