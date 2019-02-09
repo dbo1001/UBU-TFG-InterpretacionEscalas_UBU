@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -25,12 +26,13 @@
                   <Insets left="1.0" top="1.0" />
                </padding>
             </HBox>
-            <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox alignment="CENTER" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Text fx:id="teacherName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="mediumText" />
+                  <Label fx:id="disconnect" disable="true" onMouseClicked="#reLog" styleClass="controlLabel" text="Desconectar" visible="false" />
                </children>
                <padding>
-                  <Insets right="20.0" />
+                  <Insets right="15.0" />
                </padding>
             </HBox>
          </children>

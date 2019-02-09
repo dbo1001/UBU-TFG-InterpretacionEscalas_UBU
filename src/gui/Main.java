@@ -79,14 +79,6 @@ public class Main extends Application {
 		Main.primaryStage = primaryStage;
 		Main.primaryStage.setTitle("Interpretación de escalas");
 
-		// TODO borrar
-		// CSVControl.readStudentsCSV("ioData/alumnos.csv");
-		// CSVControl.readTeachersCSV("ioData/profesores.csv");
-		// CSVControl.readClassroomsCSV("ioData/aulas.csv");
-		// CSVControl.readEvaluationsCSV("ioData/Evaluaciones/Aula1/evaluaciones.csv");
-		// CSVControl.readPuntuationsCSV("ioData/Evaluaciones/Aula1/puntuaciones.csv");
-		// String test = "1999-01-01";
-		// System.out.println(test.substring(8,10));
 		showMain();
 		showLogInView();
 	}
@@ -107,8 +99,8 @@ public class Main extends Application {
 		Main.showManageView();
 	}
 
-	private void showLogInView() throws IOException {
-		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/LogInView.fxml"));
+	public static void showLogInView() throws IOException {
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/LogInView.fxml"));
 		BorderPane logInView = loader.load();
 
 		Main.mainLayout.setCenter(logInView);
