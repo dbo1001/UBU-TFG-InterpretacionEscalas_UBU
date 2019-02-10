@@ -52,7 +52,7 @@ public abstract class Controller {
 		String securePass = "";
 		
 		try {
-			byte[] salt = getSalt();
+			//byte[] salt = getSalt();
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
 			//md.update(salt);
 			byte[] bytes = md.digest(pass.getBytes());
@@ -69,6 +69,7 @@ public abstract class Controller {
 		return securePass;
 	}
 	
+	@SuppressWarnings("unused")
 	private static byte[] getSalt() throws NoSuchAlgorithmException {
 		SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
 		byte[] salt = new byte[16];

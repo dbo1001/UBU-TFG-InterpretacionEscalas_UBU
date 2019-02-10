@@ -120,7 +120,7 @@ CREATE TABLE PUNTUACION(
     CONSTRAINT FK_EVALUACION FOREIGN KEY (ID_EVALUACION) REFERENCES EVALUACION    
 );
 
-INSERT INTO PROFESOR VALUES(nextval('public.seq_profesor'), '00000000A', 'ADMIN', 'ADMIN', '', '', true, '00000000');
+INSERT INTO PROFESOR VALUES(nextval('public.seq_profesor'), '00000000A', 'ADMIN', 'ADMIN', '', '', true, '7e071fd9b023ed8f18458a73613a0834f6220bd5cc50357ba3493c6040a9ea8c');
 ---------------------------------------------------------------------
 INSERT INTO AREAFUNCIONAL VALUES (nextval('public.seq_areafuncional'), 'Autonomía en la alimentación',35);
 INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Textura en los alimentos', 5, currval('public.seq_areafuncional'));

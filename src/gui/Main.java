@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
 import connection.ConnectionException;
 import connection.manageService.ClassroomServiceImpl;
 import connection.manageService.EvaluationServiceImpl;
@@ -43,6 +44,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
@@ -72,11 +74,18 @@ public class Main extends Application {
 	private final static String PATH_LOCAL = "iodata/";
 	private final static String PATH_EVALUATIONS = "ioData/Evaluaciones/";
 
+	public static void main(String[] args) {
+		launch(args);
+	}
+
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		Main.primaryStage = primaryStage;
 		Main.primaryStage.setTitle("Interpretación de escalas");
-
+		Image icon = new Image("/res/icon.png");
+	
+		primaryStage.getIcons().add(icon);
+		
 		showMain();
 		showLogInView();
 	}
@@ -653,10 +662,6 @@ public class Main extends Application {
 
 	public static Profesor getCurrentTeacher() {
 		return Main.currentTeacher;
-	}
-
-	public static void main(String[] args) {
-		launch(args);
 	}
 
 }

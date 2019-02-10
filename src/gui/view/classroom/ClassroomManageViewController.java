@@ -112,6 +112,7 @@ public class ClassroomManageViewController extends Controller {
 	///////////////////////////////
 	protected class CeldaAula {
 
+		@SuppressWarnings("unused")
 		private Aula cla;
 		private String nombre = "";
 		private String capacidad = "";

@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 
 public abstract class ServiceImpl {
 
+	@SuppressWarnings("unused")
 	private EntityManager em;
 	//TODO
 	protected final Pattern namePattern = Pattern.compile("[^a-zÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÄËÏÖÜáéíóúàèìòùâêîôûäëïöüÑñ ]", Pattern.CASE_INSENSITIVE);
