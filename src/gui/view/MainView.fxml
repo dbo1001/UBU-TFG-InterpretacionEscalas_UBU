@@ -17,7 +17,7 @@
          <children>
             <HBox spacing="25.0">
                <children>
-                <Button fx:id="mainMenu" disable="true" mnemonicParsing="false" onAction="#checkDataIntegrity" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="Menu principal" />
+                <Button fx:id="mainMenu" disable="true" mnemonicParsing="false" onAction="#checkDataIntegrity" onMouseEntered="#handCursor" onMouseExited="#defaultCursor" text="Menú principal" />
                   <Button fx:id="generateGraphic" disable="true" mnemonicParsing="false" onAction="#goToStudentSelectionView" text="Generar gráfico" />
                   <Button fx:id="exportar" disable="true" mnemonicParsing="false" onAction="#exportData" text="Exportar" />
                   <Button fx:id="importar" disable="true" mnemonicParsing="false" onAction="#importData" text="Importar" />

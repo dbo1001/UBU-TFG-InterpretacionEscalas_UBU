@@ -90,8 +90,8 @@
                   <TextArea fx:id="description" maxHeight="70.0" maxWidth="-Infinity" prefWidth="300.0" promptText="Descripción" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                   <ListView fx:id="objectsDisplayed" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="180.0" prefWidth="300.0" styleClass="mediumText" GridPane.rowIndex="8" />
                   <ListView fx:id="objectsSelected" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="180.0" prefWidth="300.0" styleClass="mediumText" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subTitle" text="Contraseña*" GridPane.rowIndex="5" />
-                  <TextField fx:id="password" promptText="Contraseña" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subTitle" text="Nueva contraseña(opcional)" GridPane.rowIndex="5" />
+                  <TextField fx:id="password" promptText="Nueva contraseña (opcional)" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subTitle" text="Derechos de edición" GridPane.rowIndex="6" />
                   <ChoiceBox fx:id="rights" GridPane.columnIndex="2" GridPane.rowIndex="6" />
                </children>
