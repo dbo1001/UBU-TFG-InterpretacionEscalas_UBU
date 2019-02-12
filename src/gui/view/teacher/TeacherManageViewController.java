@@ -227,6 +227,7 @@ public class TeacherManageViewController extends Controller {
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
 								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+						alert.initOwner(Main.getPrimaryStage());
 						alert.showAndWait();
 						e1.printStackTrace();
 					}
@@ -249,6 +250,7 @@ public class TeacherManageViewController extends Controller {
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
 								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+						alert.initOwner(Main.getPrimaryStage());
 						alert.showAndWait();
 						e1.printStackTrace();
 					}

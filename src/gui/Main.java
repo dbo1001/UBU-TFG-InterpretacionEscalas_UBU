@@ -79,6 +79,7 @@ public class Main extends Application {
 	private static LinkedList<Node> previousNodeQueue = new LinkedList<Node>();
 	private final static String PATH_LOCAL = "iodata/";
 	private final static String PATH_EVALUATIONS = "ioData/Evaluaciones/";
+	private final static Image icon = new Image("/res/icon.png");
 
 	/**
 	 * Método main que pone en marcha la aplicación
@@ -442,17 +443,20 @@ public class Main extends Application {
 				"¿Estás seguro de que quieres borrar el alumno/a: " + stu.getNombre() + " " + stu.getApellido1() + " "
 						+ stu.getApellido2() + "?\n" + "Los cambios serán definitivos.",
 				ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+		alert.initOwner(Main.getPrimaryStage());
 		alert.showAndWait();
 
 		if (alert.getResult() == ButtonType.YES) {
 			try {
 				if (Main.studentService.delete(stu)) {
 					alert = new Alert(AlertType.INFORMATION, "El alumno se ha borrado correctamente.");
+					alert.initOwner(Main.getPrimaryStage());
 					alert.showAndWait();
 					Main.showManageView();
 				}
 			} catch (ConnectionException cEx) {
 				alert = new Alert(AlertType.ERROR, cEx.getError().getText());
+				alert.initOwner(Main.getPrimaryStage());
 				alert.showAndWait();
 			}
 		}
@@ -468,17 +472,20 @@ public class Main extends Application {
 				"¿Estás seguro de que quieres borrar el profesor/a: " + tea.getNombre() + " " + tea.getApellido1() + " "
 						+ tea.getApellido2() + "?\n" + "Los cambios serán definitivos.",
 				ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+		alert.initOwner(Main.getPrimaryStage());
 		alert.showAndWait();
 
 		if (alert.getResult() == ButtonType.YES) {
 			try {
 				if (Main.teacherService.delete(tea)) {
 					alert = new Alert(AlertType.INFORMATION, "El profesor se ha borrado correctamente.");
+					alert.initOwner(Main.getPrimaryStage());
 					alert.showAndWait();
 					Main.showManageView();
 				}
 			} catch (ConnectionException cEx) {
 				alert = new Alert(AlertType.ERROR, cEx.getError().getText());
+				alert.initOwner(Main.getPrimaryStage());
 				alert.showAndWait();
 			}
 		}
@@ -494,6 +501,7 @@ public class Main extends Application {
 		Alert alert = new Alert(AlertType.CONFIRMATION, "¿Estás seguro de que quieres borrar el aula: "
 				+ cla.getNombre() + " ?\n" + "Los cambios serán definitivos.", ButtonType.YES, ButtonType.NO,
 				ButtonType.CANCEL);
+		alert.initOwner(Main.getPrimaryStage());
 		alert.showAndWait();
 
 		if (alert.getResult() == ButtonType.YES) {
@@ -501,11 +509,13 @@ public class Main extends Application {
 			try {
 				if (Main.classroomService.delete(cla)) {
 					alert = new Alert(AlertType.INFORMATION, "El aula se ha borrado correctamente.");
+					alert.initOwner(Main.getPrimaryStage());
 					alert.showAndWait();
 					Main.showManageView();
 				}
 			} catch (ConnectionException cEx) {
 				alert = new Alert(AlertType.ERROR, cEx.getError().getText());
+				alert.initOwner(Main.getPrimaryStage());
 				alert.showAndWait();
 			}
 
@@ -525,6 +535,7 @@ public class Main extends Application {
 						+ " " + eva.getAlumno().getApellido2() + ", " + eva.getAlumno().getNombre() + " ?\n"
 						+ "Los cambios serán definitivos.",
 				ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+		alert.initOwner(Main.getPrimaryStage());
 		alert.showAndWait();
 
 		if (alert.getResult() == ButtonType.YES) {
@@ -532,11 +543,13 @@ public class Main extends Application {
 			try {
 				if (Main.evaluationService.delete(eva)) {
 					alert = new Alert(AlertType.INFORMATION, "La evaluación se ha borrado correctamente.");
+					alert.initOwner(Main.getPrimaryStage());
 					alert.showAndWait();
 					Main.showManageView();
 				}
 			} catch (ConnectionException cEx) {
 				alert = new Alert(AlertType.ERROR, cEx.getError().getText());
+				alert.initOwner(Main.getPrimaryStage());
 				alert.showAndWait();
 			}
 
@@ -552,6 +565,7 @@ public class Main extends Application {
 		boolean result = false;
 		List<Aula> currentCla;
 		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.initOwner(Main.getPrimaryStage());
 		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 		IOControl io;
 		
@@ -716,6 +730,7 @@ public class Main extends Application {
 			result = true;
 		} catch (FileNotFoundException ex) {
 			Alert error = new Alert(AlertType.ERROR);
+			error.initOwner(Main.getPrimaryStage());
 			error.setTitle("Error, archivo no encontrado.");
 			error.setContentText(
 					"Alguno de los archivos no se han encontrado en el directorio \"/ioData\" dentro de la carpeta raiz de la aplicacion.\nEs posible que haya habído un error al descargar los archivos de la nube.");
@@ -723,6 +738,7 @@ public class Main extends Application {
 			ex.printStackTrace();
 		} catch (Exception ex2) {
 			Alert error = new Alert(AlertType.ERROR);
+			error.initOwner(Main.getPrimaryStage());
 			error.setTitle("Error desconocido.");
 			error.setContentText("Ha ocurrido un error desconocido al importar los datos.");
 			error.showAndWait();
@@ -835,6 +851,22 @@ public class Main extends Application {
 	 */
 	public static Profesor getCurrentTeacher() {
 		return Main.currentTeacher;
+	}
+	
+	/**
+	 * Getter
+	 * @return icono de la aplicación
+	 */
+	public static Image getIcon() {
+		return icon;
+	}
+	
+	/**
+	 * Getter
+	 * @return escena principal
+	 */
+	public static Stage getPrimaryStage() {
+		return primaryStage;
 	}
 
 }

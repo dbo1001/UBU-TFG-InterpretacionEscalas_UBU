@@ -80,6 +80,7 @@ public class EvaluationSelectionViewController extends Controller {
 			if (this.from.getValue().isAfter(this.to.getValue())) {
 				Alert alert = new Alert(AlertType.ERROR, "La fecha inicial debe ser anterior a la fecha final.",
 						ButtonType.OK);
+				alert.initOwner(Main.getPrimaryStage());
 				alert.showAndWait();
 			} else {
 				LocalDate f = this.from.getValue();
@@ -107,6 +108,7 @@ public class EvaluationSelectionViewController extends Controller {
 			Main.showGraphSelectionView(this.evaluationLV.getItems());
 		}else {
 			Alert alert = new Alert(AlertType.INFORMATION, "Debes haber al menos 1 evaluacion seleccionada antes de continuar.");
+			alert.initOwner(Main.getPrimaryStage());
 			alert.setTitle("Alerta");
 			alert.setHeaderText("");
 			alert.show();

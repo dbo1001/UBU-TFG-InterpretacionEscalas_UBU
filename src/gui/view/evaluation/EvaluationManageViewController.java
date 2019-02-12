@@ -91,6 +91,7 @@ public class EvaluationManageViewController extends Controller {
 			if (this.from.getValue().isAfter(this.to.getValue()) || this.from.getValue().equals(this.to.getValue())) {
 				Alert alert = new Alert(AlertType.ERROR,
 						"La fecha final debe ser posterior a la fecha inicial del filtro.");
+				alert.initOwner(Main.getPrimaryStage());
 				alert.showAndWait();
 				this.from.setValue(null);
 				this.to.setValue(null);
@@ -159,6 +160,7 @@ public class EvaluationManageViewController extends Controller {
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
 								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+						alert.initOwner(Main.getPrimaryStage());
 						alert.showAndWait();
 						e1.printStackTrace();
 					}
@@ -178,6 +180,7 @@ public class EvaluationManageViewController extends Controller {
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
 								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+						alert.initOwner(Main.getPrimaryStage());
 						alert.showAndWait();
 						e1.printStackTrace();
 					}

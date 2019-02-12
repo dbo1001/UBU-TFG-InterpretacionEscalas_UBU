@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
+import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
 
 /**
@@ -52,7 +54,10 @@ public abstract class Controller {
 	protected boolean cancelAlert() {
 		Alert alert = new Alert(AlertType.CONFIRMATION, "¿Estás seguro de que quieres descartar los cambios y volver atrás?",
 				ButtonType.NO, ButtonType.YES);
+		
+		alert.initOwner(Main.getPrimaryStage());
 		alert.showAndWait();
+		
 		if(alert.getResult() == ButtonType.YES) {
 			return true;
 		}else {

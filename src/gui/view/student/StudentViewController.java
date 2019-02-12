@@ -124,12 +124,14 @@ public class StudentViewController extends Controller {
 			if (Main.getStudentService().add(stu)) {
 				Alert alert = new Alert(AlertType.INFORMATION, "El nuevo alumno se ha creado correctamente",
 						ButtonType.OK);
+				alert.initOwner(Main.getPrimaryStage());
 				alert.showAndWait();
 				Main.setModifiedData(false);
 				Main.showManageView();
 			}
 		} catch (ConnectionException cEx) {
 			Alert alert = new Alert(AlertType.ERROR, cEx.getError().getText(), ButtonType.OK);
+			alert.initOwner(Main.getPrimaryStage());
 			alert.showAndWait();
 		}
 	}

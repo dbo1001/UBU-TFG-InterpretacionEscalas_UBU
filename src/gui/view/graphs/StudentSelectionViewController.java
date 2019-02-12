@@ -82,6 +82,7 @@ public class StudentSelectionViewController extends SelectorController<Alumno> {
 				if(stu.getEvaluacions() == null || stu.getEvaluacions().size() == 0) {
 					flag = true;
 					Alert alert = new Alert(AlertType.INFORMATION, "El alumno " + stu.getNombre() + " " + stu.getApellido1() + " " + stu.getApellido2() + " no tiene ninguna evaluacion asignada. As�gnale una o mas evaluaciones o deseleccionalo.");
+					alert.initOwner(Main.getPrimaryStage());
 					alert.setTitle("Alerta");
 					alert.setHeaderText("");
 					alert.show();
@@ -93,6 +94,7 @@ public class StudentSelectionViewController extends SelectorController<Alumno> {
 			}
 		}else {
 			Alert alert = new Alert(AlertType.INFORMATION, "Debes seleccionar almenos 1 alumno antes de continuar.");
+			alert.initOwner(Main.getPrimaryStage());
 			alert.setTitle("Alerta");
 			alert.setHeaderText("");
 			alert.show();

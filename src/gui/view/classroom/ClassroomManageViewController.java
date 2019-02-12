@@ -193,6 +193,7 @@ public class ClassroomManageViewController extends Controller {
 
 					Alert alert = new Alert(AlertType.INFORMATION,
 							"Los siguiente alumnos pertenecen al aula " + cla.getNombre() + ":\n");
+					alert.initOwner(Main.getPrimaryStage());
 					for (Alumno stu : cla.getAlumnos()) {
 						alert.setContentText(alert.getContentText() + "\n Nombre: " + stu.getApellido1() + " "
 								+ stu.getApellido2() + ", " + stu.getNombre() + " 		Código: " + stu.getCodigo());
@@ -220,6 +221,7 @@ public class ClassroomManageViewController extends Controller {
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
 								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+						alert.initOwner(Main.getPrimaryStage());
 						alert.showAndWait();
 						e1.printStackTrace();
 					}
@@ -243,6 +245,7 @@ public class ClassroomManageViewController extends Controller {
 					} catch (IOException e1) {
 						Alert alert = new Alert(AlertType.ERROR,
 								"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+						alert.initOwner(Main.getPrimaryStage());
 						alert.showAndWait();
 						e1.printStackTrace();
 					}

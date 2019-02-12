@@ -192,12 +192,14 @@ public class EvaluationViewController extends Controller {
 			if (Main.getEvaluationService().add(eva)) {
 				Alert alert = new Alert(AlertType.INFORMATION, "La nueva evaluaci�n se ha creado correctamente",
 						ButtonType.OK);
+				alert.initOwner(Main.getPrimaryStage());
 				alert.showAndWait();
 				Main.setModifiedData(false);
 				Main.showManageView();
 			}
 		} catch (ConnectionException cEx) {
 			Alert alert = new Alert(AlertType.ERROR, cEx.getError().getText(), ButtonType.OK);
+			alert.initOwner(Main.getPrimaryStage());
 			alert.showAndWait();
 		}
 	}

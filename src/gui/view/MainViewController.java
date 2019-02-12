@@ -57,6 +57,7 @@ public class MainViewController extends Controller {
 	private void goToStudentSelectionView() throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION, "¿Quieres empezar a generar un nuevo gráfico?", ButtonType.YES,
 				ButtonType.NO);
+		alert.initOwner(Main.getPrimaryStage());
 		alert.showAndWait();
 		if (alert.getResult() == ButtonType.YES) {
 			try {
@@ -64,6 +65,7 @@ public class MainViewController extends Controller {
 			} catch (IOException e1) {
 				alert = new Alert(AlertType.ERROR,
 						"Ha ocurrido un error desconocido, porfavor reinicie la aplicación. (Es posible que no se haya encontrado uno de los archivos necesarios para la ejecución)");
+				alert.initOwner(Main.getPrimaryStage());
 				alert.showAndWait();
 				e1.printStackTrace();
 			}

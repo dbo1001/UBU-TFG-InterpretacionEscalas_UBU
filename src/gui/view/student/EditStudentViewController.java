@@ -155,12 +155,14 @@ public class EditStudentViewController extends Controller {
 			if (Main.getStudentService().edit(stu)) {
 				Alert alert = new Alert(AlertType.INFORMATION, "El alumno se ha modificado correctamente",
 						ButtonType.OK);
+				alert.initOwner(Main.getPrimaryStage());
 				alert.showAndWait();
 				Main.setModifiedData(false);
 				Main.showManageView();
 			}
 		} catch (ConnectionException cEx) {
 			Alert alert = new Alert(AlertType.ERROR, cEx.getError().getText(), ButtonType.OK);
+			alert.initOwner(Main.getPrimaryStage());
 			alert.showAndWait();
 		}
 	}

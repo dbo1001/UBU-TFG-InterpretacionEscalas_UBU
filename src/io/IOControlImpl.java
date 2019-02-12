@@ -73,6 +73,7 @@ public class IOControlImpl implements IOControl {
 			info.setTitle("Exportando archivos...");
 			info.getDialogPane().setPrefWidth(Region.USE_COMPUTED_SIZE);
 			info.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+			info.initOwner(Main.getPrimaryStage());
 
 			info.setContentText("Generando ficheros CSV en el directorio /ioData...");
 			info.show();
@@ -259,6 +260,7 @@ public class IOControlImpl implements IOControl {
 			e.printStackTrace();
 		} catch (IOException e) {
 			Alert error = new Alert(AlertType.ERROR);
+			error.initOwner(Main.getPrimaryStage());
 			error.setTitle("Error desconocido al exportar los archivos.");
 			error.setHeaderText("Ha ocurrido un error desconocido al exportar los archivos.");
 			error.setContentText(
@@ -303,6 +305,7 @@ public class IOControlImpl implements IOControl {
 					OneDriveAPI.renewAccessToken(httpClient);
 				} else {
 					Alert info = new Alert(AlertType.INFORMATION);
+					info.initOwner(Main.getPrimaryStage());
 					info.setTitle("Descargando archivos...");
 					info.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 
@@ -415,6 +418,7 @@ public class IOControlImpl implements IOControl {
 			e.printStackTrace();
 		} catch (IOException e) {
 			Alert error = new Alert(AlertType.ERROR);
+			error.initOwner(Main.getPrimaryStage());
 			error.setTitle("Error desconocido al descargar los archivos.");
 			error.setHeaderText("Ha ocurrido un error desconocido al descargar los archivos.");
 			error.setContentText(
@@ -443,6 +447,7 @@ public class IOControlImpl implements IOControl {
 	 */
 	private void showRetryError() {
 		Alert error = new Alert(AlertType.ERROR);
+		error.initOwner(Main.getPrimaryStage());
 		error.setTitle("Error de conxión.");
 		error.setHeaderText("Se ha superado el número de reintentos al intentar conectar con la nube.");
 		error.setContentText("Es posible que no tengas conexión de red o haya un problema con ella.");
