@@ -7,6 +7,12 @@ import model.Areafuncional;
 import model.Categorizacion;
 import model.Item;
 
+/**
+ * Implementación de la interfaz UtilService
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class UtilServiceImpl extends ServiceImpl implements UtilService {
 
 	@Override
@@ -24,6 +30,10 @@ public class UtilServiceImpl extends ServiceImpl implements UtilService {
 		return getEntityManager().createNamedQuery("Item.findAll", Item.class).getResultList();
 	}
 	
+	/**
+	 * Consulta si el entityManager esta activo
+	 * @return estado del entityManager
+	 */
 	public boolean isOpen() {
 		return this.getEntityManager().isOpen();
 	}

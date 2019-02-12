@@ -13,6 +13,12 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import model.Profesor;
 
+/**
+ * Controlador de la barra de botones que siempre está presente
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class MainViewController extends Controller {
 
 	@FXML
@@ -29,6 +35,10 @@ public class MainViewController extends Controller {
 	private Label disconnect;
 	private Profesor currentTeacher;
 
+	/**
+	 * Comprueba la integridad de los datos
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void checkDataIntegrity() throws IOException {
 		if (!Main.getDataIntegrity()) {
@@ -39,6 +49,10 @@ public class MainViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Muestra la pantalla de selección de alumnos, comienza a generar un gráfico
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void goToStudentSelectionView() throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION, "¿Quieres empezar a generar un nuevo gráfico?", ButtonType.YES,
@@ -56,6 +70,10 @@ public class MainViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Exporta los datos a la nube
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void exportData() throws IOException {
 		if (!Main.getDataIntegrity()) {
@@ -69,6 +87,10 @@ public class MainViewController extends Controller {
 		
 	}
 
+	/**
+	 * Comienza el proceso de importación de los datos de la nube
+	 * @throws IOException error al descargar los archivos, no se han podido crear o sobreescribir
+	 */
 	@FXML
 	private void importData() throws IOException {
 		if (!Main.getDataIntegrity()) {
@@ -81,17 +103,25 @@ public class MainViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Desconecta al profesor logeado actualmente y vuelve a la pantalla de log in
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void reLog() throws IOException {
 		if (!Main.getDataIntegrity()) {
-			reserCurrentTeacher();
+			resetCurrentTeacher();
 		} else if (this.cancelAlert()) {
 			Main.setModifiedData(false);
-			reserCurrentTeacher();
+			resetCurrentTeacher();
 		}
 	}
 
-	private void reserCurrentTeacher() throws IOException {
+	/**
+	 * Desconecta al profesor logeado actualmente y resetea la interfaz
+	 * @throws IOException archivo no encontrado
+	 */
+	private void resetCurrentTeacher() throws IOException {
 		this.mainMenu.setDisable(true);
 		this.generateGraphic.setDisable(true);
 		this.exportar.setDisable(true);
@@ -103,6 +133,10 @@ public class MainViewController extends Controller {
 		Main.showLogInView();
 	}
 
+	/**
+	 * Logea un profesor
+	 * @param tea profesor que ha hecho log in
+	 */
 	public void setCurrentTeacher(Profesor tea) {
 		this.currentTeacher = tea;
 		this.mainMenu.setDisable(false);

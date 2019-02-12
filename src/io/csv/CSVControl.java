@@ -18,8 +18,28 @@ import model.Item;
 import model.Profesor;
 import model.Puntuacion;
 
+/**
+ * Clase que contiene la lógica necesaria para manejar los archivos csv
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public abstract class CSVControl {
 	
+	/**
+	 * Crea el directorio raiz "ioData" donde están los archivos csv
+	 * @throws IOException no se ha podido crear el directorio
+	 */
+	public static void createRootDirectory() throws IOException {
+		File root = new File("ioData");
+		root.mkdir();
+	}
+	
+	/**
+	 * Crea el archivo csv de los alumnos
+	 * @param students alumnos a exportar
+	 * @throws IOException no se ha podido crear o sobreescribir el archivo
+	 */
 	public static void exportStudents(List<Alumno> students) throws IOException {
 		String csvPath = "ioData/alumnos.csv";
 		FileWriter writer = new FileWriter(csvPath);
@@ -31,6 +51,11 @@ public abstract class CSVControl {
 		writer.close();
 	}
 	
+	/**
+	 * Crea el fichero csv que contiene los profesores
+	 * @param teachers profesores a exportar
+	 * @throws IOException no se ha podido crear o sobreescribir el archivo
+	 */
 	public static void exportTeachers(List<Profesor> teachers) throws IOException {
 		String csvPath = "ioData/profesores.csv";
 		FileWriter writer = new FileWriter(csvPath);
@@ -42,6 +67,11 @@ public abstract class CSVControl {
 		writer.close();
 	}
 	
+	/**
+	 * Crea el fichero csv que contiene las aulas
+	 * @param classrooms aulas a exportar
+	 * @throws IOException no se ha podido crear o sobreescribir el fichero
+	 */
 	public static void exportClassroom(List<Aula> classrooms) throws IOException {
 		String csvPath = "ioData/aulas.csv";
 		FileWriter writer = new FileWriter(csvPath);
@@ -53,6 +83,12 @@ public abstract class CSVControl {
 		writer.close();
 	}
 	
+	/**
+	 * Crea el fichero csv con las evaluaciones del aula indicada
+	 * @param evaluations evaluaciones a exportar
+	 * @param path path donde se exportarán, indicando el nombre del aula
+	 * @throws IOException no se ha podido crear o sobreescribir el archivo
+	 */
 	public static void exportEvaluation(List<Evaluacion> evaluations, String path) throws IOException {
 		String csvPath = path + "evaluaciones.csv";
 		FileWriter writer = new FileWriter(csvPath);
@@ -67,6 +103,12 @@ public abstract class CSVControl {
 		CSVControl.exportPuntuation(puntuations, path);
 	}
 	
+	/**
+	 * Crea el fichero csv con las puntuaciones del aula indicada
+	 * @param puntuations puntuaciones a exportar
+	 * @param path path donde se exportarán, indicando el nombre del aula
+	 * @throws IOException no se ha podido crear o sobreescribir el archivo
+	 */
 	private static void exportPuntuation(Set<Puntuacion> puntuations, String path) throws IOException {
 		String csvPath = path + "puntuaciones.csv";
 		FileWriter writer = new FileWriter(csvPath);
@@ -78,6 +120,11 @@ public abstract class CSVControl {
 		writer.close();
 	}
 	
+	/**
+	 * Crea el directorio donde se almacenaran los csv de las evaluaciones
+	 * y puntuaciones de los alumnos pertenecientes a dicha aula
+	 * @param cla aula
+	 */
 	public static void createClassroomFile (Aula cla) {
 		File sourceFile = new File("ioData/Evaluaciones");
 		File claFile = new File("iodata/Evaluaciones/"+cla.getNombre());
@@ -85,6 +132,12 @@ public abstract class CSVControl {
 		claFile.mkdir();
 	}
 	
+	/**
+	 * Lee el archivo csv que contiene los alumnos
+	 * @param path ruta del archivo
+	 * @return alumnos recuperados
+	 * @throws FileNotFoundException archivo no encontrado
+	 */
 	public static List<Alumno> readStudentsCSV(String path) throws FileNotFoundException {
 		List<Alumno> stus = new ArrayList<Alumno>();
 		
@@ -112,6 +165,12 @@ public abstract class CSVControl {
 		return stus;
 	}
 	
+	/**
+	 * Lee el archivo csv que contiene los profesores
+	 * @param path ruta del archivo
+	 * @return profesores recuperados
+	 * @throws FileNotFoundException archivo no encontrado
+	 */
 	public static List<Profesor> readTeachersCSV(String path) throws FileNotFoundException {
 		List<Profesor> teachers = new ArrayList<Profesor>();
 		
@@ -139,6 +198,12 @@ public abstract class CSVControl {
 		return teachers;
 	}
 	
+	/**
+	 * Lee el archivo csv que contiene las aulas
+	 * @param path ruta del archivo
+	 * @return aulas recuperadas
+	 * @throws FileNotFoundException archivo no encontrado
+	 */
 	public static List<Aula> readClassroomsCSV(String path) throws FileNotFoundException {
 		List<Aula> classrooms = new ArrayList<Aula>();
 		
@@ -161,6 +226,13 @@ public abstract class CSVControl {
 		return classrooms;
 	}
 	
+	
+	/**
+	 * Lee el archivo csv que contiene las evaluaciones
+	 * @param path ruta del archivo
+	 * @return evaluaciones recuperadas
+	 * @throws FileNotFoundException archivo no encontrado
+	 */
 	public static List<Evaluacion> readEvaluationsCSV(String path) throws FileNotFoundException {
 		List<Evaluacion> evaluations = new ArrayList<Evaluacion>();
 		
@@ -180,6 +252,12 @@ public abstract class CSVControl {
 		return evaluations;
 	}
 	
+	/**
+	 * Lee el archivo csv que contiene las puntuaciones
+	 * @param path ruta del archivo
+	 * @return puntuaciones recuperadas
+	 * @throws FileNotFoundException archivo no encontrado
+	 */
 	public static List<Puntuacion> readPuntuationsCSV(String path) throws FileNotFoundException {
 		List<Puntuacion> puntuations = new ArrayList<Puntuacion>();
 		

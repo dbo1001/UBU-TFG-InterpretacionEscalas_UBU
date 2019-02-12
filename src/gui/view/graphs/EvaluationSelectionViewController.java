@@ -24,6 +24,13 @@ import javafx.scene.control.SelectionMode;
 import model.Alumno;
 import model.Evaluacion;
 
+/**
+ * Controlador de la pantalla de seleción de evaluaciones en el proceso de 
+ * creación de gráficos.
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class EvaluationSelectionViewController extends Controller {
 
 	@FXML
@@ -55,12 +62,18 @@ public class EvaluationSelectionViewController extends Controller {
 		}
 	};
 	
+	/**
+	 * Inicializa los elementos gráficos
+	 */
 	@FXML
 	private void initialize() {
 		this.evaluationLV.setCellFactory(callback);
 		this.evaluationLV.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	}
 
+	/**
+	 * Selecciona las evaluaciones marcadas
+	 */
 	@FXML
 	private void select() {
 		if (this.from.getValue() != null && this.to.getValue() != null) {
@@ -84,6 +97,10 @@ public class EvaluationSelectionViewController extends Controller {
 		}
 	}
 	
+	/**
+	 * Avanza a la siguiente pantalla de creación de gráficos
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void next() throws IOException {
 		if(this.evaluationLV.getItems().size() > 0) {
@@ -96,15 +113,25 @@ public class EvaluationSelectionViewController extends Controller {
 		}
 	}
 	
+	/**
+	 * Deselecciona evaluaciones
+	 */
 	@FXML
 	private void delete() {
 		this.evaluationLV.getItems().removeAll(this.evaluationLV.getSelectionModel().getSelectedItems());
 	}
 	
+	/**
+	 * Ordena las evaluaciones
+	 */
 	private void sortEvaluations() {
 		Collections.sort(this.evaluationLV.getItems(), new SortEvaluation());
 	}
 
+	/**
+	 * Inicializa los alumnos con los que fueron seleccionados en el paso anterior
+	 * @param students alumnos seleccionados
+	 */
 	public void setStudents(List<Alumno> students) {
 		this.students = students;
 		for (Alumno stu : this.students) {
@@ -112,6 +139,12 @@ public class EvaluationSelectionViewController extends Controller {
 		}
 	}
 	
+	/**
+	 * Clase auxiliar para ordenar las evaluaciones
+	 * @author Mario Núñez Izquierdo
+	 * @version 1.0
+	 *
+	 */
 	private class SortEvaluation implements Comparator<Evaluacion> {
 		@Override
 		public int compare(Evaluacion e1, Evaluacion e2) {

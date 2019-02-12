@@ -23,6 +23,12 @@ import javafx.util.Callback;
 import model.Aula;
 import model.Profesor;
 
+/**
+ * Controlador de la pantalla de creación de profesores
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class TeacherViewController extends SelectorController<Aula> {
 
 	@FXML
@@ -58,6 +64,9 @@ public class TeacherViewController extends SelectorController<Aula> {
 		}
 	};
 
+	/**
+	 * Inicializa los elementos gráficos
+	 */
 	@FXML
 	private void initialize() {
 		List<String> choices = new ArrayList<String>();
@@ -67,6 +76,10 @@ public class TeacherViewController extends SelectorController<Aula> {
 		this.rights.getSelectionModel().select("No");
 	}
 
+	/**
+	 * Cancela la creación del profesor y vuelve atrás
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void cancel() throws IOException {
 		if (cancelAlert()) {
@@ -76,6 +89,10 @@ public class TeacherViewController extends SelectorController<Aula> {
 
 	}
 
+	/**
+	 * Comienza la transacción que inserta el nuevo profesor en la base de datos
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void acept() throws IOException {
 		Profesor tea = new Profesor();
@@ -111,10 +128,21 @@ public class TeacherViewController extends SelectorController<Aula> {
 
 	}
 
+	/**
+	 * Inicializa los datos de las aulas en las listas que permiten 
+	 * seleccionarlas para poder relaccionarlas con el profesor.
+	 * @param allClassrooms lista de todas las aulas
+	 */
 	public void setClassrooms(List<Aula> allClassrooms) {
 		super.initialize(callback, allClassrooms, new SortClassroom());
 	}
 
+	/**
+	 * Subclase para ordenar las aulas
+	 * @author Mario Núñez Izquierdo
+	 * @version 1.0
+	 *
+	 */
 	private class SortClassroom implements Comparator<Aula> {
 		@Override
 		public int compare(Aula a1, Aula a2) {

@@ -23,6 +23,12 @@ import model.Evaluacion;
 import model.Profesor;
 import model.Puntuacion;
 
+/**
+ * Implementación de la interfaz IOControl para acceder al paquete io
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class IOControlImpl implements IOControl {
 
 	private final String PATH_SOURCE = "/InterpretacionEscalas_2019_2020/";
@@ -39,6 +45,13 @@ public class IOControlImpl implements IOControl {
 	private List<Alumno> allStudents;
 	private List<Aula> currentTeacherClassrooms;
 
+	/**
+	 * Constructor
+	 * @param allStudents todos los estudiantes de la base de datos
+	 * @param allTeachers todos los profesores de la base de datos
+	 * @param allClassrooms todas las aulas de la base de datos
+	 * @param currentTeacherClassrooms aulas del profesor logeado actualmente
+	 */
 	public IOControlImpl(List<Alumno> allStudents, List<Profesor> allTeachers, List<Aula> allClassrooms,
 			List<Aula> currentTeacherClassrooms) {
 		this.allClassrooms = allClassrooms;
@@ -280,6 +293,9 @@ public class IOControlImpl implements IOControl {
 		}
 
 		try {
+			
+			CSVControl.createRootDirectory();
+			
 			while (!exito) {
 				boolean conectado = OneDriveAPI.testCurrentAccessToken(httpClient);
 				if (!conectado) {
@@ -348,6 +364,8 @@ public class IOControlImpl implements IOControl {
 					info.show();
 
 					for (Aula cla : this.currentTeacherClassrooms) {
+						
+						CSVControl.createClassroomFile(cla);
 
 						System.out.printf("Descargado fichero: %s%s %n", PATH_SOURCE,
 								PATH_EVALUATIONS + cla.getNombre() + "/evaluaciones.csv");
@@ -419,6 +437,10 @@ public class IOControlImpl implements IOControl {
 		return exito;
 	}
 
+	/**
+	 * Muestra un error cuando se superan los reintentos establecidos al
+	 * establecer la conexión con la nube.
+	 */
 	private void showRetryError() {
 		Alert error = new Alert(AlertType.ERROR);
 		error.setTitle("Error de conxión.");
@@ -427,8 +449,13 @@ public class IOControlImpl implements IOControl {
 		error.showAndWait();
 	}
 
+	/**
+	 * Genera los archivos csv con los datos de la base de datos
+	 * @throws IOException error al crear o sobreescribir los archivos
+	 */
 	private void generateCSV() throws IOException {
 
+		CSVControl.createRootDirectory();
 		CSVControl.exportClassroom(allClassrooms);
 		CSVControl.exportStudents(allStudents);
 		CSVControl.exportTeachers(allTeachers);

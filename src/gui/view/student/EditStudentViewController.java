@@ -24,6 +24,12 @@ import javafx.util.StringConverter;
 import model.Alumno;
 import model.Aula;
 
+/**
+ * Controlador de la pantalla usada para editar alumnos
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class EditStudentViewController extends Controller {
 
 	@FXML
@@ -46,6 +52,9 @@ public class EditStudentViewController extends Controller {
 	private List<Aula> listAllClassrooms;
 	private Alumno stu;
 
+	/**
+	 * Inicializa el menú desplegable con las aulas
+	 */
 	@FXML
 	private void loadClassrooms() {
 		ObservableList<Aula> obsList = FXCollections.observableArrayList();
@@ -69,12 +78,20 @@ public class EditStudentViewController extends Controller {
 		});
 	}
 
+	/**
+	 * Inicializa los datos del alumno
+	 * @param stu alumno a editar
+	 * @param allClassrooms lista con todas las aulas
+	 */
 	public void setStudentAndClassrooms(Alumno stu, List<Aula> allClassrooms) {
 		this.stu = stu;
 		this.listAllClassrooms = allClassrooms;
 		this.fillFields();
 	}
 
+	/***
+	 * Rellena los campos con los datos del alumno a editar
+	 */
 	@FXML
 	private void fillFields() {
 		this.name.setText(stu.getNombre());
@@ -101,6 +118,10 @@ public class EditStudentViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Cancela la operación y vuelve atrás
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void cancel() throws IOException {
 		if (cancelAlert()) {
@@ -109,6 +130,10 @@ public class EditStudentViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Comienza la transacción para editar los datos del alumno 
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void acept() throws IOException {
 		LocalDate localDate = this.date.getValue();

@@ -11,7 +11,11 @@ import connection.ConnectionException;
 import connection.ServiceImpl;
 import model.Evaluacion;
 import model.Puntuacion;
-
+/**
+ * Clase que implementa las transacciones de las evaluaciones
+ * @author Mario Núñez Izquierdo
+ *
+ */
 public class EvaluationServiceImpl extends ServiceImpl implements ManageService<Evaluacion, Timestamp> {
 
 	@Override

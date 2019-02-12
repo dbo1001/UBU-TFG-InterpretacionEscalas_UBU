@@ -22,6 +22,12 @@ import javafx.util.Callback;
 import model.Aula;
 import model.Profesor;
 
+/**
+ * Controlador de la pantalla para editar aulas
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class EditClassroomViewController extends SelectorController<Profesor> {
 
 	@FXML
@@ -52,12 +58,20 @@ public class EditClassroomViewController extends SelectorController<Profesor> {
 		}
 	};
 
+	/**
+	 * Rellena los campos con los datos del aula a editar
+	 * @param cla aula
+	 * @param listAllTeachers lista de todos los profesores, para poder asignarlos al aula
+	 */
 	public void setClassroom(Aula cla, List<Profesor> listAllTeachers) {
 		this.cla = cla;
 		this.listAllTeachers = listAllTeachers;
 		this.fillFields();
 	}
 
+	/**
+	 * Rellena los campos
+	 */
 	@FXML
 	private void fillFields() {
 		this.name.setText(cla.getNombre());
@@ -70,6 +84,10 @@ public class EditClassroomViewController extends SelectorController<Profesor> {
 		super.sortObjects();
 	}
 
+	/**
+	 * Cancela la edición del aula
+	 * @throws IOException archino no encontrado
+	 */
 	@FXML
 	private void cancel() throws IOException {
 		if (cancelAlert()) {
@@ -78,6 +96,10 @@ public class EditClassroomViewController extends SelectorController<Profesor> {
 		}
 	}
 
+	/**
+	 * Edita el aula
+	 * @throws IOException archino no encontrado
+	 */
 	@FXML
 	private void acept() throws IOException {
 		if (this.capacity.getText().length() > 0 && !super.intPattern.matcher(this.capacity.getText()).find()) {
@@ -104,6 +126,12 @@ public class EditClassroomViewController extends SelectorController<Profesor> {
 		}
 	}
 	
+	/**
+	 * Sublase para ordenar los profesores
+	 * @author Mario Núñez Izquierdo
+	 * @version 1.0
+	 *
+	 */
 	private class SortTeacher implements Comparator<Profesor> {
 		@Override
 		public int compare(Profesor p1, Profesor p2) {

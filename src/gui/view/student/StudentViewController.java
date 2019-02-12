@@ -24,6 +24,12 @@ import javafx.util.StringConverter;
 import model.Alumno;
 import model.Aula;
 
+/**
+ * Controlador de la pantalla de creación de alumnos
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class StudentViewController extends Controller {
 
 	@FXML
@@ -44,6 +50,9 @@ public class StudentViewController extends Controller {
 	private ChoiceBox<Aula> aulaCB;
 	private List<Aula> listAllClassrooms;
 
+	/**
+	 * Inicializa el menú desplegable con las aulas existentes
+	 */
 	private void loadClassrooms() {
 		ObservableList<Aula> obsList = FXCollections.observableArrayList();
 		obsList.addAll(this.listAllClassrooms);
@@ -67,11 +76,19 @@ public class StudentViewController extends Controller {
 
 	}
 
+	/**
+	 * Carga los datos de las aulas
+	 * @param allClassrooms todas las aulas existentes
+	 */
 	public void setClassrooms(List<Aula> allClassrooms) {
 		this.listAllClassrooms = allClassrooms;
 		this.loadClassrooms();
 	}
 
+	/**
+	 * Cancela la operación y vuelve atrás
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void cancel() throws IOException {
 		if (cancelAlert()) {
@@ -81,6 +98,10 @@ public class StudentViewController extends Controller {
 
 	}
 
+	/**
+	 * Comienza la transacción para insertar el nuevo alumno en la base de datos
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void acept() throws IOException {
 		Alumno stu = new Alumno();

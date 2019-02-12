@@ -22,6 +22,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import model.Alumno;
 
+/**
+ * Controlador de la pantalla que lista todos los alumnos
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class StudentManageViewController extends Controller {
 
 	@FXML
@@ -52,6 +58,9 @@ public class StudentManageViewController extends Controller {
 	private Label currentSurnameFilter = null;
 	private List<Alumno> allStudents;
 
+	/**
+	 * Inicializa los elemnentos gráficos
+	 */
 	@FXML
 	private void initialize() {
 		nameColumn.setCellValueFactory(new PropertyValueFactory<CeldaAlumno, String>("nombre"));
@@ -63,11 +72,19 @@ public class StudentManageViewController extends Controller {
 		table.setPlaceholder(new Label("No se han encontrado alumnos. Revisa los filtros aplicados."));
 	}
 
+	/**
+	 * Muestra la pantalla de creación de alumnos
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void addNewStudent() throws IOException {
 		Main.showStudentView();
 	}
 
+	/**
+	 * Actualiza el filtro de nombres
+	 * @param newFilter nuevo filtro
+	 */
 	private void updateNameFilter(Label newFilter) {
 		if (this.currentNameFilter != null) {
 			this.currentNameFilter.setDisable(false);
@@ -79,6 +96,10 @@ public class StudentManageViewController extends Controller {
 		this.filter();
 	}
 
+	/**
+	 * Actualiza el filtro de apellidos
+	 * @param newFilter nuevo filtro
+	 */
 	private void updateSurnameFilter(Label newFilter) {
 		if (this.currentSurnameFilter != null) {
 			this.currentSurnameFilter.setDisable(false);
@@ -90,6 +111,10 @@ public class StudentManageViewController extends Controller {
 		this.filter();
 	}
 
+	/**
+	 * Inicializa la pantalla con los datos de los alummos
+	 * @param students alumnos a mostrar
+	 */
 	public void setAllStudents(List<Alumno> students) {
 		this.allStudents = students;
 		Collections.sort(this.allStudents, new SortStudent());
@@ -101,6 +126,10 @@ public class StudentManageViewController extends Controller {
 		this.loadStudents(students);
 	}
 
+	/**
+	 * Lista los alumnos en la pantalla
+	 * @param students alumnos a mostrar
+	 */
 	private void loadStudents(List<Alumno> students) {
 		ObservableList<CeldaAlumno> cellsList = FXCollections.observableArrayList();
 		for (Alumno stu : students) {
@@ -109,6 +138,9 @@ public class StudentManageViewController extends Controller {
 		table.getItems().setAll(cellsList);
 	}
 
+	/**
+	 * Filtra los alumnos con los filtros seleccionados actualmente
+	 */
 	private void filter() {
 		this.loadCursor();
 		List<Alumno> filteredStudents = new ArrayList<Alumno>();
@@ -144,6 +176,9 @@ public class StudentManageViewController extends Controller {
 		this.defaultCursor();
 	}
 
+	/**
+	 * Limpia los filtros
+	 */
 	@FXML
 	private void clearFilters() {
 		this.updateNameFilter(null);
@@ -151,7 +186,12 @@ public class StudentManageViewController extends Controller {
 		this.filter();
 	}
 
-	///////////////////////////////
+	/**
+	 * Subclase para dar formato a las celdas de la tabla que lista los alumnos
+	 * @author Mario Núñez Izquierdo
+	 * @version 1.0
+	 *
+	 */
 	protected class CeldaAlumno {
 
 		private Alumno stu;
@@ -222,31 +262,61 @@ public class StudentManageViewController extends Controller {
 			}
 		}
 
+		/**
+		 * Getter
+		 * @return nombre del alumno
+		 */
 		public String getNombre() {
 			return this.stu.getNombre();
 		}
 
+		/**
+		 * Getter
+		 * @return apellido del alumno
+		 */
 		public String getApellido1() {
 			return this.stu.getApellido1();
 		}
 
+		/**
+		 * Getter
+		 * @return segundo apellido del alumno
+		 */
 		public String getApellido2() {
 			return this.stu.getApellido2();
 		}
 		
+		/**
+		 * Getter
+		 * @return label que muestra las evaluaciones del alumno
+		 */
 		public Label getShowEvaluation() {
 			return showEvaluation;
 		}
 
+		/**
+		 * Getter
+		 * @return label para editar alumnos
+		 */
 		public Label getEdit() {
 			return edit;
 		}
 
+		/**
+		 * Getter
+		 * @return label para borrar alumnos
+		 */
 		public Label getDelete() {
 			return delete;
 		}
 	}
 
+	/**
+	 * Subclase para ordenar alumnos
+	 * @author Mario Núñez Izquierdo
+	 * @version 1.0
+	 *
+	 */
 	private class SortStudent implements Comparator<Alumno> {
 		@Override
 		public int compare(Alumno a1, Alumno a2) {

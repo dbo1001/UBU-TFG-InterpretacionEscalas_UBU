@@ -25,6 +25,12 @@ import javafx.scene.text.Text;
 import model.Alumno;
 import model.Evaluacion;
 
+/**
+ * Controlador de la pantalla que lista las evaluaciones de un alumno
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class EvaluationManageViewController extends Controller {
 
 	@FXML
@@ -45,6 +51,9 @@ public class EvaluationManageViewController extends Controller {
 	private Set<Evaluacion> allEvaluations;
 	private Alumno stu;
 
+	/**
+	 * Inicializa los elementos gráficos
+	 */
 	@FXML
 	private void initialize() {
 		dateColumn.setCellValueFactory(new PropertyValueFactory<CeldaEvaluacion, String>("Fecha"));
@@ -54,11 +63,18 @@ public class EvaluationManageViewController extends Controller {
 				new Label("No se han encontrado evaluaciones. Agrega una nueva o revisa los filtros aplicados."));
 	}
 
+	/**
+	 * Muestra la pantalla de creación de evaluaciones
+	 * @throws IOException archino no encontrado
+	 */
 	@FXML
 	private void addNewEvaluation() throws IOException {
 		Main.showEvaluationView(stu);
 	}
 
+	/**
+	 * Limpia los filtros
+	 */
 	@FXML
 	private void clearFilters() {
 		this.from.setValue(null);
@@ -66,6 +82,9 @@ public class EvaluationManageViewController extends Controller {
 		this.filter();
 	}
 
+	/**
+	 * Filtra las evaluaciones por fecha
+	 */
 	@FXML
 	private void filter() {
 		if (this.from.getValue() != null && this.to.getValue() != null) {
@@ -98,6 +117,10 @@ public class EvaluationManageViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Inicializa los datos del alumno al que pertenecen las evaluaciones
+	 * @param stu alumno al que pertenecen las evaluaciones
+	 */
 	public void setStudent(Alumno stu) {
 		this.stu = stu;
 		this.allEvaluations = new HashSet<Evaluacion>(stu.getEvaluacions());
@@ -110,7 +133,12 @@ public class EvaluationManageViewController extends Controller {
 		table.getItems().setAll(cellsList);
 	}
 
-///////////////////////////////
+	/**
+	 * Subclase para formatear las celdas que muestran las evaluaciones
+	 * @author Mario Núñez Izquierdo
+	 * @version 1.0
+	 *
+	 */
 	protected class CeldaEvaluacion {
 
 		private Evaluacion eva;
@@ -158,14 +186,26 @@ public class EvaluationManageViewController extends Controller {
 			});*/
 		}
 
+		/**
+		 * Getter
+		 * @return fecha
+		 */
 		public String getFecha() {
 			return this.eva.getFecha().toString().substring(0, 16);
 		}
 
+		/**
+		 * Getter
+		 * @return label para editar evaluaciones
+		 */
 		public Label getEdit() {
 			return edit;
 		}
 
+		/**
+		 * Getter
+		 * @return label para borrar evaluaciones
+		 */
 		public Label getDelete() {
 			return delete;
 		}

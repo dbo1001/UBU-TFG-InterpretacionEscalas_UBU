@@ -22,6 +22,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import model.Profesor;
 
+/**
+ * Controlador de la pantalla que lista los profesores
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class TeacherManageViewController extends Controller {
 
 	@FXML
@@ -48,6 +54,9 @@ public class TeacherManageViewController extends Controller {
 	private Label currentSurnameFilter = null;
 	private List<Profesor> allTeachers;
 
+	/**
+	 * Inicializa los elementos gráficos
+	 */
 	@FXML
 	private void initialize() {
 		nameColumn.setCellValueFactory(new PropertyValueFactory<CeldaProfesor, String>("nombre"));
@@ -58,11 +67,19 @@ public class TeacherManageViewController extends Controller {
 		table.setPlaceholder(new Label("No se han encontrado profesores. Revisa los filtros aplicados."));
 	}
 
+	/**
+	 * Muestra la pantalla de creación de profesores
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void addNewTeacher() throws IOException {
 		Main.showTeacherView();
 	}
 
+	/**
+	 * Actualiza el filtro del nombre
+	 * @param newFilter nuevo filtro
+	 */
 	private void updateNameFilter(Label newFilter) {
 		if (this.currentNameFilter != null) {
 			this.currentNameFilter.setDisable(false);
@@ -74,6 +91,10 @@ public class TeacherManageViewController extends Controller {
 		this.filter();
 	}
 
+	/**
+	 * Actualiza el filtro de los apellidos
+	 * @param newFilter nuevo filtro
+	 */
 	private void updateSurnameFilter(Label newFilter) {
 		if (this.currentSurnameFilter != null) {
 			this.currentSurnameFilter.setDisable(false);
@@ -85,12 +106,20 @@ public class TeacherManageViewController extends Controller {
 		this.filter();
 	}
 
+	/**
+	 * Inicializa los datos de los profesores que serán listados en pantalla 
+	 * @param teachers profesores
+	 */
 	public void setAllTeachers(List<Profesor> teachers) {
 		this.allTeachers = teachers;
 		Collections.sort(this.allTeachers, new SortTeacher());
 		this.loadTeachers(teachers);
 	}
 
+	/**
+	 * Carga los profesores en la tabla que los muestra
+	 * @param teachers profesores
+	 */
 	private void loadTeachers(List<Profesor> teachers) {
 		ObservableList<CeldaProfesor> cellsList = FXCollections.observableArrayList();
 		for (Profesor tea : teachers) {
@@ -99,6 +128,9 @@ public class TeacherManageViewController extends Controller {
 		table.getItems().setAll(cellsList);
 	}
 
+	/**
+	 * Filtra los profesores con los filtros seleccionados actualmente
+	 */
 	private void filter() {
 		this.loadCursor();
 		List<Profesor> filteredTeachers = new ArrayList<Profesor>();
@@ -134,6 +166,9 @@ public class TeacherManageViewController extends Controller {
 		this.defaultCursor();
 	}
 
+	/**
+	 * Limpia los filtros
+	 */
 	@FXML
 	private void clearFilters() {
 		this.updateNameFilter(null);
@@ -141,7 +176,12 @@ public class TeacherManageViewController extends Controller {
 		this.filter();
 	}
 
-	///////////////////////////////
+	/**
+	 * Subclase para formatear las celdas de la tabla que lista los profesores
+	 * @author Mario Núñez Izquierdo
+	 * @version 1.0
+	 *
+	 */
 	protected class CeldaProfesor {
 
 		private Profesor teacher;
@@ -163,6 +203,10 @@ public class TeacherManageViewController extends Controller {
 			}
 		};
 
+		/**
+		 * Constructor
+		 * @param tea profesor mostrado en la celda
+		 */
 		public CeldaProfesor(Profesor tea) {
 			this.teacher = tea;
 			this.nombre = tea.getNombre();
@@ -218,48 +262,55 @@ public class TeacherManageViewController extends Controller {
 			}
 		}
 
+		/**
+		 * Getter
+		 * @return nombre del profesor
+		 */
 		public String getNombre() {
 			return nombre;
 		}
 
-		public void setNombre(String nombre) {
-			this.nombre = nombre;
-		}
-
+		/**
+		 * Getter
+		 * @return apellido del profesor
+		 */
 		public String getApellido1() {
 			return apellido1;
 		}
 
-		public void setApellido1(String apellido1) {
-			this.apellido1 = apellido1;
-		}
-
+		/**
+		 * Getter
+		 * @return segundo apellido del profesor
+		 */
 		public String getApellido2() {
 			return apellido2;
 		}
 
-		public void setApellido2(String apellido2) {
-			this.apellido2 = apellido2;
-		}
-
+		/**
+		 * Getter
+		 * @return label para editar profesores
+		 */
 		public Label getEdit() {
 			return edit;
 		}
 
-		public void setEdit(Label edit) {
-			this.edit = edit;
-		}
-
+		/**
+		 * Getter
+		 * @return label para borrar profesores
+		 */
 		public Label getDelete() {
 			return delete;
 		}
 
-		public void setDelete(Label delete) {
-			this.delete = delete;
-		}
 
 	}
 	
+	/**
+	 * Subclase para ordenar los profesores
+	 * @author Mario Núñez Izquierdo
+	 * @version 1.0
+	 *
+	 */
 	private class SortTeacher implements Comparator<Profesor> {
 		@Override
 		public int compare(Profesor p1, Profesor p2) {
@@ -270,6 +321,9 @@ public class TeacherManageViewController extends Controller {
 
 	}
 
+	/**
+	 * Filtrar profesores cuyo nombre empieza por A
+	 */
 	@FXML
 	private void filterNA() {
 		this.updateNameFilter(nA);
@@ -405,6 +459,9 @@ public class TeacherManageViewController extends Controller {
 		this.updateNameFilter(nZ);
 	}
 
+	/**
+	 * Filtrar profesores cuyo apellido empieza por A
+	 */
 	@FXML
 	private void filterSA() {
 		this.updateSurnameFilter(sA);

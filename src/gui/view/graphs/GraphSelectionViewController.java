@@ -21,6 +21,13 @@ import model.Categorizacion;
 import model.Evaluacion;
 import model.Item;
 
+/**
+ * Controlador de la pantalla de selección de gráficos.
+ * Permite personalizar los elementos que se mostrarán en el gráfico.
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class GraphSelectionViewController extends Controller {
 
 	@FXML
@@ -56,6 +63,9 @@ public class GraphSelectionViewController extends Controller {
 
 	};
 
+	/**
+	 * Inicializa los elementos gráficos
+	 */
 	@FXML
 	private void initialize() {
 		this.functionalareaLV.setSelectionModel(new NoSelectionModel());
@@ -63,6 +73,9 @@ public class GraphSelectionViewController extends Controller {
 		this.itemLV.setSelectionModel(new NoSelectionModel());
 	}
 
+	/**
+	 * Selecciona todas las áreas funcionales
+	 */
 	@FXML
 	private void selectAllFa() {
 		if (!this.allFaSelected.isSelected()) {
@@ -80,6 +93,9 @@ public class GraphSelectionViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Selecciona todas las categorías
+	 */
 	@FXML
 	private void selectAllCa() {
 		if (this.categoryLV.getItems().size() > 0) {
@@ -101,6 +117,9 @@ public class GraphSelectionViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Selecciona todos los ítems
+	 */
 	@FXML
 	private void selectAllIt() {
 		if (this.itemLV.getItems().size() > 0) {
@@ -120,6 +139,10 @@ public class GraphSelectionViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Muestra la pantalla que genera el gráfico con los elementos seleccionados
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void generateGraph() throws IOException {
 		List<Areafuncional> finalFaList = new ArrayList<Areafuncional>();
@@ -147,6 +170,11 @@ public class GraphSelectionViewController extends Controller {
 		Main.showGraphView(this.selectedEvaluations, finalFaList, finalCaList, finalItList);
 	}
 
+	/**
+	 * Inicializa los datos
+	 * @param selectedEvaluations evaluaciones seleccionadas previamente
+	 * @param faList áreas funcionales
+	 */
 	public void setData(List<Evaluacion> selectedEvaluations, List<Areafuncional> faList) {
 		this.selectedEvaluations = selectedEvaluations;
 		for (Areafuncional fa : faList) {
@@ -178,17 +206,28 @@ public class GraphSelectionViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Muestra las categorías del área funcional seleccionada
+	 * @param fa área funcional
+	 */
 	private void addCategories(Areafuncional fa) {
 		this.selectedCa.addAll(fa.getCategorizacions());
 		this.allCaSelected.setSelected(false);
 		this.updateCategories();
 	}
 
+	/**
+	 * Oculta las categorías del área funcional seleccionada
+	 * @param fa área funcional
+	 */
 	private void removeCategories(Areafuncional fa) {
 		this.selectedCa.removeAll(fa.getCategorizacions());
 		this.updateCategories();
 	}
 
+	/**
+	 * Actualiza las categorías
+	 */
 	private void updateCategories() {
 		this.categoryLV.getItems().clear();
 		this.selectedIt.clear();
@@ -226,17 +265,28 @@ public class GraphSelectionViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Muestra los ítems que pertenecen a la categoría selecionada
+	 * @param ca categoría
+	 */
 	private void addItems(Categorizacion ca) {
 		this.selectedIt.addAll(ca.getItems());
 		this.allItSelected.setSelected(false);
 		this.updateItems();
 	}
 
+	/**
+	 * Oculta los ítems que pertenecen a la categoría selecionada
+	 * @param ca categoría
+	 */
 	private void removeItems(Categorizacion ca) {
 		this.selectedIt.removeAll(ca.getItems());
 		this.updateItems();
 	}
 
+	/**
+	 * Actualiza los ítems
+	 */
 	private void updateItems() {
 		this.itemLV.getItems().clear();
 		this.allItSelected.setSelected(false);
@@ -268,6 +318,13 @@ public class GraphSelectionViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Subclase para listas gráficas que no permiten seleccionar los elementos
+	 * que contienen.
+	 * @author Mario Núñez Izquierdo
+	 * @version 1.0
+	 *
+	 */
 	protected class NoSelectionModel extends MultipleSelectionModel<CheckBox> {
 
 		@Override

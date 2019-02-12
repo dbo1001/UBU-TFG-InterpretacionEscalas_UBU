@@ -23,6 +23,13 @@ import javafx.scene.paint.Color;
 import model.Alumno;
 import model.Aula;
 
+/**
+ * Controlador de la pantalla que lista las aulas
+ * 
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class ClassroomManageViewController extends Controller {
 
 	@FXML
@@ -45,6 +52,9 @@ public class ClassroomManageViewController extends Controller {
 	private Label currentNameFilter = null;
 	private List<Aula> allClassrooms;
 
+	/**
+	 * Inicializa los datos
+	 */
 	@FXML
 	private void initialize() {
 		nameColumn.setCellValueFactory(new PropertyValueFactory<CeldaAula, String>("nombre"));
@@ -55,11 +65,21 @@ public class ClassroomManageViewController extends Controller {
 		table.setPlaceholder(new Label("No se han encontrado aulas. Revisa los filtros aplicados."));
 	}
 
+	/**
+	 * Muestra la pantalla de creación de aulas
+	 * 
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void addNewClassroom() throws IOException {
 		Main.showClassroomView();
 	}
 
+	/**
+	 * Actualiza el filtro del nombre
+	 * 
+	 * @param newFilter nuevo filtro
+	 */
 	private void updateNameFilter(Label newFilter) {
 		if (this.currentNameFilter != null) {
 			this.currentNameFilter.setDisable(false);
@@ -71,12 +91,22 @@ public class ClassroomManageViewController extends Controller {
 		this.filter();
 	}
 
+	/**
+	 * Inicializa la pantalla con las aulas
+	 * 
+	 * @param classrooms todas las aulas actualmente en la base de datos
+	 */
 	public void setAllClassrooms(List<Aula> classrooms) {
 		this.allClassrooms = classrooms;
 		Collections.sort(this.allClassrooms, new SortClassroom());
 		this.loadClassrooms(classrooms);
 	}
 
+	/**
+	 * Lista las aulas
+	 * 
+	 * @param classrooms aulas a listar
+	 */
 	private void loadClassrooms(List<Aula> classrooms) {
 		ObservableList<CeldaAula> cellsList = FXCollections.observableArrayList();
 		for (Aula cla : classrooms) {
@@ -85,6 +115,9 @@ public class ClassroomManageViewController extends Controller {
 		table.getItems().setAll(cellsList);
 	}
 
+	/**
+	 * Filtra las aulas
+	 */
 	private void filter() {
 		this.loadCursor();
 		List<Aula> filteredClassrooms = new ArrayList<Aula>();
@@ -103,13 +136,22 @@ public class ClassroomManageViewController extends Controller {
 		this.defaultCursor();
 	}
 
+	/**
+	 * Limpia los filtros
+	 */
 	@FXML
 	private void clearFilters() {
 		this.updateNameFilter(null);
 		this.filter();
 	}
 
-	///////////////////////////////
+	/**
+	 * Subclase para dar formata a las celdas de la tabla que muestra las aulas
+	 * 
+	 * @author Mario Núñez Izquierdo
+	 * @version 1.0
+	 *
+	 */
 	protected class CeldaAula {
 
 		@SuppressWarnings("unused")
@@ -132,6 +174,11 @@ public class ClassroomManageViewController extends Controller {
 			}
 		};
 
+		/**
+		 * Constructor
+		 * 
+		 * @param cla aula mostrada en esta celda
+		 */
 		public CeldaAula(Aula cla) {
 			this.nombre = cla.getNombre();
 			this.capacidad = "" + cla.getCapacidad();
@@ -150,7 +197,7 @@ public class ClassroomManageViewController extends Controller {
 						alert.setContentText(alert.getContentText() + "\n Nombre: " + stu.getApellido1() + " "
 								+ stu.getApellido2() + ", " + stu.getNombre() + " 		Código: " + stu.getCodigo());
 					}
-					alert.setContentText(alert.getContentText()+"\n");
+					alert.setContentText(alert.getContentText() + "\n");
 					alert.showAndWait();
 
 				};
@@ -206,55 +253,123 @@ public class ClassroomManageViewController extends Controller {
 			delete.setOnMouseExited(mouseLeft);
 		}
 
+		/**
+		 * Getter
+		 * 
+		 * @return capacidad
+		 */
 		public String getCapacidad() {
 			return capacidad;
 		}
 
+		/**
+		 * Setter
+		 * 
+		 * @param capacidad capacidad
+		 */
 		public void setCapacidad(String capacidad) {
 			this.capacidad = capacidad;
 		}
 
+		/**
+		 * Getter
+		 * 
+		 * @return nombre
+		 */
 		public String getNombre() {
 			return nombre;
 		}
 
+		/**
+		 * Setter
+		 * 
+		 * @param nombre nombre
+		 */
 		public void setNombre(String nombre) {
 			this.nombre = nombre;
 		}
 
+		/**
+		 * Getter
+		 * 
+		 * @return primer apellido
+		 */
 		public String getApellido1() {
 			return capacidad;
 		}
 
+		/**
+		 * Setter
+		 * 
+		 * @param apellido1 primer apellido
+		 */
 		public void setApellido1(String apellido1) {
 			this.capacidad = apellido1;
 		}
+
+		/**
+		 * Getter
+		 * 
+		 * @return laber para comprobar los estudiantes del aula
+		 */
 		public Label getCheckStudents() {
 			return checkStudents;
 		}
 
+		/**
+		 * Setter
+		 * 
+		 * @param checkStudents laber para comprobar los estudiantes del aula
+		 */
 		public void setCheckStudents(Label checkStudents) {
 			this.checkStudents = checkStudents;
 		}
 
+		/**
+		 * Getter
+		 * 
+		 * @return label para editar aulas
+		 */
 		public Label getEdit() {
 			return edit;
 		}
 
+		/**
+		 * Setter
+		 * 
+		 * @param edit label para editar aulas
+		 */
 		public void setEdit(Label edit) {
 			this.edit = edit;
 		}
 
+		/**
+		 * Getter
+		 * 
+		 * @return label para borrar aulas
+		 */
 		public Label getDelete() {
 			return delete;
 		}
 
+		/**
+		 * Setter
+		 * 
+		 * @param delete label para borrar aulas
+		 */
 		public void setDelete(Label delete) {
 			this.delete = delete;
 		}
 
 	}
 
+	/**
+	 * Subclase para ordenar aulas
+	 * 
+	 * @author Mario Núñez Izquierdo
+	 * @version 1.0
+	 *
+	 */
 	private class SortClassroom implements Comparator<Aula> {
 		@Override
 		public int compare(Aula a1, Aula a2) {
@@ -262,6 +377,9 @@ public class ClassroomManageViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Filtra las aulas y muestra aquellas cuyo nombre empieza por A
+	 */
 	@FXML
 	private void filterNA() {
 		this.updateNameFilter(nA);

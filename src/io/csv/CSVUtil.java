@@ -14,14 +14,31 @@ import model.Evaluacion;
 import model.Profesor;
 import model.Puntuacion;
 
+/**
+ * Clase con las utilidades básicas para manejar archivos csv
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class CSVUtil {
 
 	private static final char DEFAULT_SEPARATOR = ',';
 
+	/**
+	 * Introduce una linea en uncsv
+	 * @param writer writer que escribe en el csv
+	 * @param content contenido de la linea
+	 * @throws IOException no se ha podido crear o sobreescribir el archivo
+	 */
 	protected static void writeLine(Writer writer, List<String> content) throws IOException {
 		writeLine(writer, content, DEFAULT_SEPARATOR);
 	}
 
+	/**
+	 * Modifica la cadena para que tenga formato csv
+	 * @param str cadena a modificar
+	 * @return cadena resultante
+	 */
 	private static String followCSVformat(String str) {
 		String result = str;
 
@@ -31,6 +48,13 @@ public class CSVUtil {
 		return result;
 	}
 
+	/**
+	 * Escribe una linea en el csv
+	 * @param writer writer que escribe en el csv
+	 * @param content contenido de la linea
+	 * @param separators separador personalizado
+	 * @throws IOException no se ha podido crear o sobreescribir el archivo
+	 */
 	protected static void writeLine(Writer writer, List<String> content, char separators) throws IOException {
 
 		boolean first = true;
@@ -54,6 +78,12 @@ public class CSVUtil {
 		writer.append(sb.toString());
 	}
 
+	/**
+	 * Escribe en un csv una linea con los datos del alumno
+	 * @param writer writer que escribe en el csv
+	 * @param stu alumno
+	 * @throws IOException no se ha podido crear o sobreescribir el archivo
+	 */
 	protected static void writeStudent(Writer writer, Alumno stu) throws IOException {
 		List<String> stuToCsv = new ArrayList<String>();
 		stuToCsv.add(""+stu.getId());
@@ -69,6 +99,12 @@ public class CSVUtil {
 
 	}
 
+	/**
+	 * Escribe en un csv una linea con los datos del profesor
+	 * @param writer writer que escribe en el csv
+	 * @param tea profesor
+	 * @throws IOException no se ha podido crear o sobreescribir el archivo
+	 */
 	protected static void writeTeacher(Writer writer, Profesor tea) throws IOException {
 		List<String> teaToCsv = new ArrayList<String>();
 		teaToCsv.add(""+tea.getId());
@@ -82,6 +118,12 @@ public class CSVUtil {
 		CSVUtil.writeLine(writer, teaToCsv);
 	}
 
+	/**
+	 * Escribe en un csv una linea con los datos del aula
+	 * @param writer writer que escribe en el csv
+	 * @param cla aula
+	 * @throws IOException no se ha podido crear o sobreescribir el archivo
+	 */
 	protected static void writeClassroom(Writer writer, Aula cla) throws IOException {
 		List<String> claToCsv = new ArrayList<String>();
 		claToCsv.add(""+cla.getId());
@@ -94,6 +136,12 @@ public class CSVUtil {
 		CSVUtil.writeLine(writer, claToCsv);
 	}
 	
+	/**
+	 * Escribe en un csv una linea con los datos de la puntuación
+	 * @param writer writer que escribe en el csv
+	 * @param pun puntuación
+	 * @throws IOException no se ha podido crear o sobreescribir el archivo
+	 */
 	protected static void writePuntuation(Writer writer, Puntuacion pun) throws IOException {
 		List<String> punToCsv = new ArrayList<String>();
 		punToCsv.add(""+pun.getId());
@@ -103,6 +151,12 @@ public class CSVUtil {
 		CSVUtil.writeLine(writer, punToCsv);
 	}
 	
+	/**
+	 * Escribe en un csv una linea con los datos de la evaluación
+	 * @param writer writer que escribe en el csv
+	 * @param eva evaluación
+	 * @throws IOException no se ha podido crear o sobreescribir el archivo
+	 */
 	protected static void writeEvaluation(Writer writer, Evaluacion eva) throws IOException {
 		List<String> evaToCsv = new ArrayList<String>();
 		evaToCsv.add(""+eva.getId());
@@ -111,6 +165,12 @@ public class CSVUtil {
 		CSVUtil.writeLine(writer, evaToCsv);
 	}
 	
+	/**
+	 * Lee un archivo csv
+	 * @param path ruta al archivo
+	 * @return lista con las lineas del csv, cada linea es otra lista con los datos contenidos en forma de String
+	 * @throws FileNotFoundException arhivo no encontrado
+	 */
 	protected static List<List<String>> readCSVFile(String path) throws FileNotFoundException{
 		List<List<String>> file = new ArrayList<List<String>>();
 		Scanner scanner = new Scanner(new File(path));
@@ -124,6 +184,12 @@ public class CSVUtil {
 		return file;
 	}
 	
+	/**
+	 * Transforma una linea del csv en una lista con los diferentes
+	 *  campos que hay en esa linea separados por el separador (,)
+	 * @param nextLine linea a parsear
+	 * @return lista con los campos en forma de Strings
+	 */
 	private static List<String> parseLine(String nextLine) {
 		List<String> result = new ArrayList<String>();
 		

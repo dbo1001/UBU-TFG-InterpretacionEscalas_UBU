@@ -10,6 +10,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import model.Profesor;
 
+/**
+ * Controlador de la pantalla de log in
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class LogInViewController extends Controller {
 	
 	@FXML
@@ -19,6 +25,10 @@ public class LogInViewController extends Controller {
 	@FXML
 	private Text error;
 	
+	/**
+	 * Comprueba los campos y logea al profesor en caso de acierto
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void logIn() throws IOException {
 		Profesor tea = Main.getTeacherService().getOne(this.Nif.getText());

@@ -18,6 +18,12 @@ import model.Evaluacion;
 import model.Item;
 import model.Puntuacion;
 
+/**
+ * Controlador de la pantalla que muestra el gráfico generado
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class GraphViewController extends Controller {
 
 	@FXML
@@ -29,6 +35,11 @@ public class GraphViewController extends Controller {
 	private LineChart<String, Number> chart;
 	private Series<String, Number> series;
 
+	/**
+	 * Genera un gráfico de áreas funcionales
+	 * @param evaluations evaluaciones seleccionadas
+	 * @param faList áreas funcionales seleccionadas
+	 */
 	public void faChart(List<Evaluacion> evaluations, List<Areafuncional> faList) {
 		this.dataMap = new LinkedHashMap<Evaluacion, Map<String, Integer>>();
 		for (Evaluacion eva : evaluations) {
@@ -84,6 +95,11 @@ public class GraphViewController extends Controller {
 		root.setCenter(chart);
 	}
 
+	/**
+	 * Genera un gráfico de categorías
+	 * @param evaluations evaluaciones seleccionadas
+	 * @param caList categorías seleccionadas
+	 */
 	public void caChart(List<Evaluacion> evaluations, List<Categorizacion> caList) {
 		this.dataMap = new LinkedHashMap<Evaluacion, Map<String, Integer>>();
 		for (Evaluacion eva : evaluations) {
@@ -139,6 +155,11 @@ public class GraphViewController extends Controller {
 		root.setCenter(chart);
 	}
 
+	/**
+	 * Genera un gráfico de ítems
+	 * @param evaluations evaluaciones seleccionadas
+	 * @param itList ítems seleccionados
+	 */
 	public void itChart(List<Evaluacion> evaluations, List<Item> itList) {
 		this.dataMap = new LinkedHashMap<Evaluacion, Map<String, Integer>>();
 		for (Evaluacion eva : evaluations) {

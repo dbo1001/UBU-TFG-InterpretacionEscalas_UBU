@@ -10,7 +10,11 @@ import connection.ConnectionError;
 import connection.ConnectionException;
 import connection.ServiceImpl;
 import model.Alumno;
-
+/**
+ * Clase que implementa las transacciones de los alumnos
+ * @author Mario Núñez Izquierdo
+ *
+ */
 public class StudentServiceImpl extends ServiceImpl implements ManageService<Alumno, String> {
 
 	@Override

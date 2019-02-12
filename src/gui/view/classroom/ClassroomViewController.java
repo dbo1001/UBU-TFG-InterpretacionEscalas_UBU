@@ -21,6 +21,12 @@ import javafx.util.Callback;
 import model.Aula;
 import model.Profesor;
 
+/**
+ * Controlador de la pantalla de creación de aulas
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class ClassroomViewController extends SelectorController<Profesor> {
 
 	@FXML
@@ -48,6 +54,11 @@ public class ClassroomViewController extends SelectorController<Profesor> {
 		}
 	};
 
+	/**
+	 * Cancela la creación del aula
+	 * 
+	 * @throws IOException archino no encontrado
+	 */
 	@FXML
 	private void cancel() throws IOException {
 		if (cancelAlert()) {
@@ -57,6 +68,10 @@ public class ClassroomViewController extends SelectorController<Profesor> {
 
 	}
 
+	/**
+	 * Crea el aula
+	 * @throws IOException archino no encontrado
+	 */
 	@FXML
 	private void acept() throws IOException {
 		Aula cla = new Aula();
@@ -78,16 +93,26 @@ public class ClassroomViewController extends SelectorController<Profesor> {
 				Alert alert = new Alert(AlertType.ERROR, cEx.getError().getText(), ButtonType.OK);
 				alert.showAndWait();
 			}
-		}else {
+		} else {
 			Alert alert = new Alert(AlertType.ERROR, ConnectionError.WRONG_CAPACITY.getText(), ButtonType.OK);
 			alert.showAndWait();
 		}
 	}
 
+	/**
+	 * Inicializa los elementos de selección de profesores
+	 * @param allTeachers todos los profesores de la base de datos
+	 */
 	public void setTeachers(List<Profesor> allTeachers) {
 		super.initialize(callback, allTeachers, new SortTeacher());
 	}
 
+	/**
+	 * Subclase para ordenar los profesores
+	 * @author Mario Núñez Izquierdo
+	 * @version 1.0
+	 *
+	 */
 	private class SortTeacher implements Comparator<Profesor> {
 		@Override
 		public int compare(Profesor p1, Profesor p2) {

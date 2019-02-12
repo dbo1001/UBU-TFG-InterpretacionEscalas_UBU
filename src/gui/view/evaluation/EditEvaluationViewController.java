@@ -30,6 +30,12 @@ import model.Evaluacion;
 import model.Item;
 import model.Puntuacion;
 
+/**
+ * Controlador de la pantalla para editar evaluaciones
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class EditEvaluationViewController extends Controller {
 	@FXML
 	private TabPane tabPane;
@@ -42,6 +48,11 @@ public class EditEvaluationViewController extends Controller {
 	private Evaluacion eva;
 	private Map<Item, Integer> scores = new TreeMap<Item, Integer>();
 
+	/**
+	 * Carga los datos de la evaluación a editar. Genera la pantalla en tiempo de ejecución.
+	 * Para ello navega por las áreas funcionales, categorías e ítems de la base de datos y genera
+	 * los elementos gráficos necesarios para evaluarlos a todos.
+	 */
 	private void loadData() {
 
 		for (Puntuacion pun : this.eva.getPuntuacions()) {
@@ -138,6 +149,13 @@ public class EditEvaluationViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Inicializa los datos
+	 * @param eva evaluacion a modificar
+	 * @param allFunctionalAreas todas las áreas funcionales
+	 * @param allCategories todas las categorías
+	 * @param allItems todos los ítems
+	 */
 	public void setData(Evaluacion eva, List<Areafuncional> allFunctionalAreas, List<Categorizacion> allCategories,
 			List<Item> allItems) {
 		this.stu = eva.getAlumno();
@@ -148,6 +166,10 @@ public class EditEvaluationViewController extends Controller {
 		this.loadData();
 	}
 
+	/**
+	 * Cancela el proceso de edición
+	 * @throws IOException archino no encontrado
+	 */
 	@FXML
 	private void cancel() throws IOException {
 		if (this.cancelAlert()) {
@@ -155,6 +177,10 @@ public class EditEvaluationViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Actualiza los datos del aula en la base de datos
+	 * @throws IOException archino no encontrado
+	 */
 	@FXML
 	private void acept() throws IOException {
 		// Calendar cal = Calendar.getInstance();
@@ -189,11 +215,17 @@ public class EditEvaluationViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Avanza a la pestaña que contiene la siguiente área funcional
+	 */
 	@FXML
 	private void next() {
 		this.tabPane.getSelectionModel().selectNext();
 	}
 
+	/**
+	 * Vuelve a la pestaña que contiene el área funcional anterior
+	 */
 	@FXML
 	private void previous() {
 		this.tabPane.getSelectionModel().selectPrevious();

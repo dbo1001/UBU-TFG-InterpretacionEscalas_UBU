@@ -23,6 +23,12 @@ import javafx.util.Callback;
 import model.Aula;
 import model.Profesor;
 
+/**
+ * Controlador de la pantalla para editar profesores
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class EditTeacherViewController extends SelectorController<Aula> {
 
 	@FXML
@@ -61,6 +67,9 @@ public class EditTeacherViewController extends SelectorController<Aula> {
 		}
 	};
 	
+	/**
+	 * Inicializa los elementos gráficos
+	 */
 	@FXML
 	private void initialize() {
 		List<String> choices = new ArrayList<String>();
@@ -70,13 +79,20 @@ public class EditTeacherViewController extends SelectorController<Aula> {
 		this.rights.getSelectionModel().select("No");
 	}
 	
-
+	/**
+	 * Inicializa los datos que se mostrarán en pantalla
+	 * @param tea profesor a editar
+	 * @param allClassrooms lista de todas lasa aulas
+	 */
 	public void setTeacherAndClassrooms(Profesor tea, List<Aula> allClassrooms) {
 		this.tea = tea;
 		this.listAllClassrooms = allClassrooms;
 		this.fillFields();
 	}
 
+	/**
+	 * Rellena los campos con los datos del profesor que se va a editar
+	 */
 	@FXML
 	private void fillFields() {
 	
@@ -95,6 +111,10 @@ public class EditTeacherViewController extends SelectorController<Aula> {
 		
 	}
 
+	/**
+	 * Cancela la operación y vuelve atrás
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void cancel() throws IOException {
 		if (cancelAlert()) {
@@ -103,6 +123,10 @@ public class EditTeacherViewController extends SelectorController<Aula> {
 		}
 	}
 
+	/**
+	 * Comienza la transacción para editar al profesor
+	 * @throws IOException archivo no encontrado ManageView.fxml
+	 */
 	@FXML
 	private void acept() throws IOException {
 		tea.setNombre(this.name.getText());
@@ -138,6 +162,12 @@ public class EditTeacherViewController extends SelectorController<Aula> {
 
 	}
 	
+	/**
+	 * Subclase para ordenar las aulas
+	 * @author Mario Núñez Izquierdo
+	 * @version 1.0
+	 *
+	 */
 	private class SortClassroom implements Comparator<Aula> {
 		@Override
 		public int compare(Aula a1, Aula a2) {

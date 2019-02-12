@@ -58,6 +58,12 @@ import model.Item;
 import model.Profesor;
 import model.Puntuacion;
 
+/**
+ * Main de la aplicación
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class Main extends Application {
 
 	private static Stage primaryStage;
@@ -74,10 +80,17 @@ public class Main extends Application {
 	private final static String PATH_LOCAL = "iodata/";
 	private final static String PATH_EVALUATIONS = "ioData/Evaluaciones/";
 
+	/**
+	 * Método main que pone en marcha la aplicación
+	 * @param args argumentos
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/**
+	 * Método que muestra la primera pantalla
+	 */
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		Main.primaryStage = primaryStage;
@@ -90,6 +103,10 @@ public class Main extends Application {
 		showLogInView();
 	}
 
+	/**
+	 * Carga la escena principal
+	 * @throws IOException archivo no encontrado
+	 */
 	private void showMain() throws IOException {
 		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/MainView.fxml"));
 		Main.mainLayout = loader.load();
@@ -100,12 +117,21 @@ public class Main extends Application {
 		Main.primaryStage.show();
 	}
 
+	/**
+	 * Establece al profesor logeado como profesor actual
+	 * @param tea profesor que ha hecho log in
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void setCurrentTeacher(Profesor tea) throws IOException {
 		Main.currentTeacher = tea;
 		Main.mvC.setCurrentTeacher(Main.currentTeacher);
 		Main.showManageView();
 	}
 
+	/**
+	 * Muestra la pantalla de log in
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void showLogInView() throws IOException {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/LogInView.fxml"));
 		BorderPane logInView = loader.load();
@@ -114,6 +140,10 @@ public class Main extends Application {
 		Main.primaryStage.show();
 	}
 
+	/**
+	 * Muestra el menú principal, donde se listan los alumnos, profesores y aulas
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void showManageView() throws IOException {
 
 		Main.loadCursor();
@@ -122,13 +152,16 @@ public class Main extends Application {
 
 		Main.currentTeacher = Main.teacherService.getOne(Main.currentTeacher.getNif());
 
+		//Pantalla general que contiene todas las pestañas
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/ManageView.fxml"));
 		TabPane manageView = loader.load();
 
+		//Pestaña de los alumnos
 		loader = new FXMLLoader(Main.class.getResource("view/student/StudentManageView.fxml"));
 		BorderPane studentManageView = loader.load();
 		StudentManageViewController sMVC = loader.getController();
 
+		//Si somos administrador se muestran todos los alumnos, si no solo los de las aulas del profesor
 		if (!Main.currentTeacher.getPermisos()) {
 			List<Alumno> currentStudents = new ArrayList<Alumno>();
 			for (Aula cla : Main.currentTeacher.getAulas()) {
@@ -141,8 +174,10 @@ public class Main extends Application {
 
 		((Tab) manageView.getTabs().get(0)).setContent(studentManageView);
 
+		//Si somos administrador mostramos los profesores y aulas
 		if (Main.currentTeacher.getPermisos()) {
 
+			//Pestaña de los profesores
 			loader = new FXMLLoader(Main.class.getResource("view/teacher/TeacherManageView.fxml"));
 			BorderPane teacherManageView = loader.load();
 			TeacherManageViewController tMVC = loader.getController();
@@ -153,6 +188,7 @@ public class Main extends Application {
 			tabTea.setClosable(false);
 			manageView.getTabs().add(tabTea);
 
+			//Pestaña de las aulas
 			loader = new FXMLLoader(Main.class.getResource("view/classroom/ClassroomManageView.fxml"));
 			BorderPane classroomManageView = loader.load();
 			ClassroomManageViewController cMVC = loader.getController();
@@ -170,6 +206,10 @@ public class Main extends Application {
 		Main.defaultCursor();
 	}
 
+	/**
+	 * Muestra la pantalla de creación de alumnos
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void showStudentView() throws IOException {
 		Main.modifiedData = true;
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/student/StudentView.fxml"));
@@ -181,6 +221,10 @@ public class Main extends Application {
 		Main.mainLayout.setCenter(studentView);
 	}
 
+	/**
+	 * Muestra la pantalla de creción de profesores
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void showTeacherView() throws IOException {
 		Main.modifiedData = true;
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/teacher/TeacherView.fxml"));
@@ -192,18 +236,10 @@ public class Main extends Application {
 		Main.mainLayout.setCenter(teacherView);
 	}
 
-	public static void showEvaluationManageView(Alumno stu) throws IOException {
-		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/evaluation/EvaluationManageView.fxml"));
-		BorderPane evaluationManageView = loader.load();
-
-		EvaluationManageViewController eMVC = loader.getController();
-		eMVC.setStudent(stu);
-
-		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
-		Main.mainLayout.setCenter(evaluationManageView);
-
-	}
-
+	/**
+	 * Muestra la pantalla de creación de aulas
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void showClassroomView() throws IOException {
 		Main.modifiedData = true;
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/classroom/ClassroomView.fxml"));
@@ -216,6 +252,28 @@ public class Main extends Application {
 
 	}
 
+	/**
+	 * Muestra la pantalla que lista las evaluaciones de un alumno
+	 * @param stu alumno del que se listarán las evaluaciones
+	 * @throws IOException archivo no encontrado
+	 */
+	public static void showEvaluationManageView(Alumno stu) throws IOException {
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/evaluation/EvaluationManageView.fxml"));
+		BorderPane evaluationManageView = loader.load();
+	
+		EvaluationManageViewController eMVC = loader.getController();
+		eMVC.setStudent(stu);
+	
+		Main.previousNodeQueue.add(Main.mainLayout.getCenter());
+		Main.mainLayout.setCenter(evaluationManageView);
+	
+	}
+
+	/**
+	 * Muestra la pantalla de creación de evaluaciones
+	 * @param stu alumno al que pertenece la evaluación
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void showEvaluationView(Alumno stu) throws IOException {
 		Main.modifiedData = true;
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/evaluation/EvaluationView.fxml"));
@@ -228,6 +286,10 @@ public class Main extends Application {
 		Main.mainLayout.setCenter(evaluationView);
 	}
 
+	/**
+	 * Muestra la pantalla de selección de alumnos para generar un gráfico
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void showStudentSelectionView() throws IOException {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/StudentSelectionView.fxml"));
 		BorderPane studentSelectionView = loader.load();
@@ -243,6 +305,11 @@ public class Main extends Application {
 		Main.mainLayout.setCenter(studentSelectionView);
 	}
 
+	/**
+	 * Muestra la pantalla de selección de evaluaciones para generar un gráfico
+	 * @param selectedStudents alumnos seleccionados en el paso anterior, las evaluaciones mostradas les pertenecen
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void showEvaluationSelectionView(List<Alumno> selectedStudents) throws IOException {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/EvaluationSelectionView.fxml"));
 		BorderPane evaluationSelectionView = loader.load();
@@ -253,6 +320,11 @@ public class Main extends Application {
 		Main.mainLayout.setCenter(evaluationSelectionView);
 	}
 
+	/**
+	 * Muestra la pantalla de selección de gráficos, en la que elegimos las características del gráfico a generar
+	 * @param selectedEvaluations evaluaciones eleccionadas en el paso anterior
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void showGraphSelectionView(List<Evaluacion> selectedEvaluations) throws IOException {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/GraphSelectionView.fxml"));
 		BorderPane graphSelectionView = loader.load();
@@ -263,6 +335,14 @@ public class Main extends Application {
 		Main.mainLayout.setCenter(graphSelectionView);
 	}
 
+	/**
+	 * Muestra el gráfico generado
+	 * @param selectedEvaluations evaluaciones seleccionadas anteriormente
+	 * @param selectedFa áreas funcionales seleccionadas en el paso anterior
+	 * @param selectedCa categorías seleccionadas en el paso anterior
+	 * @param selectedIt ítems seleccionados en el paso anterior
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void showGraphView(List<Evaluacion> selectedEvaluations, List<Areafuncional> selectedFa,
 			List<Categorizacion> selectedCa, List<Item> selectedIt) throws IOException {
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/graphs/GraphView.fxml"));
@@ -281,6 +361,11 @@ public class Main extends Application {
 		Main.mainLayout.setCenter(graphView);
 	}
 
+	/**
+	 * Muestra la pantalla para editar alumnos
+	 * @param stu alumno a editar
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void showEditStudentView(Alumno stu) throws IOException {
 		Main.modifiedData = true;
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/student/EditStudentView.fxml"));
@@ -294,6 +379,11 @@ public class Main extends Application {
 
 	}
 
+	/** 
+	 * Muestra la pantalla para editar profesores
+	 * @param tea profesor a editar
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void showEditTeacherView(Profesor tea) throws IOException {
 		Main.modifiedData = true;
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/teacher/EditTeacherView.fxml"));
@@ -307,6 +397,11 @@ public class Main extends Application {
 
 	}
 
+	/** 
+	 * Muestra la pantalla para editar aulas
+	 * @param cla aula a editar 
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void showEditClassroomView(Aula cla) throws IOException {
 		Main.modifiedData = true;
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/classroom/EditClassroomView.fxml"));
@@ -319,6 +414,11 @@ public class Main extends Application {
 
 	}
 
+	/**
+	 * Muestra la pantalla para editar evaluaciones
+	 * @param eva evaluación a editar
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void showEditEvaluationView(Evaluacion eva) throws IOException {
 		Main.modifiedData = true;
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/evaluation/EditEvaluationView.fxml"));
@@ -332,6 +432,11 @@ public class Main extends Application {
 
 	}
 
+	/**
+	 * Pregunta al usuario si quiere borrar el alumno y actúa en consecuencia
+	 * @param stu alumno a borrar
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void deleteStudent(Alumno stu) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION,
 				"¿Estás seguro de que quieres borrar el alumno/a: " + stu.getNombre() + " " + stu.getApellido1() + " "
@@ -353,6 +458,11 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * Pregunta al usuario si quiere borrar el profesor y actúa en consecuencia
+	 * @param tea profesor a borrar
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void deleteTeacher(Profesor tea) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION,
 				"¿Estás seguro de que quieres borrar el profesor/a: " + tea.getNombre() + " " + tea.getApellido1() + " "
@@ -375,6 +485,11 @@ public class Main extends Application {
 
 	}
 
+	/**
+	 * Pregunta al usuario si quiere borrar el aula y actúa en consecuencia
+	 * @param cla aula a borrar
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void deleteClassroom(Aula cla) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION, "¿Estás seguro de que quieres borrar el aula: "
 				+ cla.getNombre() + " ?\n" + "Los cambios serán definitivos.", ButtonType.YES, ButtonType.NO,
@@ -398,6 +513,11 @@ public class Main extends Application {
 
 	}
 
+	/**
+	 * Pregunta al usuario si quiere borrar la evaluación y actúa en consecuencia
+	 * @param eva evaluación a borrar
+	 * @throws IOException archivo no encontrado
+	 */
 	public static void deleteEvaluation(Evaluacion eva) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION,
 				"¿Estás seguro de que quieres borrar la evaluación con fecha "
@@ -424,12 +544,18 @@ public class Main extends Application {
 
 	}
 
+	/**
+	 * Importa los datos de la nuve
+	 * @return éxito o fracaso
+	 */
 	public static boolean importData() {
 		boolean result = false;
 		List<Aula> currentCla;
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 		IOControl io;
+		
+		//Si somos administrador se importan todas la aulas, si no solo las que tenemos asignadas
 		if (Main.currentTeacher.getPermisos()) {
 			currentCla = Main.getClassroomService().getAll();
 		} else {
@@ -606,6 +732,9 @@ public class Main extends Application {
 		return result;
 	}
 
+	/**
+	 * Exporta los datos a la nube
+	 */
 	public static void exportData() {
 		IOControl io;
 
@@ -616,50 +745,94 @@ public class Main extends Application {
 
 	}
 
+	/**
+	 * Vuelve a la pantalla anterior
+	 */
 	public static void goBack() {
 		Main.mainLayout.setCenter(Main.previousNodeQueue.pollLast());
 	}
 
+	/**
+	 * Convierte el cursor a una mano
+	 */
 	public static void handCursor() {
 		Main.primaryStage.getScene().setCursor(Cursor.HAND);
 	}
 
+	/**
+	 * Convierte el cursor al cursor por defecto
+	 */
 	public static void defaultCursor() {
 		Main.primaryStage.getScene().setCursor(Cursor.DEFAULT);
 	}
 
+	/**
+	 * Convierte el cursor al cursor de carga
+	 */
 	public static void loadCursor() {
 		Main.primaryStage.getScene().setCursor(Cursor.WAIT);
 	}
 
+	/**
+	 * Setter
+	 * @param dataStatus estado de los datos
+	 */
 	public static void setModifiedData(boolean dataStatus) {
 		Main.modifiedData = dataStatus;
 	}
 
+	/**
+	 * getter
+	 * @return estado de los datos, true si hay cambios sin guardar
+	 */
 	public static boolean getDataIntegrity() {
 		return Main.modifiedData;
 	}
 
+	/**
+	 * getter
+	 * @return variable que realiza las tansacciones de los alumnos
+	 */
 	public static ManageService<Alumno, String> getStudentService() {
 		return studentService;
 	}
 
+	/**
+	 * getter
+	 * @return variable que realiza las transacciones de las aulas
+	 */
 	public static ManageService<Aula, String> getClassroomService() {
 		return classroomService;
 	}
 
+	/**
+	 * getter
+	 * @return vatiable que realiza las transacciones de los profesores
+	 */
 	public static ManageService<Profesor, String> getTeacherService() {
 		return teacherService;
 	}
 
+	/**
+	 * getter
+	 * @return vatiable que realiza las transacciones de los evaluaciones
+	 */
 	public static ManageService<Evaluacion, Timestamp> getEvaluationService() {
 		return evaluationService;
 	}
 
+	/**
+	 * getter
+	 * @return variable para consultar tables que el usuario no puede modificar
+	 */
 	public static UtilService getUtilService() {
 		return utilService;
 	}
 
+	/**
+	 * getter
+	 * @return profesor logeado actualmente
+	 */
 	public static Profesor getCurrentTeacher() {
 		return Main.currentTeacher;
 	}

@@ -216,7 +216,7 @@ public abstract class OneDriveAPI {
 	 *      "https://docs.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_post_children?view=odsp-graph-online">One
 	 *      Drive API</a>
 	 * @param httpClient client
-	 * @param path       path
+	 * @param directoryName       path
 	 * @return true if the file has been correctly deleted, false in other case
 	 * @throws Exception if there is any error
 	 */
@@ -356,6 +356,7 @@ public abstract class OneDriveAPI {
 	/**
 	 * Renew the access token of the application.
 	 * 
+	 * @param httpclient client
 	 * @throws Exception problem renewing the access token
 	 */
 	public static void renewAccessToken(CloseableHttpClient httpclient) throws Exception {

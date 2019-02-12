@@ -18,6 +18,12 @@ import javafx.util.StringConverter;
 import model.Alumno;
 import model.Aula;
 
+/**
+ * Controlador de la pantallad e selección de alumnos para la generación de gráficos
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class StudentSelectionViewController extends SelectorController<Alumno> {
 
 	@FXML
@@ -42,6 +48,9 @@ public class StudentSelectionViewController extends SelectorController<Alumno> {
 		}
 	};
 	
+	/**
+	 * Inicializa los elementos gráficos
+	 */
 	@FXML
 	private void initialize() {
 		this.classroom.setConverter(new StringConverter<Aula>() {
@@ -60,6 +69,11 @@ public class StudentSelectionViewController extends SelectorController<Alumno> {
 		});
 	}
 	
+	/**
+	 * Avanza a la siguiente pantalla del proceso de generación de gráficos,
+	 * la pantalla de selección de aulas.
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void next() throws IOException {
 		if(super.getSelectedObjects().size() > 0) {
@@ -67,7 +81,7 @@ public class StudentSelectionViewController extends SelectorController<Alumno> {
 			for(Alumno stu: super.getSelectedObjects()) {
 				if(stu.getEvaluacions() == null || stu.getEvaluacions().size() == 0) {
 					flag = true;
-					Alert alert = new Alert(AlertType.INFORMATION, "El alumno " + stu.getNombre() + " " + stu.getApellido1() + " " + stu.getApellido2() + " no tiene ninguna evaluacion asignada. As�gnale una o mas evaluaciones o deseleccionalo.");
+					Alert alert = new Alert(AlertType.INFORMATION, "El alumno " + stu.getNombre() + " " + stu.getApellido1() + " " + stu.getApellido2() + " no tiene ninguna evaluacion asignada. As�gnale una o mas evaluaciones o deseleccionalo.");
 					alert.setTitle("Alerta");
 					alert.setHeaderText("");
 					alert.show();
@@ -85,6 +99,9 @@ public class StudentSelectionViewController extends SelectorController<Alumno> {
 		}
 	}
 	
+	/**
+	 * Cambia los alumnos mostrados según el aula selecionada
+	 */
 	@FXML
 	private void switchDisplay() {
 		List<Alumno> students = new ArrayList<Alumno>();
@@ -95,6 +112,10 @@ public class StudentSelectionViewController extends SelectorController<Alumno> {
 		super.sortObjects();
 	}
 	
+	/**
+	 * Establece las aulas del profesor actual, todas si es un administrador.
+	 * @param classRooms aulas de las que se mostrarán los alumnos para seleccionar
+	 */
 	public void setClassrooms(List<Aula> classRooms) {
 		List<Alumno> students = new ArrayList<Alumno>();
 		students.addAll(classRooms.get(0).getAlumnos());
@@ -103,6 +124,12 @@ public class StudentSelectionViewController extends SelectorController<Alumno> {
 		this.classroom.getSelectionModel().selectFirst();
 	}
 	
+	/**
+	 * Subclase para ordenar los alumnos
+	 * @author Mario Núñez Izquierdo
+	 * @version 1.0
+	 *
+	 */
 	private class SortStudent implements Comparator<Alumno>{
 		@Override
 		public int compare(Alumno a1, Alumno a2) {

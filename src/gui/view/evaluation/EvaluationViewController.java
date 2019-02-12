@@ -31,6 +31,12 @@ import model.Evaluacion;
 import model.Item;
 import model.Puntuacion;
 
+/**
+ * Controlador de la pantalla de creación de evaluaciones
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ *
+ */
 public class EvaluationViewController extends Controller {
 
 	@FXML
@@ -42,6 +48,11 @@ public class EvaluationViewController extends Controller {
 	private List<ToggleGroup> rbGroups = new ArrayList<ToggleGroup>();
 	private Alumno stu;
 
+	/**
+	 * Carga los datos de la evaluación a editar. Genera la pantalla en tiempo de ejecución.
+	 * Para ello navega por las áreas funcionales, categorías e ítems de la base de datos y genera
+	 * los elementos gráficos necesarios para evaluarlos a todos.
+	 */
 	private void loadData() {
 
 		for (Areafuncional aF : this.allFunctionalAreas) {
@@ -129,6 +140,13 @@ public class EvaluationViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Inicializa los datos
+	 * @param stu alumno al que pertenece la evaluación
+	 * @param allFunctionalAreas todas las áreas funcionales 
+	 * @param allCategories todas las catgorías
+	 * @param allItems todos los ítems
+	 */
 	public void setData(Alumno stu, List<Areafuncional> allFunctionalAreas, List<Categorizacion> allCategories,
 			List<Item> allItems) {
 		this.stu = stu;
@@ -138,6 +156,10 @@ public class EvaluationViewController extends Controller {
 		this.loadData();
 	}
 
+	/**
+	 * Cancela el proceso de creación
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void cancel() throws IOException {
 		if (this.cancelAlert()) {
@@ -145,9 +167,12 @@ public class EvaluationViewController extends Controller {
 		}
 	}
 	
+	/**
+	 * Crea la nueva evaluación
+	 * @throws IOException archivo no encontrado
+	 */
 	@FXML
 	private void acept() throws IOException {
-		//System.out.println("Transaccion no implementada, los rbs seleccionados son:");
 		Evaluacion eva = new Evaluacion();
 		Calendar cal = Calendar.getInstance();
 		Date date = cal.getTime();
@@ -177,11 +202,17 @@ public class EvaluationViewController extends Controller {
 		}
 	}
 
+	/**
+	 * Avanza a la pestaña con el siguiente área funcional
+	 */
 	@FXML
 	private void next() {
 		this.tabPane.getSelectionModel().selectNext();
 	}
 
+	/**
+	 * Vuelve a la pestaña con el anterior área funcional
+	 */
 	@FXML
 	private void previous() {
 		this.tabPane.getSelectionModel().selectPrevious();

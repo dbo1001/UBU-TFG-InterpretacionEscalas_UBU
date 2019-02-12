@@ -1,5 +1,10 @@
 package connection;
-
+/**
+ * Enumeración con los errores que se imprimirán cuando el usuario introduzca
+ * valores erroneos en los campos de los objetos a insertar en la base de datos.
+ * @author Mario Núñez Izquierdo
+ * @version 1.0
+ */
 public enum ConnectionError {
 	WRONG_NAME("ERROR: El nombre solo debe contener letras."),
 	WRONG_CLASSROOM_NAME("ERROR: El nombre no puede contener carácteres especiales."),
@@ -27,10 +32,18 @@ public enum ConnectionError {
 	
 	private String text;
 	
+	/**
+	 * Constructor simple
+	 * @param text texto de error asignado
+	 */
 	private ConnectionError(String text) {
 		this.text = text;
 	}
 	
+	/**
+	 * Método getter
+	 * @return texto de error asignado
+	 */
 	public String getText() {
 		return this.text;
 	}

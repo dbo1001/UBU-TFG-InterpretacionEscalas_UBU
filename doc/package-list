@@ -1,0 +1,16 @@
+connection
+connection.manageService
+connection.utilService
+gui
+gui.view
+gui.view.classroom
+gui.view.evaluation
+gui.view.graphs
+gui.view.student
+gui.view.teacher
+io
+io.csv
+io.oneDrive
+io.oneDrive.response
+io.oneDrive.util
+model
