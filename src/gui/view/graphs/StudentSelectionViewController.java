@@ -2,6 +2,7 @@ package gui.view.graphs;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -81,7 +82,7 @@ public class StudentSelectionViewController extends SelectorController<Alumno> {
 			for(Alumno stu: super.getSelectedObjects()) {
 				if(stu.getEvaluacions() == null || stu.getEvaluacions().size() == 0) {
 					flag = true;
-					Alert alert = new Alert(AlertType.INFORMATION, "El alumno " + stu.getNombre() + " " + stu.getApellido1() + " " + stu.getApellido2() + " no tiene ninguna evaluacion asignada. As�gnale una o mas evaluaciones o deseleccionalo.");
+					Alert alert = new Alert(AlertType.INFORMATION, "El alumno " + stu.getNombre() + " " + stu.getApellido1() + " " + stu.getApellido2() + " no tiene ninguna evaluacion asignada. Asígnale una o más evaluaciones o deseleccionalo.");
 					alert.initOwner(Main.getPrimaryStage());
 					alert.setTitle("Alerta");
 					alert.setHeaderText("");
@@ -120,6 +121,7 @@ public class StudentSelectionViewController extends SelectorController<Alumno> {
 	 */
 	public void setClassrooms(List<Aula> classRooms) {
 		List<Alumno> students = new ArrayList<Alumno>();
+		Collections.sort(classRooms, new SortClassroom());
 		students.addAll(classRooms.get(0).getAlumnos());
 		super.initialize(callback, students, new SortStudent());
 		this.classroom.getItems().addAll(classRooms);
@@ -140,6 +142,20 @@ public class StudentSelectionViewController extends SelectorController<Alumno> {
 			return String.CASE_INSENSITIVE_ORDER.compare(a1Display, a2Display);	
 		}
 		
+	}
+	
+	/**
+	 * Subclase para ordenar las aulas
+	 * @author Mario Núñez Izquierdo
+	 * @version 1.0
+	 *
+	 */
+	private class SortClassroom implements Comparator<Aula> {
+		@Override
+		public int compare(Aula a1, Aula a2) {
+			return String.CASE_INSENSITIVE_ORDER.compare(a1.getNombre(), a2.getNombre());
+		}
+
 	}
 	
 }

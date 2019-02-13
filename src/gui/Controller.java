@@ -8,8 +8,6 @@ import java.util.regex.Pattern;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
-import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
 
 /**

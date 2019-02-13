@@ -123,8 +123,8 @@ public class GraphViewController extends Controller {
 
 		series = new Series<String, Number>();
 		for (Categorizacion ca : caList) {
-			if (ca.getDescripcion().length() >= 25) {
-				series.getData().add(new XYChart.Data<String, Number>(ca.getDescripcion().substring(0, 25) + "...",
+			if (ca.getDescripcion().length() >= 30) {
+				series.getData().add(new XYChart.Data<String, Number>(ca.getDescripcion().substring(0, 30) + "...",
 						ca.getPuntuacionMaxima()));
 			} else {
 				series.getData().add(new XYChart.Data<String, Number>(ca.getDescripcion(), ca.getPuntuacionMaxima()));
@@ -137,9 +137,9 @@ public class GraphViewController extends Controller {
 			series = new Series<String, Number>();
 			datos = this.dataMap.get(eva);
 			for (String caName : datos.keySet()) {
-				if (caName.length() >= 25) {
+				if (caName.length() >= 30) {
 					series.getData()
-							.add(new XYChart.Data<String, Number>(caName.substring(0, 25) + "...", datos.get(caName)));
+							.add(new XYChart.Data<String, Number>(caName.substring(0, 30) + "...", datos.get(caName)));
 				} else {
 					series.getData().add(new XYChart.Data<String, Number>(caName, datos.get(caName)));
 				}
@@ -183,8 +183,8 @@ public class GraphViewController extends Controller {
 
 		series = new Series<String, Number>();
 		for (Item it : itList) {
-			if (it.getDescripcion().length() >= 25) {
-				series.getData().add(new XYChart.Data<String, Number>(it.getDescripcion().substring(0, 25) + "...",
+			if (it.getDescripcion().length() >= 30) {
+				series.getData().add(new XYChart.Data<String, Number>(it.getDescripcion().substring(0, 30) + "...",
 						5));
 			} else {
 				series.getData().add(new XYChart.Data<String, Number>(it.getDescripcion(), 5));
@@ -197,9 +197,9 @@ public class GraphViewController extends Controller {
 			series = new Series<String, Number>();
 			datos = this.dataMap.get(eva);
 			for (String itName : datos.keySet()) {
-				if (itName.length() >= 25) {
+				if (itName.length() >= 30) {
 					series.getData()
-							.add(new XYChart.Data<String, Number>(itName.substring(0, 25) + "...", datos.get(itName)));
+							.add(new XYChart.Data<String, Number>(itName.substring(0, 30) + "...", datos.get(itName)));
 				} else {
 					series.getData().add(new XYChart.Data<String, Number>(itName, datos.get(itName)));
 				}
