@@ -154,6 +154,9 @@ public class EditTeacherViewController extends SelectorController<Aula> {
 				alert.initOwner(Main.getPrimaryStage());
 				alert.showAndWait();
 				Main.setModifiedData(false);
+				if(this.tea.equals(Main.getCurrentTeacher())) {
+					Main.setCurrentTeacher(tea);
+				}
 				Main.showManageView();
 			}
 		} catch (ConnectionException cEx) {

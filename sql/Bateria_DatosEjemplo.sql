@@ -1,4 +1,4 @@
----------------------------------- PROFESORES
+---------------------------------- PROFESORES (Las contraseñas son iguales que los NIFs)
 INSERT INTO PROFESOR VALUES(nextval('public.seq_profesor'), '12345678A', 'Profesor', 'A', 'PrimerAula', 'Datos de ejemplo', false, 'cb6f3ba16a6ddc7ae4f79f410abcd4187de72f269908baad3b3849e415271cd2');
 INSERT INTO PROFESOR VALUES(nextval('public.seq_profesor'), '12345678B', 'Profesor', 'B', 'PrimerAula', '', false, '3ed3e7945d884279d7b49ba204d259c772cc308ca2fef28d4147ab13d329d8aa');
 INSERT INTO PROFESOR VALUES(nextval('public.seq_profesor'), '12345678C', 'Profesor', 'C', 'SegundaAula', '', false, '0e80a75612b83f062bc9d3730221737797a621630b86f4c34ad8f3ec361c31f0');

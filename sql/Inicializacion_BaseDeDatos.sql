@@ -119,7 +119,7 @@ CREATE TABLE PUNTUACION(
     CONSTRAINT FK_ITEM FOREIGN KEY (ID_ITEM) REFERENCES ITEM,
     CONSTRAINT FK_EVALUACION FOREIGN KEY (ID_EVALUACION) REFERENCES EVALUACION    
 );
-
+--Cuenta de administrador. Contraseña: 00000000 (8 ceros)
 INSERT INTO PROFESOR VALUES(nextval('public.seq_profesor'), '00000000A', 'ADMIN', 'ADMIN', '', '', true, '7e071fd9b023ed8f18458a73613a0834f6220bd5cc50357ba3493c6040a9ea8c');
 ---------------------------------------------------------------------
 INSERT INTO AREAFUNCIONAL VALUES (nextval('public.seq_areafuncional'), 'Autonomía en la alimentación',35);
@@ -199,9 +199,9 @@ INSERT INTO AREAFUNCIONAL VALUES (nextval('public.seq_areafuncional'), 'Movilida
 INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Extremidad superior', 25, currval('public.seq_areafuncional'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Coge un jugete con la mano izquierda, situado en frente en el lado derecho', 0, currval('public.seq_categorizacion'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Coge u juguete con la mano derecha, situado en frente en el lado izquierdo', 0, currval('public.seq_categorizacion'));
-INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Sentado con los pies al frente, toca un juguete a 45º detrás a la derecha', 0, currval('public.seq_categorizacion'));
-INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Sentado con los pies al frente, toca un juguete a 45º detrás a la izquierda', 0, currval('public.seq_categorizacion'));
-INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Sentado con los pies al frente, toca un juguete que está delante y vuelve a la posición inicial', 0, currval('public.seq_categorizacion'));
+INSERT INTO ITEM VALUES (nextval('public.seq_item'), '1º Sentado con los pies al frente, toca un juguete a 45º detrás a la derecha', 0, currval('public.seq_categorizacion'));
+INSERT INTO ITEM VALUES (nextval('public.seq_item'), '2º Sentado con los pies al frente, toca un juguete a 45º detrás a la izquierda', 0, currval('public.seq_categorizacion'));
+INSERT INTO ITEM VALUES (nextval('public.seq_item'), '3º Sentado con los pies al frente, toca un juguete que está delante y vuelve a la posición inicial', 0, currval('public.seq_categorizacion'));
 																	
 INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Transferencias en el WC', 15, currval('public.seq_areafuncional'));
 INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Se sienta y se levanta de un váter bajo y orinal', 0, currval('public.seq_categorizacion'));
@@ -322,6 +322,6 @@ INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Presenta estereotipias que
 ---------------------------------------------------------------------------------------------
 INSERT INTO AREAFUNCIONAL VALUES (nextval('public.seq_areafuncional'), 'Atención',10);
 INSERT INTO CATEGORIZACION VALUES(nextval('public.seq_categorizacion'), 'Atención', 10, currval('public.seq_areafuncional'));
-INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Se muestra activo durante la realización de juegos o actividades individuales', 0, currval('public.seq_categorizacion'));
-INSERT INTO ITEM VALUES (nextval('public.seq_item'), 'Se muestra activo durante la realización de juegos o actividades en grupo', 0, currval('public.seq_categorizacion'));
+INSERT INTO ITEM VALUES (nextval('public.seq_item'), '1º Se muestra activo durante la realización de juegos o actividades individuales', 0, currval('public.seq_categorizacion'));
+INSERT INTO ITEM VALUES (nextval('public.seq_item'), '2º Se muestra activo durante la realización de juegos o actividades en grupo', 0, currval('public.seq_categorizacion'));
 
